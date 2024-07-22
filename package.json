@@ -1,0 +1,15 @@
+{
+  "name": "airbnb-clone",
+  "version": "1.0.0",
+  "workspaces": [
+    "packages/server",
+    "packages/client"
+  ],
+  "scripts": {
+    "dev:server": "npm run start:dev --workspace=packages/server"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
