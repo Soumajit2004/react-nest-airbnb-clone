@@ -6,10 +6,15 @@
     "packages/client"
   ],
   "scripts": {
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "dev:client": "npm run start --workspace=packages/client",
     "dev:server": "npm run start:dev --workspace=packages/server"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": ""
+  "description": "",
+  "dependencies": {
+    "concurrently": "^8.2.2"
+  }
 }
