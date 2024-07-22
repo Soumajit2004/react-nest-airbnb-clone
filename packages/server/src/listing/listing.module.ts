@@ -7,7 +7,7 @@ import { AuthModule } from '../auth/auth.module';
 import { ListingRepository } from './listing.repository';
 
 @Module({
-  imports: [AuthModule, TypeOrmModule.forFeature([Listing])],
+  imports: [TypeOrmModule.forFeature([Listing]), AuthModule],
   controllers: [ListingController],
   providers: [ListingService, ListingRepository],
 })
