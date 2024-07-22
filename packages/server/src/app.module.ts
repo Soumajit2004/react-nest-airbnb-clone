@@ -7,6 +7,7 @@ import { UserModule } from './user/user.module';
 
 import { configValidationSchema } from './config.schema';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { UploadModule } from './common/upload/upload.module';
 
 
 @Module({
@@ -34,6 +35,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     ListingModule,
     AuthModule,
     UserModule,
+    UploadModule,
   ],
 })
 export class AppModule {
