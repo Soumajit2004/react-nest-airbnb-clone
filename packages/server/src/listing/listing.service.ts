@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException } from '@nestjs/common';
 import { CreateListingDto } from './dto/create-listing.dto';
 import { User } from '../auth/user.entity';
 import { ListingRepository } from './listing.repository';
@@ -12,6 +12,18 @@ export class ListingService {
 
   getListings(user: User): Promise<Listing[]> {
     return this.listingRepository.findBy({ host: user });
+  }
+
+  async getListingById(listingId: string, user: User): Promise<Listing> {
+    const found = await this.listingRepository.findOne({
+      where: { id: listingId, host: user },
+    });
+
+    if (!found) {
+      throw new NotFoundException(`Listing with id:${listingId} not found.`);
+    }
+
+    return found;
   }
 
   async createListing(

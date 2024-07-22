@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
 import { ListingService } from './listing.service';
@@ -15,6 +15,14 @@ export class ListingController {
   @Get()
   getListings(@GetUser() user: User): Promise<Listing[]> {
     return this.listingService.getListings(user);
+  }
+
+  @Get('/:id')
+  getListingById(
+    @Param('id') listingId: string,
+    @GetUser() user: User,
+  ): Promise<Listing> {
+    return this.listingService.getListingById(listingId, user);
   }
 
   @Post('/new')
