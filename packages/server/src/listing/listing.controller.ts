@@ -19,7 +19,7 @@ import { ListingService } from './listing.service';
 import { CreateListingDto } from './dto/create-listing.dto';
 import { User } from '../auth/user.entity';
 import { GetUser } from '../auth/get-user.decorator';
-import { Listing } from './listing.entity';
+import { Listing } from './entities/listing.entity';
 import { UpdateListingDto } from './dto/update-listing.dto';
 
 @Controller('listing')
