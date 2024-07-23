@@ -39,6 +39,9 @@ lerna-debug.log*
 .env
 .env.stage.dev
 
+# Service account keys
+gcpServiceAccountKey.json
+
 # temp directory
 .temp
 .tmp

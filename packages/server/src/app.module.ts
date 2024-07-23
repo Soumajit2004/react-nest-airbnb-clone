@@ -9,7 +9,6 @@ import { configValidationSchema } from './config.schema';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UploadModule } from './common/upload/upload.module';
 
-
 @Module({
   imports: [
     ConfigModule.forRoot({

@@ -1,5 +1,18 @@
-import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  FileTypeValidator,
+  Get,
+  MaxFileSizeValidator,
+  Param,
+  ParseFilePipe,
+  Post,
+  UploadedFiles,
+  UseGuards,
+  UseInterceptors,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { FilesInterceptor } from '@nestjs/platform-express';
 
 import { ListingService } from './listing.service';
 import { CreateListingDto } from './dto/create-listing.dto';
@@ -26,10 +39,21 @@ export class ListingController {
   }
 
   @Post('/new')
+  @UseInterceptors(FilesInterceptor('images', 20))
   createListing(
+    @UploadedFiles(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({ maxSize: 5000000 }),
+          new FileTypeValidator({ fileType: 'image/(jpeg|jpg)' }),
+        ],
+        fileIsRequired: false,
+      }),
+    )
+    images: Array<Express.Multer.File>,
     @Body() createListingDto: CreateListingDto,
     @GetUser() user: User,
   ): Promise<Listing> {
-    return this.listingService.createListing(createListingDto, user);
+    return this.listingService.createListing(createListingDto, images, user);
   }
 }

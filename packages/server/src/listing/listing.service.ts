@@ -3,12 +3,16 @@ import { CreateListingDto } from './dto/create-listing.dto';
 import { User } from '../auth/user.entity';
 import { ListingRepository } from './listing.repository';
 import { Listing } from './listing.entity';
+import { ListingUploadService } from '../common/upload/listing-upload.service';
 
 @Injectable()
 export class ListingService {
-  logger = new Logger();
+  logger = new Logger(ListingService.name);
 
-  constructor(private readonly listingRepository: ListingRepository) {}
+  constructor(
+    private readonly listingRepository: ListingRepository,
+    private readonly listingUploadService: ListingUploadService,
+  ) {}
 
   getListings(user: User): Promise<Listing[]> {
     return this.listingRepository.findBy({ host: user });
@@ -28,12 +32,15 @@ export class ListingService {
 
   async createListing(
     createListingDto: CreateListingDto,
+    imageFiles: Express.Multer.File[],
     user: User,
   ): Promise<Listing> {
     const listing = await this.listingRepository.createListing(
       createListingDto,
       user,
     );
+
+    await this.listingUploadService.uploadListingImages(listing.id, imageFiles);
 
     this.logger.verbose(`Listing ${listing.id} created by user ${user.id}`);
 
