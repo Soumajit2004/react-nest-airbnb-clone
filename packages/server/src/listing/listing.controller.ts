@@ -6,6 +6,7 @@ import {
   MaxFileSizeValidator,
   Param,
   ParseFilePipe,
+  Patch,
   Post,
   UploadedFiles,
   UseGuards,
@@ -19,6 +20,7 @@ import { CreateListingDto } from './dto/create-listing.dto';
 import { User } from '../auth/user.entity';
 import { GetUser } from '../auth/get-user.decorator';
 import { Listing } from './listing.entity';
+import { UpdateListingDto } from './dto/update-listing.dto';
 
 @Controller('listing')
 @UseGuards(AuthGuard())
@@ -55,5 +57,14 @@ export class ListingController {
     @GetUser() user: User,
   ): Promise<Listing> {
     return this.listingService.createListing(createListingDto, images, user);
+  }
+
+  @Patch('/:id')
+  updateListing(
+    @Param('id') listingId: string,
+    @Body() updateListingDto: UpdateListingDto,
+    @GetUser() user: User,
+  ): Promise<Listing> {
+    return this.listingService.updateListing(listingId, updateListingDto, user);
   }
 }

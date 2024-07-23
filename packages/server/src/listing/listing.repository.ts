@@ -3,6 +3,7 @@ import { DataSource, Repository } from 'typeorm';
 import { Listing } from './listing.entity';
 import { CreateListingDto } from './dto/create-listing.dto';
 import { User } from '../auth/user.entity';
+import { UpdateListingDto } from './dto/update-listing.dto';
 
 @Injectable()
 export class ListingRepository extends Repository<Listing> {
@@ -18,5 +19,20 @@ export class ListingRepository extends Repository<Listing> {
 
     const listing = this.create({ title, description, host: user });
     return this.save(listing);
+  }
+
+  async updateListing(listingId: string, updateListingDto: UpdateListingDto) {
+    const { title, description } = updateListingDto;
+
+    const listing = await this.findOne({ where: { id: listingId } });
+
+    if (title) {
+      listing.title = title;
+    }
+    if (description) {
+      listing.description = description;
+    }
+
+    return await this.save(listing);
   }
 }

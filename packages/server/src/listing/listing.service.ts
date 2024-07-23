@@ -4,6 +4,7 @@ import { User } from '../auth/user.entity';
 import { ListingRepository } from './listing.repository';
 import { Listing } from './listing.entity';
 import { ListingUploadService } from '../common/upload/listing-upload.service';
+import { UpdateListingDto } from './dto/update-listing.dto';
 
 @Injectable()
 export class ListingService {
@@ -45,5 +46,15 @@ export class ListingService {
     this.logger.verbose(`Listing ${listing.id} created by user ${user.id}`);
 
     return listing;
+  }
+
+  async updateListing(
+    listingId: string,
+    updateListingDto: UpdateListingDto,
+    user: User,
+  ): Promise<Listing> {
+    const listing = await this.getListingById(listingId, user);
+
+    return this.listingRepository.updateListing(listing.id, updateListingDto);
   }
 }
