@@ -8,24 +8,30 @@ import {
   ParseFilePipe,
   Patch,
   Post,
-  UploadedFiles,
+  UploadedFile,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { FilesInterceptor } from '@nestjs/platform-express';
+import { FileInterceptor } from '@nestjs/platform-express';
 
-import { ListingService } from './listing.service';
+import { ListingService } from './services/listing.service';
 import { CreateListingDto } from './dto/create-listing.dto';
 import { User } from '../auth/user.entity';
 import { GetUser } from '../auth/get-user.decorator';
 import { Listing } from './entities/listing.entity';
 import { UpdateListingDto } from './dto/update-listing.dto';
+import { ListingImageService } from './services/listing-image.service';
+import { AddListingImageDto } from './dto/add-listing-image.dto';
+import { ListingImage } from './entities/listing-image.entity';
 
 @Controller('listing')
 @UseGuards(AuthGuard())
 export class ListingController {
-  constructor(private readonly listingService: ListingService) {}
+  constructor(
+    private readonly listingService: ListingService,
+    private readonly listingImageService: ListingImageService,
+  ) {}
 
   @Get()
   getListings(@GetUser() user: User): Promise<Listing[]> {
@@ -41,22 +47,12 @@ export class ListingController {
   }
 
   @Post('/new')
-  @UseInterceptors(FilesInterceptor('images', 20))
   createListing(
-    @UploadedFiles(
-      new ParseFilePipe({
-        validators: [
-          new MaxFileSizeValidator({ maxSize: 5000000 }),
-          new FileTypeValidator({ fileType: 'image/(jpeg|jpg)' }),
-        ],
-        fileIsRequired: false,
-      }),
-    )
-    images: Array<Express.Multer.File>,
-    @Body() createListingDto: CreateListingDto,
+    @Body()
+    createListingDto: CreateListingDto,
     @GetUser() user: User,
   ): Promise<Listing> {
-    return this.listingService.createListing(createListingDto, images, user);
+    return this.listingService.createListing(createListingDto, user);
   }
 
   @Patch('/:id')
@@ -66,5 +62,30 @@ export class ListingController {
     @GetUser() user: User,
   ): Promise<Listing> {
     return this.listingService.updateListing(listingId, updateListingDto, user);
+  }
+
+  @Post('/:id/image/new')
+  @UseInterceptors(FileInterceptor('image'))
+  addImage(
+    @UploadedFile(
+      new ParseFilePipe({
+        validators: [
+          new MaxFileSizeValidator({ maxSize: 5000000 }),
+          new FileTypeValidator({ fileType: 'image/(jpeg|jpg)' }),
+        ],
+        fileIsRequired: false,
+      }),
+    )
+    image: Express.Multer.File,
+    @Param('id') listingId: string,
+    @Body() addListingImageDto: AddListingImageDto,
+    @GetUser() user: User,
+  ): Promise<ListingImage> {
+    return this.listingImageService.addListingImage(
+      listingId,
+      addListingImageDto,
+      image,
+      user,
+    );
   }
 }

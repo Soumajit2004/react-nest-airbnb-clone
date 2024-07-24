@@ -14,15 +14,12 @@ export class ListingImage {
   id: string;
 
   @Column()
-  index: number;
-
-  @Column()
-  location: string;
+  imageUrl: string;
 
   @Column({ nullable: true })
   label: string;
 
-  @Column()
+  @Column({ enum: ListingImageCategory })
   category: ListingImageCategory;
 
   @ManyToOne(() => Listing, (listing) => listing.images)

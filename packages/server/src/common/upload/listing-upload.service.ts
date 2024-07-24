@@ -9,23 +9,23 @@ export class ListingUploadService {
 
   constructor(private readonly uploadService: UploadService) {}
 
-  async uploadListingImages(
+  async uploadListingImage(
     listingId: string,
-    images: Express.Multer.File[],
-  ): Promise<void> {
+    image: Express.Multer.File,
+  ): Promise<string> {
     const bucket = this.uploadService.getBucket();
 
-    images.map(async (image) => {
-      bucket
-        .file(ListingUploadService.BASE_PATH + image.originalname)
-        .createWriteStream({ resumable: false })
-        .on('error', () => {
-          this.logger.error(`Image Upload failed for listing ${listingId}`);
-        })
-        .on('finish', () => {
-          this.logger.verbose(`Image upload finished for listing ${listingId}`);
-        })
-        .end(image.buffer);
-    });
+    bucket
+      .file(ListingUploadService.BASE_PATH + image.originalname)
+      .createWriteStream({ resumable: false })
+      .on('error', () => {
+        this.logger.error(`Image Upload failed for listing ${listingId}`);
+      })
+      .on('finish', () => {
+        this.logger.verbose(`Image upload finished for listing ${listingId}`);
+      })
+      .end(image.buffer);
+
+    return 'imageLocation';
   }
 }
