@@ -9,23 +9,39 @@ export class ListingUploadService {
 
   constructor(private readonly uploadService: UploadService) {}
 
-  async uploadListingImages(
-    listingId: string,
-    images: Express.Multer.File[],
-  ): Promise<void> {
+  formatFileName(listingId: string, originalFileName: string) {
+    const nl = originalFileName.split('.');
+
+    return listingId + '.' + nl.pop();
+  }
+
+  async uploadListingImage(
+    listingImageId: string,
+    image: Express.Multer.File,
+  ): Promise<{ bucketLocation: string; publicUrl: string }> {
     const bucket = this.uploadService.getBucket();
 
-    images.map(async (image) => {
-      bucket
-        .file(ListingUploadService.BASE_PATH + image.originalname)
-        .createWriteStream({ resumable: false })
-        .on('error', () => {
-          this.logger.error(`Image Upload failed for listing ${listingId}`);
-        })
-        .on('finish', () => {
-          this.logger.verbose(`Image upload finished for listing ${listingId}`);
-        })
-        .end(image.buffer);
-    });
+    const file = bucket.file(
+      ListingUploadService.BASE_PATH +
+        this.formatFileName(listingImageId, image.originalname),
+    );
+    file
+      .createWriteStream({ resumable: false })
+      .on('error', () => {
+        this.logger.error(`Upload failed for listing image ${listingImageId}`);
+      })
+      .on('finish', async () => {
+        this.logger.verbose(
+          `Upload finished for listing image ${listingImageId}`,
+        );
+
+        await file.makePublic();
+      })
+      .end(image.buffer);
+
+    return {
+      publicUrl: `https://storage.googleapis.com/${bucket.name}/${file.name}`,
+      bucketLocation: `gs://${bucket.name}/${file.name}`,
+    };
   }
 }

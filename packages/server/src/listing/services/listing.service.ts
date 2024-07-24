@@ -1,19 +1,15 @@
 import { Injectable, Logger, NotFoundException } from '@nestjs/common';
-import { CreateListingDto } from './dto/create-listing.dto';
-import { User } from '../auth/user.entity';
-import { ListingRepository } from './listing.repository';
-import { Listing } from './listing.entity';
-import { ListingUploadService } from '../common/upload/listing-upload.service';
-import { UpdateListingDto } from './dto/update-listing.dto';
+import { CreateListingDto } from '../dto/create-listing.dto';
+import { User } from '../../auth/user.entity';
+import { ListingRepository } from '../listing.repository';
+import { Listing } from '../entities/listing.entity';
+import { UpdateListingDto } from '../dto/update-listing.dto';
 
 @Injectable()
 export class ListingService {
   logger = new Logger(ListingService.name);
 
-  constructor(
-    private readonly listingRepository: ListingRepository,
-    private readonly listingUploadService: ListingUploadService,
-  ) {}
+  constructor(private readonly listingRepository: ListingRepository) {}
 
   getListings(user: User): Promise<Listing[]> {
     return this.listingRepository.findBy({ host: user });
@@ -33,15 +29,12 @@ export class ListingService {
 
   async createListing(
     createListingDto: CreateListingDto,
-    imageFiles: Express.Multer.File[],
     user: User,
   ): Promise<Listing> {
     const listing = await this.listingRepository.createListing(
       createListingDto,
       user,
     );
-
-    await this.listingUploadService.uploadListingImages(listing.id, imageFiles);
 
     this.logger.verbose(`Listing ${listing.id} created by user ${user.id}`);
 
