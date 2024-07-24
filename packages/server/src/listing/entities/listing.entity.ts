@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { User } from '../../auth/user.entity';
 import { ListingImage } from './listing-image.entity';
+import { Booking } from '../../booking/booking.entity';
 
 @Entity()
 export class Listing {
@@ -24,4 +25,7 @@ export class Listing {
 
   @OneToMany(() => ListingImage, (image) => image.listing, { eager: true })
   images: ListingImage[];
+
+  @OneToMany(() => Booking, (booking) => booking.listing, { eager: true })
+  bookings: Booking[];
 }

@@ -8,6 +8,7 @@ import { UserModule } from './user/user.module';
 import { configValidationSchema } from './config.schema';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UploadModule } from './common/upload/upload.module';
+import { BookingModule } from './booking/booking.module';
 
 @Module({
   imports: [
@@ -35,7 +36,7 @@ import { UploadModule } from './common/upload/upload.module';
     AuthModule,
     UserModule,
     UploadModule,
+    BookingModule,
   ],
 })
-export class AppModule {
-}
+export class AppModule {}
