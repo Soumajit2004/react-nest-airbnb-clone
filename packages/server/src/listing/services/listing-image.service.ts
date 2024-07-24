@@ -25,11 +25,10 @@ export class ListingImageService {
     addListingImageDto: AddListingImageDto,
     image: Express.Multer.File,
     user: User,
-  ) {
+  ): Promise<ListingImage> {
     const { label, category } = addListingImageDto;
 
     const listing = await this.listingService.getListingById(listingId, user);
-    console.log(listing);
 
     const listingImageId = uuid.v4();
     // Uploading image to bucket
@@ -46,5 +45,22 @@ export class ListingImageService {
       listing,
     });
     return await this.listingImageRepository.save(listingImageReference);
+  }
+
+  async deleteListingImage(
+    listingId: string,
+    listingImageId: string,
+    user: User,
+  ): Promise<void> {
+    const listing = await this.listingService.getListingById(listingId, user);
+
+    for (const image of listing.images) {
+      if (image.id == listingImageId) {
+        // Deleting image from storage
+        await this.listingUploadService.deleteListingImage(image);
+        // Deleting File Reference
+        await this.listingImageRepository.remove(image);
+      }
+    }
   }
 }

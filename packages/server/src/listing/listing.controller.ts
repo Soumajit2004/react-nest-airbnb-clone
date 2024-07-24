@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   FileTypeValidator,
   Get,
   MaxFileSizeValidator,
@@ -85,6 +86,19 @@ export class ListingController {
       listingId,
       addListingImageDto,
       image,
+      user,
+    );
+  }
+
+  @Delete('/:listingId/image/:listingImageId')
+  deleteImage(
+    @Param('listingId') listingId: string,
+    @Param('listingImageId') listingImageId: string,
+    @GetUser() user: User,
+  ): Promise<void> {
+    return this.listingImageService.deleteListingImage(
+      listingId,
+      listingImageId,
       user,
     );
   }
