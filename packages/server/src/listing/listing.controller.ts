@@ -65,6 +65,11 @@ export class ListingController {
     return this.listingService.updateListing(listingId, updateListingDto, user);
   }
 
+  @Delete('/:id')
+  deleteListing(@Param('id') id: string, @GetUser() user: User): Promise<void> {
+    return this.listingService.deleteListing(id, user);
+  }
+
   @Post('/:id/image/new')
   @UseInterceptors(FileInterceptor('image'))
   addImage(

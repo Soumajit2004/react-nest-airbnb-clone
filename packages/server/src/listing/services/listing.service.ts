@@ -1,15 +1,26 @@
-import { Injectable, Logger, NotFoundException } from '@nestjs/common';
+import {
+  forwardRef,
+  Inject,
+  Injectable,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateListingDto } from '../dto/create-listing.dto';
 import { User } from '../../auth/user.entity';
 import { ListingRepository } from '../listing.repository';
 import { Listing } from '../entities/listing.entity';
 import { UpdateListingDto } from '../dto/update-listing.dto';
+import { ListingImageService } from './listing-image.service';
 
 @Injectable()
 export class ListingService {
   logger = new Logger(ListingService.name);
 
-  constructor(private readonly listingRepository: ListingRepository) {}
+  constructor(
+    @Inject(forwardRef(() => ListingImageService))
+    private readonly listingImageService: ListingImageService,
+    private readonly listingRepository: ListingRepository,
+  ) {}
 
   getListings(user: User): Promise<Listing[]> {
     return this.listingRepository.findBy({ host: user });
@@ -48,5 +59,21 @@ export class ListingService {
     const listing = await this.getListingById(listingId, user);
 
     return this.listingRepository.updateListing(listing.id, updateListingDto);
+  }
+
+  async deleteListing(listingId: string, user: User) {
+    const listing = await this.getListingById(listingId, user);
+
+    for (const image of listing.images) {
+      await this.listingImageService.deleteListingImage(
+        listingId,
+        image.id,
+        user,
+      );
+    }
+
+    await this.listingRepository.remove(listing);
+
+    this.logger.verbose(`Deleted listing with id: ${listingId}`);
   }
 }

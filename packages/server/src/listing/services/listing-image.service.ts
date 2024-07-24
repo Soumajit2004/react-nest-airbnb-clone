@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { forwardRef, Inject, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as uuid from 'uuid';
 
@@ -14,6 +14,7 @@ export class ListingImageService {
   logger = new Logger(ListingImageService.name);
 
   constructor(
+    @Inject(forwardRef(() => ListingService))
     private readonly listingService: ListingService,
     private readonly listingUploadService: ListingUploadService,
     @InjectRepository(ListingImage)
