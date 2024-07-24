@@ -9,23 +9,39 @@ export class ListingUploadService {
 
   constructor(private readonly uploadService: UploadService) {}
 
+  formatFileName(listingId: string, originalFileName: string) {
+    const nl = originalFileName.split('.');
+
+    return listingId + '.' + nl.pop();
+  }
+
   async uploadListingImage(
-    listingId: string,
+    listingImageId: string,
     image: Express.Multer.File,
-  ): Promise<string> {
+  ): Promise<{ bucketLocation: string; publicUrl: string }> {
     const bucket = this.uploadService.getBucket();
 
-    bucket
-      .file(ListingUploadService.BASE_PATH + image.originalname)
+    const file = bucket.file(
+      ListingUploadService.BASE_PATH +
+        this.formatFileName(listingImageId, image.originalname),
+    );
+    file
       .createWriteStream({ resumable: false })
       .on('error', () => {
-        this.logger.error(`Image Upload failed for listing ${listingId}`);
+        this.logger.error(`Upload failed for listing image ${listingImageId}`);
       })
-      .on('finish', () => {
-        this.logger.verbose(`Image upload finished for listing ${listingId}`);
+      .on('finish', async () => {
+        this.logger.verbose(
+          `Upload finished for listing image ${listingImageId}`,
+        );
+
+        await file.makePublic();
       })
       .end(image.buffer);
 
-    return 'imageLocation';
+    return {
+      publicUrl: `https://storage.googleapis.com/${bucket.name}/${file.name}`,
+      bucketLocation: `gs://${bucket.name}/${file.name}`,
+    };
   }
 }

@@ -1,9 +1,11 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import * as uuid from 'uuid';
+
 import { ListingUploadService } from '../../common/upload/listing-upload.service';
 import { ListingService } from './listing.service';
 import { User } from '../../auth/user.entity';
 import { ListingImage } from '../entities/listing-image.entity';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { AddListingImageDto } from '../dto/add-listing-image.dto';
 
@@ -28,15 +30,16 @@ export class ListingImageService {
 
     const listing = await this.listingService.getListingById(listingId, user);
 
+    const listingImageId = uuid.v4();
     // Uploading image to bucket
-    const imageUrl = await this.listingUploadService.uploadListingImage(
-      listing.id,
-      image,
-    );
+    const { bucketLocation, publicUrl } =
+      await this.listingUploadService.uploadListingImage(listingImageId, image);
 
     // Saving reference in database
     const listingImageReference = this.listingImageRepository.create({
-      imageUrl,
+      id: listingImageId,
+      bucketLocation,
+      publicUrl,
       label,
       category,
       listing,
