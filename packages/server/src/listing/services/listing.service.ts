@@ -16,15 +16,14 @@ export class ListingService {
   }
 
   async getListingById(listingId: string, user: User): Promise<Listing> {
-    const found = await this.listingRepository.findOne({
-      where: { id: listingId, host: user },
-    });
-
-    if (!found) {
+    try {
+      return await this.listingRepository.findOneByOrFail({
+        id: listingId,
+        host: user,
+      });
+    } catch (err) {
       throw new NotFoundException(`Listing with id:${listingId} not found.`);
     }
-
-    return found;
   }
 
   async createListing(

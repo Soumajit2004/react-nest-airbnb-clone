@@ -29,6 +29,7 @@ export class ListingImageService {
     const { label, category } = addListingImageDto;
 
     const listing = await this.listingService.getListingById(listingId, user);
+    console.log(listing);
 
     const listingImageId = uuid.v4();
     // Uploading image to bucket
