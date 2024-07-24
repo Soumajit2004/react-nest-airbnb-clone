@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   FileTypeValidator,
   Get,
   MaxFileSizeValidator,
@@ -64,6 +65,11 @@ export class ListingController {
     return this.listingService.updateListing(listingId, updateListingDto, user);
   }
 
+  @Delete('/:id')
+  deleteListing(@Param('id') id: string, @GetUser() user: User): Promise<void> {
+    return this.listingService.deleteListing(id, user);
+  }
+
   @Post('/:id/image/new')
   @UseInterceptors(FileInterceptor('image'))
   addImage(
@@ -85,6 +91,19 @@ export class ListingController {
       listingId,
       addListingImageDto,
       image,
+      user,
+    );
+  }
+
+  @Delete('/:listingId/image/:listingImageId')
+  deleteImage(
+    @Param('listingId') listingId: string,
+    @Param('listingImageId') listingImageId: string,
+    @GetUser() user: User,
+  ): Promise<void> {
+    return this.listingImageService.deleteListingImage(
+      listingId,
+      listingImageId,
       user,
     );
   }

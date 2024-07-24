@@ -1,4 +1,4 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { forwardRef, Inject, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as uuid from 'uuid';
 
@@ -14,6 +14,7 @@ export class ListingImageService {
   logger = new Logger(ListingImageService.name);
 
   constructor(
+    @Inject(forwardRef(() => ListingService))
     private readonly listingService: ListingService,
     private readonly listingUploadService: ListingUploadService,
     @InjectRepository(ListingImage)
@@ -25,7 +26,7 @@ export class ListingImageService {
     addListingImageDto: AddListingImageDto,
     image: Express.Multer.File,
     user: User,
-  ) {
+  ): Promise<ListingImage> {
     const { label, category } = addListingImageDto;
 
     const listing = await this.listingService.getListingById(listingId, user);
@@ -45,5 +46,22 @@ export class ListingImageService {
       listing,
     });
     return await this.listingImageRepository.save(listingImageReference);
+  }
+
+  async deleteListingImage(
+    listingId: string,
+    listingImageId: string,
+    user: User,
+  ): Promise<void> {
+    const listing = await this.listingService.getListingById(listingId, user);
+
+    for (const image of listing.images) {
+      if (image.id == listingImageId) {
+        // Deleting image from storage
+        await this.listingUploadService.deleteListingImage(image);
+        // Deleting File Reference
+        await this.listingImageRepository.remove(image);
+      }
+    }
   }
 }

@@ -1,5 +1,6 @@
 import { UploadService } from './upload.service';
 import { Injectable, Logger } from '@nestjs/common';
+import { ListingImage } from '../../listing/entities/listing-image.entity';
 
 @Injectable()
 export class ListingUploadService {
@@ -41,7 +42,17 @@ export class ListingUploadService {
 
     return {
       publicUrl: `https://storage.googleapis.com/${bucket.name}/${file.name}`,
-      bucketLocation: `gs://${bucket.name}/${file.name}`,
+      bucketLocation: file.name,
     };
+  }
+
+  async deleteListingImage(listingImage: ListingImage) {
+    const bucket = this.uploadService.getBucket();
+
+    const file = bucket.file(listingImage.bucketLocation);
+
+    await file.delete();
+
+    this.logger.verbose(`Deleted listing image with id: ${listingImage.id}`);
   }
 }
