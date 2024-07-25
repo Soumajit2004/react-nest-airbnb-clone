@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "workspaces": [
     "packages/server",
-    "packages/client"
+    "packages/client",
+    "packages/types"
   ],
   "scripts": {
     "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\"",

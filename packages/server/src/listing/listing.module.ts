@@ -17,5 +17,6 @@ import { ListingImageService } from './services/listing-image.service';
   ],
   controllers: [ListingController],
   providers: [ListingService, ListingImageService, ListingRepository],
+  exports: [ListingService],
 })
 export class ListingModule {}

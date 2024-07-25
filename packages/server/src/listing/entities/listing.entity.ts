@@ -7,9 +7,11 @@ import {
 } from 'typeorm';
 import { User } from '../../auth/user.entity';
 import { ListingImage } from './listing-image.entity';
+import { Booking } from '../../booking/booking.entity';
+import { ListingInterface } from '@airbnb-clone/types';
 
 @Entity()
-export class Listing {
+export class Listing implements ListingInterface {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -24,4 +26,7 @@ export class Listing {
 
   @OneToMany(() => ListingImage, (image) => image.listing, { eager: true })
   images: ListingImage[];
+
+  @OneToMany(() => Booking, (booking) => booking.listing, { eager: true })
+  bookings: Booking[];
 }
