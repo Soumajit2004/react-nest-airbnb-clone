@@ -1,0 +1,8 @@
+{
+  "name": "@airbnb-clone/types",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
