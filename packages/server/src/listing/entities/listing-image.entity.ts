@@ -1,10 +1,14 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Listing } from './listing.entity';
 import { Exclude } from 'class-transformer';
-import {
-  ListingImageCategory,
-  ListingImageInterface,
-} from '@airbnb-clone/types';
+import { ListingImageInterface } from '@airbnb-clone/types';
+
+export enum ListingImageCategory {
+  EXTERIOR = 'exterior',
+  BEDROOM = 'bedroom',
+  BATHROOM = 'bathroom',
+  COMMON_AREA = 'common_area',
+}
 
 @Entity()
 export class ListingImage implements ListingImageInterface {

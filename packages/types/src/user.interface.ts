@@ -1,4 +1,4 @@
-import {ListingInterface} from "./listing/listing.interface";
+import {ListingInterface} from "./listing";
 import {BookingInterface} from "./booking.interface";
 
 export interface UserInterface {
@@ -10,3 +10,4 @@ export interface UserInterface {
 
   bookings: BookingInterface[];
 }
+
