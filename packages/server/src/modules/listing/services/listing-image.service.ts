@@ -2,12 +2,12 @@ import { forwardRef, Inject, Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as uuid from 'uuid';
 
-import { ListingUploadService } from '../../common/upload/listing-upload.service';
 import { ListingService } from './listing.service';
 import { User } from '../../auth/user.entity';
 import { ListingImage } from '../entities/listing-image.entity';
 import { Repository } from 'typeorm';
 import { AddListingImageDto } from '../dto/add-listing-image.dto';
+import { ListingUploadService } from '../../../shared/upload/listing-upload.service';
 
 @Injectable()
 export class ListingImageService {

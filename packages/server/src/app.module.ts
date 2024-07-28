@@ -1,14 +1,14 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
-import { ListingModule } from './listing/listing.module';
-import { AuthModule } from './auth/auth.module';
-import { UserModule } from './user/user.module';
+import { ListingModule } from './modules/listing/listing.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { UserModule } from './modules/user/user.module';
+import { UploadModule } from './shared/upload/upload.module';
+import { BookingModule } from './modules/booking/booking.module';
 
 import { configValidationSchema } from './config.schema';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UploadModule } from './common/upload/upload.module';
-import { BookingModule } from './booking/booking.module';
 
 @Module({
   imports: [

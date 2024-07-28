@@ -1,6 +1,6 @@
 import { UploadService } from './upload.service';
 import { Injectable, Logger } from '@nestjs/common';
-import { ListingImage } from '../../listing/entities/listing-image.entity';
+import { ListingImage } from '../../modules/listing/entities/listing-image.entity';
 
 @Injectable()
 export class ListingUploadService {

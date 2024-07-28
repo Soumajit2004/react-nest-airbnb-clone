@@ -9,6 +9,8 @@ export interface ListingInterface {
 
   description?: string;
 
+  costing: number;
+
   host: UserInterface;
 
   images: ListingImageInterface[];
