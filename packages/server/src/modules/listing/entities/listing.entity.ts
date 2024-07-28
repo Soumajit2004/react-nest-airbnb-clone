@@ -21,6 +21,9 @@ export class Listing implements ListingInterface {
   @Column({ nullable: true })
   description?: string;
 
+  @Column()
+  costing: number;
+
   @ManyToOne(() => User, (user) => user.listings)
   host: User;
 

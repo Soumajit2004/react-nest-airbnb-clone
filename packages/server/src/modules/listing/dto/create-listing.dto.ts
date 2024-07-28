@@ -1,4 +1,13 @@
-import { IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
+import {
+  IsInt,
+  IsOptional,
+  IsString,
+  Max,
+  MaxLength,
+  Min,
+  MinLength,
+} from 'class-validator';
+import { Transform } from 'class-transformer';
 
 export class CreateListingDto {
   @IsString()
@@ -10,4 +19,10 @@ export class CreateListingDto {
   @MaxLength(200)
   @IsOptional()
   description?: string;
+
+  @Transform((params) => parseInt(params.value, 10))
+  @IsInt()
+  @Min(1)
+  @Max(1000000)
+  costing: number;
 }

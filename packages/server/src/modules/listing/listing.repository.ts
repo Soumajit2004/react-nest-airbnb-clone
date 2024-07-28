@@ -15,9 +15,9 @@ export class ListingRepository extends Repository<Listing> {
     createListingDto: CreateListingDto,
     user: User,
   ): Promise<Listing> {
-    const { title, description } = createListingDto;
+    const { title, description, costing } = createListingDto;
 
-    const listing = this.create({ title, description, host: user });
+    const listing = this.create({ title, description, costing, host: user });
     return this.save(listing);
   }
 
