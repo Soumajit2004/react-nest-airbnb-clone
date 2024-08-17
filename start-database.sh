@@ -1,1 +1,1 @@
-sudo docker start airbnb-postgres s3-ninja
+docker start airbnb-postgres
