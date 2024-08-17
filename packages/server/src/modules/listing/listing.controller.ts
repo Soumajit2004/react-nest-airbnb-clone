@@ -13,7 +13,6 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import { FileInterceptor } from '@nestjs/platform-express';
 
 import { ListingService } from './services/listing.service';
@@ -25,9 +24,10 @@ import { UpdateListingDto } from './dto/update-listing.dto';
 import { ListingImageService } from './services/listing-image.service';
 import { AddListingImageDto } from './dto/add-listing-image.dto';
 import { ListingImage } from './entities/listing-image.entity';
+import { JwtGuard } from '../auth/guards/jwt-auth.guard';
 
 @Controller('listing')
-@UseGuards(AuthGuard())
+@UseGuards(JwtGuard)
 export class ListingController {
   constructor(
     private readonly listingService: ListingService,
