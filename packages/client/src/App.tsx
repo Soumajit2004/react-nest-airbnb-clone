@@ -1,16 +1,20 @@
-import {Route, Routes} from "react-router-dom";
-import HomePage from "./pages/Home.page.tsx";
-import HeaderComponent from "./components/header/Header.component.tsx";
+import {createBrowserRouter, RouterProvider} from "react-router-dom";
 
-export default function App() {
+function App() {
+
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: <div>Big Cow</div>,
+    },
+  ]);
+
   return (
-    <>
-      <HeaderComponent/>
-      <main className={"mx-auto container"}>
-        <Routes>
-          <Route path={'/'} element={<HomePage/>}/>
-        </Routes>
-      </main>
-    </>
+    <div>
+      <RouterProvider router={router}/>
+    </div>
   )
+
 }
+
+export default App
