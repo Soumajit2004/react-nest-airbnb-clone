@@ -1,11 +1,14 @@
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import authRoute from "./views/auth/auth.route.tsx";
+import AuthLayout from "./layout/auth.layout.tsx";
 
 function App() {
 
   const router = createBrowserRouter([
     {
-      path: "/",
-      element: <div>Big Cow</div>,
+      path: "/auth",
+      element: <AuthLayout/>,
+      children: authRoute,
     },
   ]);
 
