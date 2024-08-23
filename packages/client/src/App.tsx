@@ -1,5 +1,7 @@
 import {createBrowserRouter, RouterProvider} from "react-router-dom";
-import authRoute from "./views/auth/auth.route.tsx";
+
+import authRoute from "./routes/auth.route.tsx";
+
 import AuthLayout from "./layout/auth.layout.tsx";
 
 function App() {
