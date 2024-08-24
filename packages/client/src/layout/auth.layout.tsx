@@ -10,7 +10,7 @@ export default function AuthLayout() {
       <div className={"grid grid-cols-2 p-10 bg-base-100 container h-4/5 xl:w-4/6 rounded-xl"}>
 
         <section className={"flex flex-col"}>
-          <img src={fullLogo} className="w-36" alt="Vite logo"/>
+          <img src={fullLogo} className="max-w-36" alt="Vite logo"/>
         </section>
 
         <section id={"children"} className={"h-full col-span-1"}>

@@ -22,7 +22,8 @@ function SignInForm() {
 
   const signInMutation = useMutation({
     mutationFn: signInUser,
-    onSuccess: () => {
+    onSuccess: (data) => {
+      console.log(data)
       navigate("/");
     },
     onError: (err) => {

@@ -7,6 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import authRoute from "./routes/auth.route.tsx";
 
 import AuthLayout from "./layout/auth.layout.tsx";
+import RootLayout from "./layout/root.layout.tsx";
 
 
 const queryClient = new QueryClient()
@@ -18,6 +19,11 @@ const router = createBrowserRouter([
     element: <AuthLayout/>,
     children: authRoute,
   },
+  {
+    path: "/",
+    index: true,
+    element: <RootLayout/>
+  }
 ]);
 
 function App() {
