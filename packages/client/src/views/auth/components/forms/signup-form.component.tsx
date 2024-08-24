@@ -24,7 +24,7 @@ function SignUpForm() {
   const signUpMutation = useMutation({
     mutationFn: signUpUser,
     onSuccess: () => {
-      navigate("/");
+      navigate("/auth/login");
     },
     onError: (err) => {
       toast.error(extractApiError(err as AxiosError))

@@ -1,4 +1,10 @@
 import {SubmitHandler, useForm} from "react-hook-form";
+import {useNavigate} from "react-router-dom";
+import {useMutation} from "@tanstack/react-query";
+import {signInUser} from "../../../../api/auth-api.ts";
+import {toast} from "react-toastify";
+import {extractApiError} from "../../../../utils/error/extractApiError.ts";
+import {AxiosError} from "axios";
 
 type SignInInputs = {
   email: string;
@@ -6,13 +12,27 @@ type SignInInputs = {
 }
 
 function SignInForm() {
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     formState: {errors},
   } = useForm<SignInInputs>()
 
-  const onSubmit: SubmitHandler<SignInInputs> = (data) => console.log(data)
+  const signInMutation = useMutation({
+    mutationFn: signInUser,
+    onSuccess: () => {
+      navigate("/");
+    },
+    onError: (err) => {
+      toast.error(extractApiError(err as AxiosError))
+    }
+  })
+
+  const onSubmit: SubmitHandler<SignInInputs> = (data) => {
+    signInMutation.mutate({email: data.email, password: data.password})
+  }
 
   return (
     <form className={"flex flex-col gap-2 w-full"} onSubmit={handleSubmit(onSubmit)}>
