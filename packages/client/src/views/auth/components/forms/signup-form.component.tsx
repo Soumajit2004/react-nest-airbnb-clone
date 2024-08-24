@@ -1,29 +1,46 @@
 import {SubmitHandler, useForm} from "react-hook-form";
+import {useMutation} from "@tanstack/react-query";
+import {signUpUser} from "../../../../api/auth-api.ts";
+import {useNavigate} from "react-router-dom";
+import {toast} from "react-toastify";
+import {extractApiError} from "../../../../utils/error/extractApiError.ts";
+import {AxiosError} from "axios";
 
 type SignUpInputs = {
-  fullName: string;
   email: string;
   password: string;
   confirmPassword: string;
 }
 
 function SignUpForm() {
+  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     formState: {errors},
   } = useForm<SignUpInputs>()
 
-  const onSubmit: SubmitHandler<SignUpInputs> = (data) => console.log(data)
+  const signUpMutation = useMutation({
+    mutationFn: signUpUser,
+    onSuccess: () => {
+      navigate("/");
+    },
+    onError: (err) => {
+      toast.error(extractApiError(err as AxiosError))
+    }
+  })
+
+  const onSubmit: SubmitHandler<SignUpInputs> = (data) => {
+    if (data.password != data.confirmPassword) {
+      toast.error("Passwords don't match");
+    } else {
+      signUpMutation.mutate({email: data.email, password: data.password})
+    }
+  }
 
   return (
     <form className={"flex flex-col gap-2 w-full"} onSubmit={handleSubmit(onSubmit)}>
-
-      <div>
-        <input type="text" placeholder={"Full Name"}
-               className="input input-bordered w-full" {...register("fullName", {required: true})}/>
-        {errors.fullName && <span className={"text-error text-sm"}>name is required</span>}
-      </div>
 
       <div>
         <input type="email" placeholder="Email"
@@ -37,12 +54,8 @@ function SignUpForm() {
         {errors.password && <span className={"text-error text-sm"}>password is required</span>}
       </div>
 
-      <div>
-        <input type="text" placeholder="Confirm Password"
-               className="input input-bordered w-full" {...register("confirmPassword", {required: true})}/>
-        {errors.confirmPassword && <span className={"text-error text-sm"}>confirm password must match</span>}
-      </div>
-
+      <input type="text" placeholder="Confirm Password"
+             className="input input-bordered w-full" {...register("confirmPassword", {required: true})}/>
 
       <button className={"btn btn-primary mt-2 w-full"}>Register</button>
     </form>
