@@ -1,8 +1,9 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Post, Res, UseGuards } from '@nestjs/common';
 import { AuthService } from './services/auth.service';
 import { AuthCredentialsDto } from './dto/auth-credentials.dto';
 import { GetUser } from './get-user.decorator';
 import { User } from './user.entity';
+import { Response } from 'express';
 import { RefreshJwtGuard } from './guards/refresh-jwt-auth.guard';
 
 @Controller('auth')
@@ -17,13 +18,14 @@ export class AuthController {
   @Post('/signin')
   async signIn(
     @Body() authCredentialsDto: AuthCredentialsDto,
-  ): Promise<{ accessToken: string; refreshToken: string }> {
-    return this.authService.signIn(authCredentialsDto);
+    @Res({ passthrough: true }) response: Response,
+  ): Promise<{ accessToken: string }> {
+    return this.authService.signIn(authCredentialsDto, response);
   }
 
   @UseGuards(RefreshJwtGuard)
   @Post('/refresh')
-  refreshToken(@GetUser() user: User): Promise<{ accessToken: string }> {
-    return this.authService.refreshToken(user);
+  refresh(@GetUser() user: User): Promise<{ accessToken: string }> {
+    return this.authService.refresh(user);
   }
 }
