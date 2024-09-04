@@ -1,13 +1,18 @@
-import { createContext, PropsWithChildren, useState } from 'react';
+import React, { createContext, PropsWithChildren, useState } from 'react';
 
-// interface UserData {
-//   accessToken: string;
-// }
+type UserCredentials = {
+  accessToken: string;
+}
 
-const AuthContext = createContext({});
+type AuthContextType = {
+  auth: UserCredentials | null;
+  setAuth: React.Dispatch<React.SetStateAction<UserCredentials | null>>;
+}
+
+const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
-  const [auth, setAuth] = useState({});
+  const [auth, setAuth] = useState<UserCredentials | null>(null);
 
   return (
     <AuthContext.Provider value={{ auth, setAuth }}>

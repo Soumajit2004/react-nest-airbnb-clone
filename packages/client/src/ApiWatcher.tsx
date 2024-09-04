@@ -5,14 +5,14 @@ import { axiosInstance } from './api/api.ts';
 
 export function ApiWatcher() {
   const refresh = useRefreshToken();
-  const { auth } = useAuth();
+  const authContext = useAuth();
 
   useEffect(() => {
 
     const requestIntercept = axiosInstance.interceptors.request.use(
       (config) => {
         if (!config.headers['Authorization']) {
-          config.headers['Authorization'] = `Bearer ${auth?.accessToken}`;
+          config.headers['Authorization'] = `Bearer ${authContext?.auth?.accessToken}`;
         }
 
         return config;
@@ -39,7 +39,7 @@ export function ApiWatcher() {
       axiosInstance.interceptors.response.eject(requestIntercept);
       axiosInstance.interceptors.response.eject(responseIntercept);
     };
-  }, [refresh, auth]);
+  }, [refresh, authContext?.auth]);
 
   return (
     <div />
