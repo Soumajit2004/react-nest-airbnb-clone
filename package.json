@@ -16,7 +16,6 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
-    "concurrently": "^8.2.2",
-    "react-hook-form": "^7.52.2"
+    "concurrently": "^8.2.2"
   }
 }

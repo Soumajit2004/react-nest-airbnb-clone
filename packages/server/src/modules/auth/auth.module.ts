@@ -22,7 +22,7 @@ import { RefreshJwtStrategy } from './strategis/refreshToken.strategy';
         return {
           secret: configService.get('JWT_SECRET'),
           signOptions: {
-            expiresIn: 60,
+            expiresIn: '15m',
           },
         };
       },

@@ -5,6 +5,7 @@ import { UserRepository } from '../user.repository';
 import { ConfigService } from '@nestjs/config';
 import { JwtPayload } from '../jwt-payload.interface';
 import { User } from '../user.entity';
+import { Request } from 'express';
 
 @Injectable()
 export class RefreshJwtStrategy extends PassportStrategy(
@@ -17,7 +18,11 @@ export class RefreshJwtStrategy extends PassportStrategy(
   ) {
     super({
       secretOrKey: configService.get('JWT_SECRET'),
-      jwtFromRequest: ExtractJwt.fromBodyField('refreshToken'),
+      jwtFromRequest: ExtractJwt.fromExtractors([
+        (req: Request) => {
+          return req?.cookies?.Authentication;
+        },
+      ]),
     });
   }
 
