@@ -1,10 +1,11 @@
-import axios, { AxiosInstance, AxiosRequestConfig} from "axios";
+import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
-const axiosParams = {
-  baseURL: "http://localhost:3000",
-}
+const axiosParams: AxiosRequestConfig = {
+  baseURL: 'http://localhost:3000',
+  withCredentials: true,
+};
 
-const axiosInstance: AxiosInstance = axios.create(axiosParams)
+export const axiosInstance: AxiosInstance = axios.create(axiosParams);
 
 const api = (axios: AxiosInstance) => {
   return {
@@ -13,7 +14,7 @@ const api = (axios: AxiosInstance) => {
     put: (url: string, body: object = {}, config: AxiosRequestConfig = {}) => axios.put(url, body, config),
     patch: (url: string, body: object = {}, config: AxiosRequestConfig = {}) => axios.patch(url, body, config),
     delete: (url: string, config: AxiosRequestConfig = {}) => axios.delete(url, config),
-  }
-}
+  };
+};
 
-export default api(axiosInstance)
+export default api(axiosInstance);
