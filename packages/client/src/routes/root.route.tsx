@@ -5,6 +5,7 @@ import AuthLayout from '../layout/auth.layout.tsx';
 import RootLayout from '../layout/root.layout.tsx';
 import listingRoutes from './listing.route.tsx';
 import DashboardView from '../views/dashboard/dashboard.view.tsx';
+import PersistenceLogin from '../components/common/auth/PersistenceLogin.component.tsx';
 
 
 const router = createBrowserRouter([
@@ -14,21 +15,27 @@ const router = createBrowserRouter([
     children: authRoute,
   },
   {
-    element: <RequireAuthComponent />,
+    element: <PersistenceLogin />,
     children: [
       {
-        element: <RootLayout />,
+        element: <RequireAuthComponent />,
         children: [
           {
-            path: '/',
-            index: true,
-            element: <DashboardView />,
+            element: <RootLayout />,
+            children: [
+              {
+                path: '/',
+                index: true,
+                element: <DashboardView />,
+              },
+              ...listingRoutes,
+            ],
           },
-          ...listingRoutes,
         ],
       },
     ],
   },
+
 ]);
 
 export default router;
