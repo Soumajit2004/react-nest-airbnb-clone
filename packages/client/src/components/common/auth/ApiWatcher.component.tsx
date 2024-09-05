@@ -1,9 +1,9 @@
-import useRefreshToken from './hooks/useRefreshToken.ts';
-import useAuth from './hooks/useAuth.ts';
+import useRefreshToken from '../../../hooks/useRefreshToken.ts';
+import useAuth from '../../../hooks/useAuth.ts';
 import { useEffect } from 'react';
-import { axiosInstance } from './api/api.ts';
+import { axiosInstance } from '../../../api/api.ts';
 
-export function ApiWatcher() {
+export function ApiWatcherComponent() {
   const refresh = useRefreshToken();
   const authContext = useAuth();
 
@@ -36,7 +36,7 @@ export function ApiWatcher() {
       });
 
     return () => {
-      axiosInstance.interceptors.response.eject(requestIntercept);
+      axiosInstance.interceptors.request.eject(requestIntercept);
       axiosInstance.interceptors.response.eject(responseIntercept);
     };
   }, [refresh, authContext?.auth]);

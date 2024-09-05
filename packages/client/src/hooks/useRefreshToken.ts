@@ -1,5 +1,5 @@
 import useAuth from './useAuth.ts';
-import { refreshAccessToken } from '../api/auth-api.ts';
+import { refreshAccessToken } from '../api/auth.api.ts';
 
 const useRefreshToken = () => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment

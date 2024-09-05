@@ -1,4 +1,4 @@
-import useAuth from '../../hooks/useAuth.ts';
+import useAuth from '../../../hooks/useAuth.ts';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
 const RequireAuthComponent = () => {

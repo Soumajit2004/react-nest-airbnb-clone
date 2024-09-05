@@ -1,6 +1,6 @@
 import {SubmitHandler, useForm} from "react-hook-form";
 import {useMutation} from "@tanstack/react-query";
-import {signUpUser} from "../../../../api/auth-api.ts";
+import {signUpUser} from "../../../../api/auth.api.ts";
 import {useNavigate} from "react-router-dom";
 import {toast} from "react-toastify";
 import {extractApiError} from "../../../../utils/error/extractApiError.ts";

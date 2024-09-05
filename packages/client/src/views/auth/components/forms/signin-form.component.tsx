@@ -1,7 +1,7 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
-import { signInUser } from '../../../../api/auth-api.ts';
+import { signInUser } from '../../../../api/auth.api.ts';
 import { toast } from 'react-toastify';
 import { extractApiError } from '../../../../utils/error/extractApiError.ts';
 import { AxiosError } from 'axios';
@@ -14,6 +14,9 @@ type SignInInputs = {
 
 function SignInForm() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || '/';
+
   const authContext = useAuth();
 
   const {
@@ -28,7 +31,7 @@ function SignInForm() {
       const accessToken = data?.data.accessToken;
 
       authContext?.setAuth({ accessToken });
-      navigate('/');
+      navigate(from, { replace: true });
     },
     onError: (err) => {
       toast.error(extractApiError(err as AxiosError));
