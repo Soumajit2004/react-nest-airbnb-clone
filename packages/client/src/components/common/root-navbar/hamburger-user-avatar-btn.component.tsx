@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import LogoutButton from '../auth/LogoutButton.component.tsx';
 
 export default function HamburgerUserAvatarBtn() {
   return (
@@ -13,7 +14,7 @@ export default function HamburgerUserAvatarBtn() {
       <ul className="menu dropdown-content bg-base-100 border-2  rounded-box z-[1] w-52 p-2 shadow">
         <li><Link to={'/hosting'}>Manage listings</Link></li>
         <li>
-          <button>Logout</button>
+          <LogoutButton />
         </li>
       </ul>
     </details>

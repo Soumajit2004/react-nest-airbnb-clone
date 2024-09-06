@@ -11,10 +11,13 @@ export default function PersistenceLogin() {
   useEffect(() => {
     const verifyRefreshToken = async () => {
       try {
+        console.log("Yo man")
         await refresh();
       } catch (err) {
         console.log(err);
+        setLoading(false);
       } finally {
+        console.log('Finally ran');
         setLoading(false);
       }
     };
@@ -23,11 +26,11 @@ export default function PersistenceLogin() {
     !authState?.auth?.accessToken ? verifyRefreshToken() : setLoading(false);
   }, []);
 
-  useEffect(() => {
-    console.log(`is Loading: ${isLoading}`);
-    console.log(`Access Token: ${authState?.auth?.accessToken}`);
-
-  }, [isLoading]);
+  // useEffect(() => {
+  //   console.log(`is Loading: ${isLoading}`);
+  //   console.log(`Access Token: ${authState?.auth?.accessToken}`);
+  //
+  // }, [isLoading]);
 
   return (
     <>
