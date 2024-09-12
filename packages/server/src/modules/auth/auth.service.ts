@@ -1,12 +1,16 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { UserRepository } from '../user.repository';
-import { AuthCredentialsDto } from '../dto/auth-credentials.dto';
-import { Response } from 'express';
+import {
+  Injectable,
+  NotAcceptableException,
+  UnauthorizedException,
+} from '@nestjs/common';
+import { UserRepository } from './user.repository';
+import { AuthCredentialsDto } from './dto/auth-credentials.dto';
+import { Request, Response } from 'express';
 import * as bcrypt from 'bcrypt';
 import ms from 'ms';
 import { JwtService } from '@nestjs/jwt';
-import { JwtPayload } from '../jwt-payload.interface';
-import { User } from '../user.entity';
+import { JwtPayload } from './jwt-payload.interface';
+import { User } from './user.entity';
 import { ConfigService } from '@nestjs/config';
 
 @Injectable()
@@ -52,6 +56,19 @@ export class AuthService {
     } else {
       throw new UnauthorizedException('Check your login credentials');
     }
+  }
+
+  async signOut(request: Request, response: Response): Promise<void> {
+    // parsing access token
+    const cookies = request.cookies;
+    if (!cookies.Authentication) {
+      throw new NotAcceptableException('must contain valid refresh token');
+    }
+
+    response.clearCookie('Authentication', {
+      httpOnly: true,
+      secure: true,
+    });
   }
 
   async refresh(user: User): Promise<{ accessToken: string }> {

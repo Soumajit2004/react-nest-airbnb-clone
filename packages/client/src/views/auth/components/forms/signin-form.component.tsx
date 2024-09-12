@@ -1,12 +1,11 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useMutation } from '@tanstack/react-query';
-import { signInUser } from '../../../../api/auth-api.ts';
+import { signInUser } from '../../../../api/auth.api.ts';
 import { toast } from 'react-toastify';
 import { extractApiError } from '../../../../utils/error/extractApiError.ts';
 import { AxiosError } from 'axios';
-import { useContext } from 'react';
-import AuthContext from '../../../../context/AuthProvider.tsx';
+import useAuth from '../../../../hooks/useAuth.ts';
 
 type SignInInputs = {
   email: string;
@@ -15,10 +14,10 @@ type SignInInputs = {
 
 function SignInForm() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || '/';
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-expect-error
-  const { setAuth } = useContext(AuthContext);
+  const authContext = useAuth();
 
   const {
     register,
@@ -31,8 +30,8 @@ function SignInForm() {
     onSuccess: (data) => {
       const accessToken = data?.data.accessToken;
 
-      setAuth({ accessToken });
-      navigate('/');
+      authContext?.setAuth({ accessToken });
+      navigate(from, { replace: true });
     },
     onError: (err) => {
       toast.error(extractApiError(err as AxiosError));
