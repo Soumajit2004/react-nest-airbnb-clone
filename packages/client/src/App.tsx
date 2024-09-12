@@ -12,7 +12,7 @@ function App() {
     <AuthProvider>
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={router} />
-        <ToastContainer />
+        <ToastContainer position={'bottom-center'} />
       </QueryClientProvider>
     </AuthProvider>
   );
