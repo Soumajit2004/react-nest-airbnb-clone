@@ -4,6 +4,7 @@ import LocationSelectorInput from './location-selector.component.tsx';
 // import { useForm } from 'react-hook-form';
 import { LatLngLiteral } from '../../../../../types/location.type.ts';
 import DashedBox from '../../../../../components/common/dashed-box.component.tsx';
+import { ImageFile } from '../../../../../types/files/image-file.type.ts';
 
 // type AddListingFormInputs = {
 //   title: string
@@ -21,7 +22,7 @@ export default function AddListingFormComponent() {
   //   formState: { errors },
   // } = useForm<AddListingFormInputs>();
 
-  const [files, setFiles] = useState<File[]>([]);
+  const [files, setFiles] = useState<ImageFile[]>([]);
   const [location, setLocation] = useState<LatLngLiteral | null>(null);
 
 

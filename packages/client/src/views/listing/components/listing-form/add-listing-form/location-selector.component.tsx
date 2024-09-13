@@ -29,7 +29,7 @@ export default function LocationSelectorInput({ location, setLocation }: Locatio
 
   if (!isLoaded) {
     return (
-      <p>Loading Google maps</p>
+      <div className="skeleton h-32 w-full"></div>
     );
   }
 
