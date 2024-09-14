@@ -8,10 +8,11 @@ import { ListingRepository } from './listing.repository';
 import { ListingImage } from './entities/listing-image.entity';
 import { ListingImageService } from './services/listing-image.service';
 import { UploadModule } from '../../shared/upload/upload.module';
+import { ListingLocation } from './entities/listing-location.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Listing, ListingImage]),
+    TypeOrmModule.forFeature([Listing, ListingImage, ListingLocation]),
     AuthModule,
     UploadModule,
   ],
