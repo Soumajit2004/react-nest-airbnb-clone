@@ -1,17 +1,19 @@
 import {
   Column,
   Entity,
+  JoinColumn,
   ManyToOne,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { User } from '../../auth/user.entity';
 import { ListingImage } from './listing-image.entity';
 import { Booking } from '../../booking/booking.entity';
-import { ListingInterface } from '@airbnb-clone/types';
+import { ListingLocation } from './listing-location.entity';
 
 @Entity()
-export class Listing implements ListingInterface {
+export class Listing {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
@@ -23,6 +25,10 @@ export class Listing implements ListingInterface {
 
   @Column()
   costing: number;
+
+  @OneToOne(() => ListingLocation)
+  @JoinColumn()
+  location: ListingLocation;
 
   @ManyToOne(() => User, (user) => user.listings)
   host: User;

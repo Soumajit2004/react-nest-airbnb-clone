@@ -1,7 +1,6 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Listing } from './listing.entity';
 import { Exclude } from 'class-transformer';
-import { ListingImageInterface } from '@airbnb-clone/types';
 
 export enum ListingImageCategory {
   EXTERIOR = 'exterior',
@@ -11,7 +10,7 @@ export enum ListingImageCategory {
 }
 
 @Entity()
-export class ListingImage implements ListingImageInterface {
+export class ListingImage {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 

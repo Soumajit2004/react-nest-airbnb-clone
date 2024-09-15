@@ -1,10 +1,9 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Listing } from '../listing/entities/listing.entity';
 import { User } from '../auth/user.entity';
-import { BookingInterface } from '@airbnb-clone/types';
 
 @Entity()
-export class Booking implements BookingInterface {
+export class Booking {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 

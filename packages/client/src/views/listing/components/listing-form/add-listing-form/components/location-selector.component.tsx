@@ -1,18 +1,22 @@
 import { Autocomplete, GoogleMap, MarkerF, useJsApiLoader } from '@react-google-maps/api';
 import React, { useRef } from 'react';
-import { AutoCompleteType, LatLngLiteral, MapType } from '../../../../../types/location.type.ts';
-import DashedBox from '../../../../../components/common/dashed-box.component.tsx';
+import { AutoCompleteType, LatLngLiteral, MapType } from '../../../../../../types/location.type.ts';
+import DashedBox from '../../../../../../components/common/dashed-box.component.tsx';
 
 type LocationSelectorInputProps = {
   location: LatLngLiteral | null;
   setLocation: React.Dispatch<React.SetStateAction<LatLngLiteral | null>>;
 }
 
+const includedLibs = ['places'];
+
 export default function LocationSelectorInput({ location, setLocation }: LocationSelectorInputProps) {
 
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
-    libraries: ['places'],
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    libraries: includedLibs,
   });
 
   const mapRef = useRef<MapType>();
@@ -29,7 +33,7 @@ export default function LocationSelectorInput({ location, setLocation }: Locatio
 
   if (!isLoaded) {
     return (
-      <p>Loading Google maps</p>
+      <div className="skeleton h-32 w-full"></div>
     );
   }
 

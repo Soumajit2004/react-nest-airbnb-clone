@@ -2,10 +2,9 @@ import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import { Listing } from '../listing/entities/listing.entity';
 import { Exclude } from 'class-transformer';
 import { Booking } from '../booking/booking.entity';
-import { UserInterface } from '@airbnb-clone/types';
 
 @Entity()
-export class User implements UserInterface {
+export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 

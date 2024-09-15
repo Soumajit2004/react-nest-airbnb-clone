@@ -1,13 +1,18 @@
 import {
-  IsInt,
+  IsDefined,
+  IsNotEmptyObject,
+  IsNumber,
+  IsObject,
   IsOptional,
   IsString,
   Max,
   MaxLength,
   Min,
   MinLength,
+  ValidateNested,
 } from 'class-validator';
-import { Transform } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
+import { LocationDto } from './listing-location.dto';
 
 export class CreateListingDto {
   @IsString()
@@ -21,8 +26,15 @@ export class CreateListingDto {
   description?: string;
 
   @Transform((params) => parseInt(params.value, 10))
-  @IsInt()
+  @IsNumber({ maxDecimalPlaces: 0 })
   @Min(1)
   @Max(1000000)
   costing: number;
+
+  @IsDefined()
+  @IsNotEmptyObject()
+  @IsObject()
+  @ValidateNested()
+  @Type(() => LocationDto)
+  location: LocationDto;
 }
