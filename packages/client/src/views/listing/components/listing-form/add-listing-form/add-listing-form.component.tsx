@@ -6,11 +6,12 @@ import { LatLngLiteral } from '../../../../../types/location.type.ts';
 import DashedBox from '../../../../../components/common/dashed-box.component.tsx';
 import { ImageFile } from '../../../../../types/files/image-file.type.ts';
 import { toast } from 'react-toastify';
+import { listingService } from '../../../../../services/listing.service.ts';
 
 type MetaDataInputs = {
   title: string
   description: string
-  rent: number
+  costing: number
 }
 
 export default function AddListingFormComponent() {
@@ -24,17 +25,18 @@ export default function AddListingFormComponent() {
   const [files, setFiles] = useState<ImageFile[]>([]);
   const [location, setLocation] = useState<LatLngLiteral | null>(null);
 
-  const onSubmit: SubmitHandler<MetaDataInputs> = (hookFormData) => {
+  const onSubmit: SubmitHandler<MetaDataInputs> = async (hookFormData) => {
     if (!location) {
       toast.error('Please enter a valid location');
       return;
     }
 
-    console.log(hookFormData);
+    await listingService.createListing({ ...hookFormData, location });
   };
 
   return (
     <form className={'grid grid-cols-2 gap-4'} onSubmit={handleSubmit(onSubmit)}>
+      {/*image dropzone section*/}
       <div id={'image-dropzone'}>
         <DashedBox>
           <h4 className="font-bold text-xl">Image Upload</h4>
@@ -53,7 +55,7 @@ export default function AddListingFormComponent() {
 
           <label className="input input-bordered flex items-center gap-2">
             $
-            <input type="text" className="grow" placeholder="Rent" {...register('rent', { required: true })} />
+            <input type="text" className="grow" placeholder="Costing" {...register('costing', { required: true })} />
             / day
           </label>
           {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
@@ -64,6 +66,7 @@ export default function AddListingFormComponent() {
                     placeholder="Description" {...register('description')}></textarea>
         </DashedBox>
 
+        {/*location selection input*/}
         <LocationSelectorInput location={location} setLocation={setLocation} />
 
         <div className={'w-full grid grid-cols-2 gap-4'}>

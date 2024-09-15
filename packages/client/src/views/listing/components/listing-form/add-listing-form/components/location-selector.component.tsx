@@ -8,11 +8,15 @@ type LocationSelectorInputProps = {
   setLocation: React.Dispatch<React.SetStateAction<LatLngLiteral | null>>;
 }
 
+const includedLibs = ['places'];
+
 export default function LocationSelectorInput({ location, setLocation }: LocationSelectorInputProps) {
 
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
-    libraries: ['places'],
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    libraries: includedLibs,
   });
 
   const mapRef = useRef<MapType>();

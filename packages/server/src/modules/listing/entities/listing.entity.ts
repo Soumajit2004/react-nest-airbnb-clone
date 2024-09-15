@@ -10,11 +10,10 @@ import {
 import { User } from '../../auth/user.entity';
 import { ListingImage } from './listing-image.entity';
 import { Booking } from '../../booking/booking.entity';
-import { ListingInterface } from '@airbnb-clone/types';
 import { ListingLocation } from './listing-location.entity';
 
 @Entity()
-export class Listing implements ListingInterface {
+export class Listing {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
