@@ -6,7 +6,6 @@ const useRefreshToken = () => {
 
   return async () => {
     const response = await refreshAccessToken();
-    console.log("Fetch Ran")
 
     authState?.setAuth((prev): { accessToken: string } => {
       return { ...prev, accessToken: response.data.accessToken };

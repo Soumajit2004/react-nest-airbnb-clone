@@ -11,13 +11,10 @@ export default function PersistenceLogin() {
   useEffect(() => {
     const verifyRefreshToken = async () => {
       try {
-        console.log("Yo man")
         await refresh();
       } catch (err) {
-        console.log(err);
         setLoading(false);
       } finally {
-        console.log('Finally ran');
         setLoading(false);
       }
     };
