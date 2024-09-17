@@ -7,6 +7,7 @@ import DashedBox from '../../../../../components/common/dashed-box.component.tsx
 import { ImageFile } from '../../../../../types/files/image-file.type.ts';
 import { toast } from 'react-toastify';
 import { listingService } from '../../../../../services/listing.service.ts';
+import { ListingImageCategory } from '../../../../../types/listing/listing-image.type.ts';
 
 type MetaDataInputs = {
   title: string
@@ -31,7 +32,12 @@ export default function AddListingFormComponent() {
       return;
     }
 
-    await listingService.createListing({ ...hookFormData, location });
+    await listingService.createListing({
+      metadata: { ...hookFormData, location },
+      images: files.map((imageFile: ImageFile) => {
+        return { category: ListingImageCategory.EXTERIOR, imageFile };
+      }),
+    });
   };
 
   return (
