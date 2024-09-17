@@ -36,11 +36,11 @@ export default function ImageDropzoneListingForm({ files, setFiles }: ImageDropz
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop, accept: {
-      'image/*': [],
+      'image/jpg': ['.jpg'],
+      'image/jpeg': ['.jpeg'],
     },
-    maxSize: 1240 * 1000,
+    maxSize: 5 * 1240 * 1000,
   });
-
 
   return (
     <>

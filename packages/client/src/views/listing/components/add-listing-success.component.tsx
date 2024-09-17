@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 export default function CreateListingSuccessComponent() {
   return (
     <div
-      className={'border-4 border-success border-dashed rounded-xl p-16 bg-green-100 text-success-content flex gap-16'}>
+      className={'border-4 border-success border-dashed rounded-xl p-16 bg-green-100 text-success-content flex gap-16 animate-zoom-in'}>
       <img src={partEmoji} alt={'success-emoji'} className={'aspect-square h-32'} />
 
       <div className="flex flex-col gap-4">
