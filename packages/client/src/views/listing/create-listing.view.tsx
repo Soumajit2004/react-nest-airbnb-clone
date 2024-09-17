@@ -4,7 +4,7 @@ export default function CreateListingView() {
 
   return (
     <>
-      <h3 className={'text-3xl font-bold my-5'}>Create new listing</h3>
+      <h3 className={'text-3xl font-bold my-5'}>Become a host! 🏠</h3>
 
       <AddListingFormComponent />
     </>
