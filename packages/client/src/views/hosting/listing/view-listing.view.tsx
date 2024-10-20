@@ -1,6 +1,6 @@
 import { useLoaderData } from 'react-router-dom';
-import { Listing } from '../../types/listing/listing.type.ts';
-import { ListingCard } from '../../components/listing/listing-card.component.tsx';
+import { Listing } from '../../../types/listing/listing.type.ts';
+import { ListingCard } from '../../../components/listing/listing-card.component.tsx';
 
 export default function ViewListingView() {
 

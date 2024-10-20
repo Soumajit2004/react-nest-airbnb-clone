@@ -2,13 +2,13 @@ import ImageDropzoneListingForm from './components/image-dropzone.component.tsx'
 import { useState } from 'react';
 import LocationSelectorInput from './components/location-selector.component.tsx';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { LatLngLiteral } from '../../../../../types/location.type.ts';
-import DashedBox from '../../../../../components/common/dashed-box.component.tsx';
-import { ImageFile } from '../../../../../types/files/image-file.type.ts';
+import { LatLngLiteral } from '../../../../../../types/location.type.ts';
+import DashedBox from '../../../../../../components/common/dashed-box.component.tsx';
+import { ImageFile } from '../../../../../../types/files/image-file.type.ts';
 import { toast } from 'react-toastify';
-import { listingService } from '../../../../../services/listing.service.ts';
-import { ListingImageCategory } from '../../../../../types/listing/listing-image.type.ts';
-import { extractApiError } from '../../../../../utils/error/extractApiError.ts';
+import { listingService } from '../../../../../../services/listing.service.ts';
+import { ListingImageCategory } from '../../../../../../types/listing/listing-image.type.ts';
+import { extractApiError } from '../../../../../../utils/error/extractApiError.ts';
 import { AxiosError } from 'axios';
 import CreateListingSuccessComponent from '../../add-listing-success.component.tsx';
 

@@ -1,5 +1,5 @@
 import { CreateListingDto } from '../dto/listing/create-listing.dto.ts';
-import { listingApi } from '../api/listing.api.ts';
+import { listingApi } from '../api/hosting/listing.api.ts';
 import { Listing } from '../types/listing/listing.type.ts';
 import { toast } from 'react-toastify';
 

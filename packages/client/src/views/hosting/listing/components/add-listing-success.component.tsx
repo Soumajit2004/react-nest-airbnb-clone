@@ -1,4 +1,4 @@
-import partEmoji from '../../../assets/emojis/party.svg';
+import partEmoji from '../../../../assets/emojis/party.svg';
 import { Link } from 'react-router-dom';
 
 export default function CreateListingSuccessComponent() {

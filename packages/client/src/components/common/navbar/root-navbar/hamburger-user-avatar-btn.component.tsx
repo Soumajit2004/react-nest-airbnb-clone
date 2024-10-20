@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import LogoutButton from '../auth/LogoutButton.component.tsx';
+import LogoutButton from '../../auth/LogoutButton.component.tsx';
 
 export default function HamburgerUserAvatarBtn() {
   return (

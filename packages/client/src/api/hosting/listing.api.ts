@@ -1,14 +1,14 @@
-import api from './api.ts';
-import { CreateListingMetadataDto, UploadListingImageDto } from '../dto/listing/create-listing.dto.ts';
+import api from '../api.ts';
+import { CreateListingMetadataDto, UploadListingImageDto } from '../../dto/listing/create-listing.dto.ts';
 
 const URLS = {
-  allListings: 'listing',
+  fetchListings: 'listing',
   newListings: 'listing/new',
   uploadListingImage: (listingId: string) => `listing/${listingId}/image/new`,
 };
 
-const fetchAll = () => {
-  return api.get(URLS.allListings);
+const fetchListings = () => {
+  return api.get(URLS.fetchListings);
 };
 
 const createListing = (createListingMetadataDto: CreateListingMetadataDto) => {
@@ -30,5 +30,5 @@ const uploadListingImage = (
 };
 
 export const listingApi = {
-  fetchAll, createListing, uploadListingImage,
+  fetchListings, createListing, uploadListingImage,
 };
