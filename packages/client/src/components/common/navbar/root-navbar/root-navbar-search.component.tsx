@@ -1,4 +1,4 @@
-import searchIcon from "../../../assets/icons/search-icon.svg"
+import searchIcon from "../../../../assets/icons/search-icon.svg"
 
 export default function RootNavbarSearch() {
   return (

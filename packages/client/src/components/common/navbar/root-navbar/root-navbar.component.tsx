@@ -1,13 +1,13 @@
-import fullLogo from '../../../assets/logo/airbnb-full-logo.svg';
 import RootNavbarSearch from './root-navbar-search.component.tsx';
 import HamburgerUserAvatarBtn from './hamburger-user-avatar-btn.component.tsx';
+import NavbarLogo from '../navbar-logo.component.tsx';
 
 export default function RootNavbar() {
   return (
     <>
       <nav className="navbar container mx-auto my-2">
         <div className="navbar-start">
-          <img src={fullLogo} alt={'airbnb-logo'} className={'w-28'} />
+          <NavbarLogo />
         </div>
 
         <div className="navbar-center">

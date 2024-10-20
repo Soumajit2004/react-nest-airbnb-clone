@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { FileRejection, useDropzone } from 'react-dropzone';
-import { ImageFile } from '../../../../../../types/files/image-file.type.ts';
+import { ImageFile } from '../../../../../../../types/files/image-file.type.ts';
 import { toast } from 'react-toastify';
 
 type ImageDropzoneProps = {

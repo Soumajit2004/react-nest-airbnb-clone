@@ -1,7 +1,7 @@
 import { Autocomplete, GoogleMap, MarkerF, useJsApiLoader } from '@react-google-maps/api';
 import React, { useRef } from 'react';
-import { AutoCompleteType, LatLngLiteral, MapType } from '../../../../../../types/location.type.ts';
-import DashedBox from '../../../../../../components/common/dashed-box.component.tsx';
+import { AutoCompleteType, LatLngLiteral, MapType } from '../../../../../../../types/location.type.ts';
+import DashedBox from '../../../../../../../components/common/dashed-box.component.tsx';
 
 type LocationSelectorInputProps = {
   location: LatLngLiteral | null;

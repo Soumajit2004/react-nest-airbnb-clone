@@ -6,6 +6,7 @@ import RootLayout from '../layout/root.layout.tsx';
 import DashboardView from '../views/dashboard/dashboard.view.tsx';
 import PersistenceLogin from '../components/common/auth/PersistenceLogin.component.tsx';
 import { hostingRoutes } from './children/hosting.route.tsx';
+import HostingRootLayout from '../layout/hosting.layout.tsx';
 
 
 const router = createBrowserRouter([
@@ -28,12 +29,14 @@ const router = createBrowserRouter([
                 index: true,
                 element: <DashboardView />,
               },
-              {
-                path: 'hosting',
-                children: hostingRoutes,
-              },
             ],
           },
+          {
+            path: 'hosting',
+            element: <HostingRootLayout />,
+            children: hostingRoutes,
+          },
+
         ],
       },
     ],
