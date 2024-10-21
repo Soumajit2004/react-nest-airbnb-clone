@@ -9,7 +9,7 @@ import {
 } from 'typeorm';
 import { User } from '../../auth/user.entity';
 import { ListingImage } from './listing-image.entity';
-import { Booking } from '../../booking/booking.entity';
+import { Booking } from './booking.entity';
 import { ListingLocation } from './listing-location.entity';
 
 @Entity()

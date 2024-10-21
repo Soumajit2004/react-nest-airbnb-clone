@@ -7,7 +7,7 @@ import {
 } from '@nestjs/common';
 import { CreateListingDto } from '../dto/create-listing.dto';
 import { User } from '../../auth/user.entity';
-import { ListingRepository } from '../listing.repository';
+import { ListingRepository } from '../repositories/listing.repository';
 import { Listing } from '../entities/listing.entity';
 import { UpdateListingDto } from '../dto/update-listing.dto';
 import { ListingImageService } from './listing-image.service';

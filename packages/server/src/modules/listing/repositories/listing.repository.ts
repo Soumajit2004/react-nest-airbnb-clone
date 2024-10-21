@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
-import { Listing } from './entities/listing.entity';
-import { CreateListingDto } from './dto/create-listing.dto';
-import { User } from '../auth/user.entity';
-import { UpdateListingDto } from './dto/update-listing.dto';
+import { Listing } from '../entities/listing.entity';
+import { CreateListingDto } from '../dto/create-listing.dto';
+import { User } from '../../auth/user.entity';
+import { UpdateListingDto } from '../dto/update-listing.dto';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ListingLocation } from './entities/listing-location.entity';
+import { ListingLocation } from '../entities/listing-location.entity';
 
 @Injectable()
 export class ListingRepository extends Repository<Listing> {

@@ -5,7 +5,6 @@ import { ListingModule } from './modules/listing/listing.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 import { UploadModule } from './shared/upload/upload.module';
-import { BookingModule } from './modules/booking/booking.module';
 
 import { configValidationSchema } from './config.schema';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -36,7 +35,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     AuthModule,
     UserModule,
     UploadModule,
-    BookingModule,
   ],
 })
 export class AppModule {}

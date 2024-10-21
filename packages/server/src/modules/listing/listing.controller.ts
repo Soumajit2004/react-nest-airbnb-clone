@@ -25,12 +25,15 @@ import { ListingImageService } from './services/listing-image.service';
 import { AddListingImageDto } from './dto/add-listing-image.dto';
 import { ListingImage } from './entities/listing-image.entity';
 import { JwtGuard } from '../auth/guards/jwt-auth.guard';
+import { BookingService } from './services/booking.service';
+import { CreateBookingDto } from './dto/create-booking.dto';
 
 @Controller('listing')
 @UseGuards(JwtGuard)
 export class ListingController {
   constructor(
     private readonly listingService: ListingService,
+    private readonly bookingService: BookingService,
     private readonly listingImageService: ListingImageService,
   ) {}
 
@@ -54,6 +57,16 @@ export class ListingController {
     @GetUser() user: User,
   ): Promise<Listing> {
     return this.listingService.createListing(createListingDto, user);
+  }
+
+  @Post('/:listingId/reserve')
+  createBooking(
+    @Param('listingId') listingId: string,
+    @Body()
+    createBookingDto: CreateBookingDto,
+    @GetUser() user: User,
+  ): Promise<Listing> {
+    return this.bookingService.createBooking(listingId, createBookingDto, user);
   }
 
   @Patch('/:id')

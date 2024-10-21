@@ -1,7 +1,7 @@
-import { useLoaderData } from 'react-router-dom';
+import { Link, useLoaderData } from 'react-router-dom';
 import { Listing } from '../../../types/listing/listing.type.ts';
 import ListingImageCarousel from '../../../components/hosting/listing/listing-image-carousel.component.tsx';
-import sadFaceSVG from '../../../assets/images/sad-circle.svg';
+import ReservationCardComponent from './components/reservation-card.component.tsx';
 
 export default function ListingView() {
 
@@ -13,24 +13,35 @@ export default function ListingView() {
       <div className={'flex flex-col gap-6'}>
         <ListingImageCarousel listingImages={fetchedListing.images} />
 
-        <div>
-          <h3 className={'text-xl font-bold'}>
-            {fetchedListing.title}
-          </h3>
-          <p className={'text-base-300 '}>{fetchedListing.description}</p>
+        <div className="flex justify-between">
+          <div>
+            <h3 className={'text-xl font-bold'}>
+              {fetchedListing.title}
+            </h3>
+            <p className={'text-base-300 '}>{fetchedListing.description}</p>
+          </div>
+
+          <details className="dropdown dropdown-end">
+            <summary className="btn btn-circle">
+              <span className="material-symbols-rounded">more_vert</span>
+            </summary>
+            <ul className="menu dropdown-content bg-base-200 rounded-box z-[1] w-52 p-2 shadow mt-2">
+              <li>
+                <Link to={'edit'}>Edit Listing</Link>
+              </li>
+              <li>
+                <button className="btn-danger">
+                  Delete Listing
+                </button>
+              </li>
+            </ul>
+          </details>
         </div>
+
       </div>
 
-      <div className={'col-span-2'}>
-        <div className={'bg-base-200 w-full rounded-xl p-4'}>
-          <h3 className={'text-xl font-bold mb-4'}>Reservations</h3>
-
-          <div
-            className={'border-4 border-dashed border-base-300 py-12 flex items-center justify-center text-gray-500 font-bold gap-4 rounded-xl'}>
-            <img src={sadFaceSVG} alt={'sad-face'} className={"aspect-square h-20"}/>
-            <p>No reservations found</p>
-          </div>
-        </div>
+      <div className={'flex flex-col gap-4 col-span-2'}>
+        <ReservationCardComponent />
       </div>
     </div>);
 }
