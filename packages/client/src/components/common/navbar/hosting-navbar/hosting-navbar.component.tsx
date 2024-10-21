@@ -12,7 +12,7 @@ export default function HostingNavbar() {
         </div>
 
         <div className="navbar-center">
-          <ul className="menu menu-horizontal px-1 text-md font-semibold gap-2">
+          <ul className="menu menu-horizontal px-1 text-md font-semibold gap-2 text-gray-500">
             <li><Link to={'/hosting'}>Reservations</Link></li>
             <li><Link to={'/hosting/listings'}>Listings</Link></li>
             <li>

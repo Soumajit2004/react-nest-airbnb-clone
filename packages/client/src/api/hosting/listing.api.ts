@@ -3,12 +3,17 @@ import { CreateListingMetadataDto, UploadListingImageDto } from '../../dto/listi
 
 const URLS = {
   fetchListings: 'listing',
+  fetchListingByID: (listingId: string) => `listing/${listingId}`,
   newListings: 'listing/new',
   uploadListingImage: (listingId: string) => `listing/${listingId}/image/new`,
 };
 
 const fetchListings = () => {
   return api.get(URLS.fetchListings);
+};
+
+const fetchListingByID = (listingId: string) => {
+  return api.get(URLS.fetchListingByID(listingId));
 };
 
 const createListing = (createListingMetadataDto: CreateListingMetadataDto) => {
@@ -30,5 +35,5 @@ const uploadListingImage = (
 };
 
 export const listingApi = {
-  fetchListings, createListing, uploadListingImage,
+  fetchListings, fetchListingByID, createListing, uploadListingImage,
 };

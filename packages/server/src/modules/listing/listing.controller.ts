@@ -56,21 +56,16 @@ export class ListingController {
     return this.listingService.createListing(createListingDto, user);
   }
 
-  @Patch('/:id')
+  @Patch('/:listingId')
   updateListing(
-    @Param('id') listingId: string,
+    @Param('listingId') listingId: string,
     @Body() updateListingDto: UpdateListingDto,
     @GetUser() user: User,
   ): Promise<Listing> {
     return this.listingService.updateListing(listingId, updateListingDto, user);
   }
 
-  @Delete('/:id')
-  deleteListing(@Param('id') id: string, @GetUser() user: User): Promise<void> {
-    return this.listingService.deleteListing(id, user);
-  }
-
-  @Post('/:id/image/new')
+  @Post('/:listingId/image/new')
   @UseInterceptors(FileInterceptor('image'))
   addImage(
     @UploadedFile(
@@ -83,7 +78,7 @@ export class ListingController {
       }),
     )
     image: Express.Multer.File,
-    @Param('id') listingId: string,
+    @Param('listingId') listingId: string,
     @Body() addListingImageDto: AddListingImageDto,
     @GetUser() user: User,
   ): Promise<ListingImage> {
@@ -93,6 +88,14 @@ export class ListingController {
       image,
       user,
     );
+  }
+
+  @Delete('/:listingId')
+  deleteListing(
+    @Param('listingId') listingId: string,
+    @GetUser() user: User,
+  ): Promise<void> {
+    return this.listingService.deleteListing(listingId, user);
   }
 
   @Delete('/:listingId/image/:listingImageId')
