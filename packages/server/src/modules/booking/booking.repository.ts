@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { DataSource, Repository } from 'typeorm';
-import { Booking } from '../entities/booking.entity';
-import { CreateBookingDto } from '../dto/create-booking.dto';
-import { User } from '../../auth/user.entity';
-import { Listing } from '../entities/listing.entity';
+import { Booking } from './booking.entity';
+import { CreateBookingDto } from '../listing/dto/create-booking.dto';
+import { User } from '../auth/user.entity';
+import { Listing } from '../listing/entities/listing.entity';
 
 @Injectable()
 export class BookingRepository extends Repository<Booking> {

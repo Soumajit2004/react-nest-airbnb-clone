@@ -4,14 +4,14 @@ import { ListingService } from './services/listing.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Listing } from './entities/listing.entity';
 import { AuthModule } from '../auth/auth.module';
-import { ListingRepository } from './repositories/listing.repository';
+import { ListingRepository } from './listing.repository';
 import { ListingImage } from './entities/listing-image.entity';
 import { ListingImageService } from './services/listing-image.service';
 import { UploadModule } from '../../shared/upload/upload.module';
 import { ListingLocation } from './entities/listing-location.entity';
-import { Booking } from './entities/booking.entity';
-import { BookingService } from './services/booking.service';
-import { BookingRepository } from './repositories/booking.repository';
+import { Booking } from '../booking/booking.entity';
+import { BookingService } from '../booking/booking.service';
+import { BookingRepository } from '../booking/booking.repository';
 
 @Module({
   imports: [
@@ -27,6 +27,6 @@ import { BookingRepository } from './repositories/booking.repository';
     ListingRepository,
     BookingRepository,
   ],
-  exports: [ListingService],
+  exports: [ListingService, ListingRepository],
 })
 export class ListingModule {}

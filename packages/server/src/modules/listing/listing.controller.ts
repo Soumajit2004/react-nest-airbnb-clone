@@ -25,15 +25,12 @@ import { ListingImageService } from './services/listing-image.service';
 import { AddListingImageDto } from './dto/add-listing-image.dto';
 import { ListingImage } from './entities/listing-image.entity';
 import { JwtGuard } from '../auth/guards/jwt-auth.guard';
-import { BookingService } from './services/booking.service';
-import { CreateBookingDto } from './dto/create-booking.dto';
 
 @Controller('listing')
 @UseGuards(JwtGuard)
 export class ListingController {
   constructor(
     private readonly listingService: ListingService,
-    private readonly bookingService: BookingService,
     private readonly listingImageService: ListingImageService,
   ) {}
 
@@ -59,31 +56,16 @@ export class ListingController {
     return this.listingService.createListing(createListingDto, user);
   }
 
-  @Post('/:listingId/reserve')
-  createBooking(
-    @Param('listingId') listingId: string,
-    @Body()
-    createBookingDto: CreateBookingDto,
-    @GetUser() user: User,
-  ): Promise<Listing> {
-    return this.bookingService.createBooking(listingId, createBookingDto, user);
-  }
-
-  @Patch('/:id')
+  @Patch('/:listingId')
   updateListing(
-    @Param('id') listingId: string,
+    @Param('listingId') listingId: string,
     @Body() updateListingDto: UpdateListingDto,
     @GetUser() user: User,
   ): Promise<Listing> {
     return this.listingService.updateListing(listingId, updateListingDto, user);
   }
 
-  @Delete('/:id')
-  deleteListing(@Param('id') id: string, @GetUser() user: User): Promise<void> {
-    return this.listingService.deleteListing(id, user);
-  }
-
-  @Post('/:id/image/new')
+  @Post('/:listingId/image/new')
   @UseInterceptors(FileInterceptor('image'))
   addImage(
     @UploadedFile(
@@ -96,7 +78,7 @@ export class ListingController {
       }),
     )
     image: Express.Multer.File,
-    @Param('id') listingId: string,
+    @Param('listingId') listingId: string,
     @Body() addListingImageDto: AddListingImageDto,
     @GetUser() user: User,
   ): Promise<ListingImage> {
@@ -106,6 +88,14 @@ export class ListingController {
       image,
       user,
     );
+  }
+
+  @Delete('/:listingId')
+  deleteListing(
+    @Param('listingId') listingId: string,
+    @GetUser() user: User,
+  ): Promise<void> {
+    return this.listingService.deleteListing(listingId, user);
   }
 
   @Delete('/:listingId/image/:listingImageId')
