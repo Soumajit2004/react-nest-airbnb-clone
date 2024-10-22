@@ -33,7 +33,7 @@ export default function LocationSelectorInput({ location, setLocation }: Locatio
 
   if (!isLoaded) {
     return (
-      <div className="skeleton h-32 w-full"></div>
+      <div className="skeleton h-32 w-full"/>
     );
   }
 

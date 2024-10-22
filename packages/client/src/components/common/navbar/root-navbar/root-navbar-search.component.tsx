@@ -1,13 +1,94 @@
-import searchIcon from "../../../../assets/icons/search-icon.svg"
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import DatePicker from 'react-datepicker';
+import { Autocomplete, useJsApiLoader } from '@react-google-maps/api';
+import { useRef } from 'react';
+import { AutoCompleteType, PlacesResult } from '../../../../types/location.type.ts';
+import { useNavigate } from 'react-router-dom';
+
+const includedLibs = ['places'];
+
+type SearchInputs = {
+  location: PlacesResult,
+  checkIn: Date,
+  checkOut: Date,
+};
 
 export default function RootNavbarSearch() {
+
+  const { isLoaded } = useJsApiLoader({
+    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    libraries: includedLibs,
+  });
+  const { control, handleSubmit } = useForm<SearchInputs>();
+  const navigate = useNavigate();
+
+  const locationSearchRef = useRef<AutoCompleteType>();
+
+  /**
+   * Handles form submission.
+   * @param data - The form data containing location, check-in, and check-out dates.
+   */
+  const onSubmit: SubmitHandler<SearchInputs> = (data) => {
+    const {checkIn, checkOut, location} = data;
+
+    navigate(`/search?location=${location.place_id}&checkIn=${checkIn.toISOString()}&checkOut=${checkOut.toISOString()}`);
+  };
+
+  if (!isLoaded) {
+    return (
+      <div className="skeleton h-32 w-full" />
+    );
+  }
+
   return (
-    <label
-      className="input input-bordered pr-2 flex min-w-96 w-full rounded-full drop-shadow input-md bg-white">
-      <input type="text" className="grow" placeholder="Search Destinations"/>
-      <button className={"btn btn-sm my-auto btn-primary btn-circle"}>
-        <img src={searchIcon} alt={"search-icon"}/>
+    <form className={'flex'} onSubmit={handleSubmit(onSubmit)}>
+
+      <Controller
+        control={control}
+        name="location"
+        render={({ field }) => (
+          <Autocomplete
+            onLoad={(autocomplete) => {
+              locationSearchRef.current = autocomplete;
+            }}
+            onPlaceChanged={() => {
+              field.onChange(locationSearchRef.current?.getPlace());
+            }}
+          >
+            <input className="input input-bordered w-56 input-md bg-white rounded-r-none"
+                   placeholder={'Search Destinations'}
+                   type="text" />
+          </Autocomplete>)} />
+
+      <Controller
+        control={control}
+        name="checkIn"
+        render={({ field }) => (
+          <DatePicker
+            className="input input-bordered w-28 input-md bg-white rounded-none border-x-0"
+            placeholderText={'Check In'}
+            selected={field.value}
+            onChange={(date) => field.onChange(date)}
+          />)}
+      />
+
+      <Controller
+        control={control}
+        name="checkOut"
+        render={({ field }) => (
+          <DatePicker
+            className="input input-bordered w-28 input-md bg-white rounded-none"
+            placeholderText={'Check Out'}
+            selected={field.value}
+            onChange={(date) => field.onChange(date)}
+          />)}
+      />
+
+      <button className={'btn btn-primary rounded-l-none'} type={'submit'}><span
+        className={'material-symbols-rounded'}>search</span>
       </button>
-    </label>
-  )
+    </form>
+  );
 }
