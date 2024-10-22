@@ -1,11 +1,11 @@
-import RootNavbarSearch from './root-navbar-search.component.tsx';
-import HamburgerUserAvatarBtn from './hamburger-user-avatar-btn.component.tsx';
+import RootNavbarSearch from './components/root-navbar-search.component.tsx';
+import HamburgerUserAvatarBtn from './components/hamburger-user-avatar-btn.component.tsx';
 import NavbarLogo from '../navbar-logo.component.tsx';
 
 export default function RootNavbar() {
   return (
     <>
-      <nav className="navbar container mx-auto my-2">
+      <nav className="navbar xl:container mx-auto my-2">
         <div className="navbar-start">
           <NavbarLogo />
         </div>

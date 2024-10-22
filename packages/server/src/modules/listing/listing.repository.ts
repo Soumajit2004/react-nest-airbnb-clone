@@ -18,17 +18,32 @@ export class ListingRepository extends Repository<Listing> {
     super(Listing, dataSource.createEntityManager());
   }
 
-  async findListingByLocation(searchAreaDto: SearchAreaDto) {
+  /**
+   * Finds listings based on location criteria.
+   * @param {SearchAreaDto} searchAreaDto - The search criteria containing latitude, longitude, and search radius.
+   * @returns {Promise<Listing[]>} A promise that resolves to an array of listings.
+   */
+  async findListingByLocation(
+    searchAreaDto: SearchAreaDto,
+  ): Promise<Listing[]> {
     const { lat, lng, searchRadius } = searchAreaDto;
+
+    const searchRadiusInLatLgn = searchRadius / 111.32;
 
     return await this.findBy({
       location: {
-        lat: Between(lat - searchRadius, lat + searchRadius),
-        lng: Between(lng - searchRadius, lat + searchRadius),
+        lat: Between(lat - searchRadiusInLatLgn, lat + searchRadiusInLatLgn),
+        lng: Between(lng - searchRadiusInLatLgn, lat + searchRadiusInLatLgn),
       },
     });
   }
 
+  /**
+   * Creates a new listing.
+   * @param {CreateListingDto} createListingDto - The data transfer object containing the listing details.
+   * @param {User} user - The user creating the listing.
+   * @returns {Promise<Listing>} A promise that resolves to the created listing.
+   */
   async createListing(
     createListingDto: CreateListingDto,
     user: User,
@@ -52,7 +67,16 @@ export class ListingRepository extends Repository<Listing> {
     return this.save(listing);
   }
 
-  async updateListing(listingId: string, updateListingDto: UpdateListingDto) {
+  /**
+   * Updates an existing listing.
+   * @param {string} listingId - The ID of the listing to update.
+   * @param {UpdateListingDto} updateListingDto - The data transfer object containing the updated listing details.
+   * @returns {Promise<Listing>} A promise that resolves to the updated listing.
+   */
+  async updateListing(
+    listingId: string,
+    updateListingDto: UpdateListingDto,
+  ): Promise<Listing> {
     const { title, description } = updateListingDto;
 
     const listing = await this.findOne({ where: { id: listingId } });

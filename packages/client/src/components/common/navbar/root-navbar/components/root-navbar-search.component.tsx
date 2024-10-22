@@ -2,7 +2,7 @@ import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import DatePicker from 'react-datepicker';
 import { Autocomplete, useJsApiLoader } from '@react-google-maps/api';
 import { useRef } from 'react';
-import { AutoCompleteType, PlacesResult } from '../../../../types/location.type.ts';
+import { AutoCompleteType, PlacesResult } from '../../../../../types/location.type.ts';
 import { useNavigate } from 'react-router-dom';
 
 const includedLibs = ['places'];
@@ -31,9 +31,11 @@ export default function RootNavbarSearch() {
    * @param data - The form data containing location, check-in, and check-out dates.
    */
   const onSubmit: SubmitHandler<SearchInputs> = (data) => {
-    const {checkIn, checkOut, location} = data;
+    const { checkIn, checkOut, location } = data;
 
-    navigate(`/search?location=${location.place_id}&checkIn=${checkIn.toISOString()}&checkOut=${checkOut.toISOString()}`);
+    const coordinates = location.geometry?.location;
+
+    navigate(`/search?lat=${coordinates?.lat()}&lng=${coordinates?.lng()}&checkIn=${checkIn.toISOString()}&checkOut=${checkOut.toISOString()}`);
   };
 
   if (!isLoaded) {
@@ -57,7 +59,7 @@ export default function RootNavbarSearch() {
               field.onChange(locationSearchRef.current?.getPlace());
             }}
           >
-            <input className="input input-bordered w-56 input-md bg-white rounded-r-none"
+            <input className="input  input-bordered w-56 rounded-l-full input-md bg-white rounded-r-none"
                    placeholder={'Search Destinations'}
                    type="text" />
           </Autocomplete>)} />
@@ -86,7 +88,7 @@ export default function RootNavbarSearch() {
           />)}
       />
 
-      <button className={'btn btn-primary rounded-l-none'} type={'submit'}><span
+      <button className={'btn btn-primary rounded-l-none rounded-r-full'} type={'submit'}><span
         className={'material-symbols-rounded'}>search</span>
       </button>
     </form>
