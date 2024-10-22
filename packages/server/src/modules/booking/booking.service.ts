@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { BookingRepository } from './booking.repository';
 import { User } from '../auth/user.entity';
-import { CreateBookingDto } from '../listing/dto/create-booking.dto';
+import { CreateBookingDto } from '../listing/dto/CRUD/create-booking.dto';
 import { ListingRepository } from '../listing/listing.repository';
 import { Booking } from './booking.entity';
 
@@ -19,6 +19,11 @@ export class BookingService {
     private readonly listingRepository: ListingRepository,
   ) {}
 
+  /**
+   * Retrieves all bookings made by a user.
+   * @param user - The user whose bookings are to be retrieved.
+   * @returns A promise that resolves to an array of bookings.
+   */
   getBookingsByUser(user: User): Promise<Booking[]> {
     return this.bookingRepository.find({
       where: { user },
@@ -30,7 +35,7 @@ export class BookingService {
    * @param listingId - The ID of the listing to book.
    * @param createBookingDto - The booking details.
    * @param user - The user creating the booking.
-   * @returns The updated listing with the new booking.
+   * @returns The created booking.
    * @throws NotFoundException if the listing is not found.
    * @throws BadRequestException if the listing is already booked for the selected dates.
    */
@@ -72,7 +77,7 @@ export class BookingService {
 
     this.logger.verbose(`Booking ${booking.id} created by user ${user.id}`);
 
-    // Return the updated listing
+    // Return the created booking
     return booking;
   }
 

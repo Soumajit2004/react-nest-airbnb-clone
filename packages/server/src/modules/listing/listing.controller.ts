@@ -9,6 +9,7 @@ import {
   ParseFilePipe,
   Patch,
   Post,
+  Query,
   UploadedFile,
   UseGuards,
   UseInterceptors,
@@ -16,15 +17,16 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 
 import { ListingService } from './services/listing.service';
-import { CreateListingDto } from './dto/create-listing.dto';
+import { CreateListingDto } from './dto/CRUD/create-listing.dto';
 import { User } from '../auth/user.entity';
 import { GetUser } from '../auth/get-user.decorator';
 import { Listing } from './entities/listing.entity';
-import { UpdateListingDto } from './dto/update-listing.dto';
+import { UpdateListingDto } from './dto/CRUD/update-listing.dto';
 import { ListingImageService } from './services/listing-image.service';
-import { AddListingImageDto } from './dto/add-listing-image.dto';
+import { AddListingImageDto } from './dto/CRUD/add-listing-image.dto';
 import { ListingImage } from './entities/listing-image.entity';
 import { JwtGuard } from '../auth/guards/jwt-auth.guard';
+import { SearchAreaDto } from './dto/search-area.dto';
 
 @Controller('listing')
 @UseGuards(JwtGuard)
@@ -34,9 +36,14 @@ export class ListingController {
     private readonly listingImageService: ListingImageService,
   ) {}
 
-  @Get()
+  @Get('/')
   getListings(@GetUser() user: User): Promise<Listing[]> {
     return this.listingService.getListings(user);
+  }
+
+  @Get('/search')
+  getListingBySearch(@Query() searchAreaDto: SearchAreaDto) {
+    return this.listingService.getListingBySearch(searchAreaDto);
   }
 
   @Get('/:id')

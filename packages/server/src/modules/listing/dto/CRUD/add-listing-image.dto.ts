@@ -5,7 +5,7 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
-import { ListingImageCategory } from '../entities/listing-image.entity';
+import { ListingImageCategory } from '../../entities/listing-image.entity';
 
 export class AddListingImageDto {
   @IsString()
