@@ -23,13 +23,13 @@ export default function MapSearch(
       <>
         {selectedListing && (
           <InfoWindow
-            className={"no-scrollbar overflow-x-hidden"}
+            className={'no-scrollbar overflow-x-hidden'}
             pixelOffset={[0, -28]}
-            shouldFocus={true}
-            headerDisabled={true}
-            onClose={() => {
-              setSelectedListing(null);
-            }}
+            headerContent={
+              <div className={"text-md"}>
+                <p>2.1 km away</p>
+              </div>
+            }
             position={{
               lat: parseFloat(String(selectedListing.location.lat)),
               lng: parseFloat(String(selectedListing.location.lng)),
