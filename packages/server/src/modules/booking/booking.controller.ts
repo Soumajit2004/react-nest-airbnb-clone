@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { GetUser } from '../auth/get-user.decorator';
 import { User } from '../auth/user.entity';
-import { CreateBookingDto } from '../listing/dto/create-booking.dto';
+import { CreateBookingDto } from '../listing/dto/CRUD/create-booking.dto';
 import { BookingService } from './booking.service';
 import { JwtGuard } from '../auth/guards/jwt-auth.guard';
 import { Booking } from './booking.entity';

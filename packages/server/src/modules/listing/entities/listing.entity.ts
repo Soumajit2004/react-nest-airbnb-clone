@@ -26,7 +26,7 @@ export class Listing {
   @Column()
   costing: number;
 
-  @OneToOne(() => ListingLocation)
+  @OneToOne(() => ListingLocation, { eager: true })
   @JoinColumn()
   location: ListingLocation;
 

@@ -45,7 +45,7 @@ export default function ImageDropzoneListingForm({ files, setFiles }: ImageDropz
   return (
     <>
       <div
-        className={'bg-base-100 h-24 border-4 border-dashed rounded-xl flex justify-center items-center text-base-300 mb-4'} {...getRootProps()}>
+        className={'bg-base-200 h-48 rounded-xl flex justify-center items-center text-base-content mb-4'} {...getRootProps()}>
         <input {...getInputProps()} />
         {
           isDragActive ?
@@ -58,12 +58,8 @@ export default function ImageDropzoneListingForm({ files, setFiles }: ImageDropz
       {
         files.length > 0 && (
           <>
-            <div className="divider my-0 py-0" />
-
             <div className={'flex gap-4 flex-col'}>
-              <h4 className={'font-semibold text-lg'}>Selected Images</h4>
-
-              <div className={'grid grid-cols-2 gap-6'}>
+              <div className={'grid grid-cols-2 gap-4'}>
                 {
                   files.map(
                     (file, index) => (

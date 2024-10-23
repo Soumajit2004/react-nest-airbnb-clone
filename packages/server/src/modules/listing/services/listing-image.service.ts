@@ -6,7 +6,7 @@ import { ListingService } from './listing.service';
 import { User } from '../../auth/user.entity';
 import { ListingImage } from '../entities/listing-image.entity';
 import { Repository } from 'typeorm';
-import { AddListingImageDto } from '../dto/add-listing-image.dto';
+import { AddListingImageDto } from '../dto/CRUD/add-listing-image.dto';
 import { ListingUploadService } from '../../../shared/upload/listing-upload.service';
 
 @Injectable()
@@ -21,6 +21,14 @@ export class ListingImageService {
     private listingImageRepository: Repository<ListingImage>,
   ) {}
 
+  /**
+   * Adds an image to a listing.
+   * @param listingId - The ID of the listing to add the image to.
+   * @param addListingImageDto - The image details.
+   * @param image - The image file to upload.
+   * @param user - The user adding the image.
+   * @returns The added listing image.
+   */
   async addListingImage(
     listingId: string,
     addListingImageDto: AddListingImageDto,
@@ -29,6 +37,7 @@ export class ListingImageService {
   ): Promise<ListingImage> {
     const { label, category } = addListingImageDto;
 
+    // Find the listing by ID
     const listing = await this.listingService.getListingById(listingId, user);
 
     const listingImageId = uuid.v4();
@@ -48,11 +57,19 @@ export class ListingImageService {
     return await this.listingImageRepository.save(listingImageReference);
   }
 
+  /**
+   * Deletes an image from a listing.
+   * @param listingId - The ID of the listing to delete the image from.
+   * @param listingImageId - The ID of the image to delete.
+   * @param user - The user attempting to delete the image.
+   * @throws NotFoundException if the listing or image is not found.
+   */
   async deleteListingImage(
     listingId: string,
     listingImageId: string,
     user: User,
   ): Promise<void> {
+    // Find the listing by ID
     const listing = await this.listingService.getListingById(listingId, user);
 
     for (const image of listing.images) {

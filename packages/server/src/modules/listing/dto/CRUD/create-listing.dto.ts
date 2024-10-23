@@ -12,7 +12,7 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { Transform, Type } from 'class-transformer';
-import { LocationDto } from './listing-location.dto';
+import { LocationDto } from '../listing-location.dto';
 
 export class CreateListingDto {
   @IsString()

@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { DataSource, Repository } from 'typeorm';
+import { Between, DataSource, Repository } from 'typeorm';
 import { Listing } from './entities/listing.entity';
-import { CreateListingDto } from './dto/create-listing.dto';
+import { CreateListingDto } from './dto/CRUD/create-listing.dto';
 import { User } from '../auth/user.entity';
-import { UpdateListingDto } from './dto/update-listing.dto';
+import { UpdateListingDto } from './dto/CRUD/update-listing.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ListingLocation } from './entities/listing-location.entity';
+import { SearchAreaDto } from './dto/search-area.dto';
 
 @Injectable()
 export class ListingRepository extends Repository<Listing> {
@@ -17,6 +18,32 @@ export class ListingRepository extends Repository<Listing> {
     super(Listing, dataSource.createEntityManager());
   }
 
+  /**
+   * Finds listings based on location criteria.
+   * @param {SearchAreaDto} searchAreaDto - The search criteria containing latitude, longitude, and search radius.
+   * @returns {Promise<Listing[]>} A promise that resolves to an array of listings.
+   */
+  async findListingByLocation(
+    searchAreaDto: SearchAreaDto,
+  ): Promise<Listing[]> {
+    const { lat, lng, searchRadius } = searchAreaDto;
+
+    const searchRadiusInLatLgn = searchRadius / 111.32;
+
+    return this.findBy({
+      location: {
+        lat: Between(lat - searchRadiusInLatLgn, lat + searchRadiusInLatLgn),
+        lng: Between(lng - searchRadiusInLatLgn, lng + searchRadiusInLatLgn),
+      },
+    });
+  }
+
+  /**
+   * Creates a new listing.
+   * @param {CreateListingDto} createListingDto - The data transfer object containing the listing details.
+   * @param {User} user - The user creating the listing.
+   * @returns {Promise<Listing>} A promise that resolves to the created listing.
+   */
   async createListing(
     createListingDto: CreateListingDto,
     user: User,
@@ -40,7 +67,16 @@ export class ListingRepository extends Repository<Listing> {
     return this.save(listing);
   }
 
-  async updateListing(listingId: string, updateListingDto: UpdateListingDto) {
+  /**
+   * Updates an existing listing.
+   * @param {string} listingId - The ID of the listing to update.
+   * @param {UpdateListingDto} updateListingDto - The data transfer object containing the updated listing details.
+   * @returns {Promise<Listing>} A promise that resolves to the updated listing.
+   */
+  async updateListing(
+    listingId: string,
+    updateListingDto: UpdateListingDto,
+  ): Promise<Listing> {
     const { title, description } = updateListingDto;
 
     const listing = await this.findOne({ where: { id: listingId } });

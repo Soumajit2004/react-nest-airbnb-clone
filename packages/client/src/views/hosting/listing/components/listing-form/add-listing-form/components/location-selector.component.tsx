@@ -1,7 +1,7 @@
-import { Autocomplete, GoogleMap, MarkerF, useJsApiLoader } from '@react-google-maps/api';
+import { Autocomplete, GoogleMap, MarkerF } from '@react-google-maps/api';
 import React, { useRef } from 'react';
 import { AutoCompleteType, LatLngLiteral, MapType } from '../../../../../../../types/location.type.ts';
-import DashedBox from '../../../../../../../components/common/dashed-box.component.tsx';
+import useMapsAPILoader from '../../../../../../../hooks/useMapsAPILoader.ts';
 
 type LocationSelectorInputProps = {
   location: LatLngLiteral | null;
@@ -12,12 +12,7 @@ const includedLibs = ['places'];
 
 export default function LocationSelectorInput({ location, setLocation }: LocationSelectorInputProps) {
 
-  const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    libraries: includedLibs,
-  });
+  const { isLoaded } = useMapsAPILoader({ includedLibs });
 
   const mapRef = useRef<MapType>();
   const searchInputRef = useRef<AutoCompleteType>();
@@ -33,12 +28,12 @@ export default function LocationSelectorInput({ location, setLocation }: Locatio
 
   if (!isLoaded) {
     return (
-      <div className="skeleton h-32 w-full"></div>
+      <div className="skeleton h-32 w-full" />
     );
   }
 
   return (
-    <DashedBox>
+    <div className={'bg-base-200 flex flex-col gap-4 rounded-xl p-4'}>
       <h4 className={'font-bold text-xl'}>Location</h4>
 
       <Autocomplete
@@ -67,7 +62,6 @@ export default function LocationSelectorInput({ location, setLocation }: Locatio
 
 
             <MarkerF position={location} onDrag={(event) => {
-              console.log(event);
               setLocation({
                 lat: event.latLng?.lat() || 0,
                 lng: event.latLng?.lng() || 0,
@@ -76,7 +70,7 @@ export default function LocationSelectorInput({ location, setLocation }: Locatio
           </GoogleMap>
         )
       }
-    </DashedBox>
+    </div>
 
 
   );

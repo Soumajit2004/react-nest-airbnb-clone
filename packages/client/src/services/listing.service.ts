@@ -1,10 +1,10 @@
-import { CreateListingDto } from '../dto/listing/create-listing.dto.ts';
+import { ListingDto } from '../api/hosting/dto/listing.dto.ts';
 import { listingApi } from '../api/hosting/listing.api.ts';
 import { Listing } from '../types/listing/listing.type.ts';
 import { toast } from 'react-toastify';
 
 
-const createListing = async (createListingWithImageDto: CreateListingDto) => {
+const createListing = async (createListingWithImageDto: ListingDto) => {
   const { metadata, images } = createListingWithImageDto;
 
   const response = await listingApi.createListing(metadata);
