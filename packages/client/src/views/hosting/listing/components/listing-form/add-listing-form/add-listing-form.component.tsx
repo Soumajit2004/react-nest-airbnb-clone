@@ -71,15 +71,13 @@ export default function AddListingFormComponent() {
           <form className={'grid grid-cols-2 gap-4 pb-4'} onSubmit={handleSubmit(onSubmit)}>
             {/*image dropzone section*/}
             <div id={'image-dropzone'}>
-              <DashedBox>
-                <h4 className="font-bold text-xl">Image Upload</h4>
-
-                <ImageDropzoneListingForm files={files} setFiles={setFiles} />
-              </DashedBox>
+              <ImageDropzoneListingForm files={files} setFiles={setFiles} />
             </div>
 
             <div className={'flex flex-col gap-4'}>
-              <DashedBox>
+
+              {/*metadata input section*/}
+              <div className={"bg-base-200 rounded-xl flex gap-4 p-4 flex-col"}>
                 <h4 className="font-bold text-xl">Listing Info</h4>
 
                 <input type="text" className="input input-bordered"
@@ -98,7 +96,8 @@ export default function AddListingFormComponent() {
 
                 <textarea className="textarea textarea-bordered"
                           placeholder="Description" {...register('description')}></textarea>
-              </DashedBox>
+
+              </div>
 
               {/*location selection input*/}
               <LocationSelectorInput location={location} setLocation={setLocation} />

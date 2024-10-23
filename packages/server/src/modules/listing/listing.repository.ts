@@ -30,10 +30,10 @@ export class ListingRepository extends Repository<Listing> {
 
     const searchRadiusInLatLgn = searchRadius / 111.32;
 
-    return await this.findBy({
+    return this.findBy({
       location: {
         lat: Between(lat - searchRadiusInLatLgn, lat + searchRadiusInLatLgn),
-        lng: Between(lng - searchRadiusInLatLgn, lat + searchRadiusInLatLgn),
+        lng: Between(lng - searchRadiusInLatLgn, lng + searchRadiusInLatLgn),
       },
     });
   }

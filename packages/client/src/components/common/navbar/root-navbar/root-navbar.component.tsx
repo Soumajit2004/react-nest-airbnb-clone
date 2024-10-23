@@ -18,6 +18,7 @@ export default function RootNavbar() {
           <HamburgerUserAvatarBtn />
         </div>
       </nav>
+
       <div className="divider my-0" />
     </>
   );

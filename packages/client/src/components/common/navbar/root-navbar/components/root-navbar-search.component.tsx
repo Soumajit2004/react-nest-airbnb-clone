@@ -1,9 +1,10 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import DatePicker from 'react-datepicker';
-import { Autocomplete, useJsApiLoader } from '@react-google-maps/api';
+import { Autocomplete } from '@react-google-maps/api';
 import { useRef } from 'react';
 import { AutoCompleteType, PlacesResult } from '../../../../../types/location.type.ts';
 import { useNavigate } from 'react-router-dom';
+import useMapsAPILoader from '../../../../../hooks/useMapsAPILoader.ts';
 
 const includedLibs = ['places'];
 
@@ -15,14 +16,10 @@ type SearchInputs = {
 
 export default function RootNavbarSearch() {
 
-  const { isLoaded } = useJsApiLoader({
-    googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_API_KEY,
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-expect-error
-    libraries: includedLibs,
-  });
-  const { control, handleSubmit } = useForm<SearchInputs>();
   const navigate = useNavigate();
+
+  const { isLoaded } = useMapsAPILoader({ includedLibs });
+  const { control, handleSubmit } = useForm<SearchInputs>();
 
   const locationSearchRef = useRef<AutoCompleteType>();
 
