@@ -18,6 +18,14 @@ export default function SearchView() {
   // @ts-expect-error
   const listings = listingResults?.data as Listing[];
 
+  if (listings.length <= 0) {
+    return (
+      <div className={'bg-base-200 h-56 flex rounded-xl justify-center items-center'}>
+        <h1 className={'text-gray-500 font-bold text-xl'}>No listings found</h1>
+      </div>
+    );
+  }
+
   return (
     <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
       <div className={'grid grid-cols-2 gap-4 mt-2'}>
