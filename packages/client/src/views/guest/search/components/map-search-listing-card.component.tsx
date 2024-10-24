@@ -1,5 +1,6 @@
 import { Listing } from '../../../../types/listing/listing.type.ts';
 import placeHolderSVG from '../../../../assets/images/placeholder.svg';
+import { Link } from 'react-router-dom';
 
 function MapSearchListingCard({ listing }: {
   listing: Listing,
@@ -21,10 +22,11 @@ function MapSearchListingCard({ listing }: {
         <p>{listing.description}</p>
       </div>
 
-      <button
-        className={'btn btn-primary text-primary-content btn-outline btn-sm rounded-full w-full'}>
+      <Link to={`/listing/${listing.id}`}
+            target="_blank"
+            className={'btn btn-primary text-primary-content btn-outline btn-sm rounded-full w-full'}>
         View
-      </button>
+      </Link>
     </div>
   )
     ;

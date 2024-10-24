@@ -1,10 +1,10 @@
 import { RouteObject } from 'react-router-dom';
-import CreateListingView from '../../views/hosting/listing/create-listing.view.tsx';
-import AllListingsView from '../../views/hosting/listing/all-listings.view.tsx';
-import { listingApi } from '../../api/hosting/listing.api.ts';
-import ListingView from '../../views/hosting/listing/listing.view.tsx';
+import CreateListingView from '../views/hosting/listing/create-listing.view.tsx';
+import AllListingsView from '../views/hosting/listing/all-listings.view.tsx';
+import { listingApi } from '../api/hosting/listing.api.ts';
+import HostingListingView from '../views/hosting/listing/hostingListingView.tsx';
 
-export const hostingRoutes: RouteObject[] = [
+const hostingRoutes: RouteObject[] = [
   {
     path: 'become-a-host',
     element: <CreateListingView />,
@@ -18,9 +18,11 @@ export const hostingRoutes: RouteObject[] = [
   },
   {
     path: 'listing/:listingId',
-    element: <ListingView />,
+    element: <HostingListingView />,
     loader: async ({ params }) => {
       return (await listingApi.fetchListingByID(params.listingId || '')).data;
     },
   },
 ];
+
+export default hostingRoutes;

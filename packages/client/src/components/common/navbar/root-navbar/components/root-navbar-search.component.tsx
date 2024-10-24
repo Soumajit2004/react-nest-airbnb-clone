@@ -42,7 +42,7 @@ export default function RootNavbarSearch() {
   }
 
   return (
-    <form className={'flex'} onSubmit={handleSubmit(onSubmit)}>
+    <form className={'flex drop-shadow hover:drop-shadow-xl'} onSubmit={handleSubmit(onSubmit)}>
 
       <Controller
         control={control}

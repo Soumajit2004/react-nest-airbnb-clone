@@ -45,12 +45,13 @@ export default function ImageDropzoneListingForm({ files, setFiles }: ImageDropz
   return (
     <>
       <div
-        className={'bg-base-200 h-48 rounded-xl flex justify-center items-center text-base-content mb-4'} {...getRootProps()}>
+        className={'bg-base-200 h-28 rounded-xl flex justify-center items-center text-base-content mb-4'} {...getRootProps()}>
         <input {...getInputProps()} />
         {
           isDragActive ?
             <p>Drop the images here ...</p> :
-            <p>Drag 'n' drop images here, or click to select images</p>
+            <p className={'text-center text-gray-500'}>Drop images here or click to select images</p>
+
         }
       </div>
 

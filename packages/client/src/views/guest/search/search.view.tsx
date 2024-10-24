@@ -2,6 +2,7 @@ import { useLoaderData, useSearchParams } from 'react-router-dom';
 import { Listing } from '../../../types/listing/listing.type.ts';
 import MapSearch from './components/map-search.component.tsx';
 import { APIProvider } from '@vis.gl/react-google-maps';
+import ListingSearchResultsComponent from './components/listing-search-results.component.tsx';
 
 export default function SearchView() {
 
@@ -19,11 +20,10 @@ export default function SearchView() {
 
   return (
     <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
-      <div className={'grid grid-cols-2'}>
-        <div>{`${listings.length} places found`}</div>
+      <div className={'grid grid-cols-2 gap-4 mt-2'}>
+        <ListingSearchResultsComponent filteredListings={listings} />
 
         <MapSearch centerCoordinates={{ lat, lng }} filteredListing={listings} />
-
       </div>
     </APIProvider>
   );

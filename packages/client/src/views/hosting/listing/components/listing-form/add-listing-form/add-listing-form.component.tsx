@@ -3,7 +3,6 @@ import { useState } from 'react';
 import LocationSelectorInput from './components/location-selector.component.tsx';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { LatLngLiteral } from '../../../../../../types/location.type.ts';
-import DashedBox from '../../../../../../components/common/dashed-box.component.tsx';
 import { ImageFile } from '../../../../../../types/files/image-file.type.ts';
 import { toast } from 'react-toastify';
 import { listingService } from '../../../../../../services/listing.service.ts';
@@ -58,6 +57,27 @@ export default function AddListingFormComponent() {
     setLocation(null);
   };
 
+  const FormFields = () => (
+    <>
+      <input type="text" className="input input-bordered"
+             placeholder="Title" {...register('title', { required: true })} />
+
+
+      <label className="input input-bordered flex items-center gap-2">
+        $
+        <input type="text" className="grow"
+               placeholder="Costing" {...register('costing', { required: true })} />
+        per night
+      </label>
+      {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+      {/*@ts-expect-error*/}
+      {errors['rentRequired'] && <span>This field is required</span>}
+
+      <textarea className="textarea textarea-bordered"
+                placeholder="Description" {...register('description')}></textarea>
+    </>
+  );
+
   return (
     <>
       {
@@ -74,36 +94,14 @@ export default function AddListingFormComponent() {
               <ImageDropzoneListingForm files={files} setFiles={setFiles} />
             </div>
 
-            <div className={'flex flex-col gap-4'}>
-
-              {/*metadata input section*/}
-              <div className={"bg-base-200 rounded-xl flex gap-4 p-4 flex-col"}>
-                <h4 className="font-bold text-xl">Listing Info</h4>
-
-                <input type="text" className="input input-bordered"
-                       placeholder="Title" {...register('title', { required: true })} />
-
-
-                <label className="input input-bordered flex items-center gap-2">
-                  $
-                  <input type="text" className="grow"
-                         placeholder="Costing" {...register('costing', { required: true })} />
-                  / day
-                </label>
-                {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-                {/*@ts-expect-error*/}
-                {errors['rentRequired'] && <span>This field is required</span>}
-
-                <textarea className="textarea textarea-bordered"
-                          placeholder="Description" {...register('description')}></textarea>
-
-              </div>
+            <div className={'flex flex-col gap-4 bg-base-200 rounded-xl p-4'}>
+              <FormFields />
 
               {/*location selection input*/}
               <LocationSelectorInput location={location} setLocation={setLocation} />
 
               <div className={'w-full grid grid-cols-2 gap-4'}>
-                <button type={'reset'} onClick={handleReset} className={'btn btn-base'}>Reset</button>
+                <button type={'reset'} onClick={handleReset} className={'btn btn-outline btn-base'}>Reset</button>
                 <button type={'submit'} className={'btn btn-primary'}>Create</button>
               </div>
             </div>

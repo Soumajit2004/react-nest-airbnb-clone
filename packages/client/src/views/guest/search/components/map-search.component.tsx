@@ -13,7 +13,7 @@ export default function MapSearch(
 
   return (
     <Map
-      className={'rounded-lg h-[83vh]'}
+      className={'rounded-lg h-[82vh]'}
       mapId={'e53705f599ed81cc'}
       defaultCenter={centerCoordinates}
       defaultZoom={15}
@@ -26,7 +26,7 @@ export default function MapSearch(
             className={'no-scrollbar overflow-x-hidden'}
             pixelOffset={[0, -28]}
             headerContent={
-              <div className={"text-md"}>
+              <div className={'text-md'}>
                 <p>2.1 km away</p>
               </div>
             }

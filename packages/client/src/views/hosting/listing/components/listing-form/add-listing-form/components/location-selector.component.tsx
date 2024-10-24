@@ -33,9 +33,8 @@ export default function LocationSelectorInput({ location, setLocation }: Locatio
   }
 
   return (
-    <div className={'bg-base-200 flex flex-col gap-4 rounded-xl p-4'}>
-      <h4 className={'font-bold text-xl'}>Location</h4>
 
+    <>
       <Autocomplete
         onLoad={(element) => {
           searchInputRef.current = element;
@@ -70,7 +69,7 @@ export default function LocationSelectorInput({ location, setLocation }: Locatio
           </GoogleMap>
         )
       }
-    </div>
+    </>
 
 
   );

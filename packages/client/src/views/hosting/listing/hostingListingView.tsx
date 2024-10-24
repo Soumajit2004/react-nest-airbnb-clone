@@ -3,7 +3,7 @@ import { Listing } from '../../../types/listing/listing.type.ts';
 import ListingImageCarousel from '../../../components/hosting/listing/listing-image-carousel.component.tsx';
 import ReservationCardComponent from './components/reservation-card.component.tsx';
 
-export default function ListingView() {
+export default function HostingListingView() {
 
   const fetchedListing = useLoaderData() as Listing;
 
