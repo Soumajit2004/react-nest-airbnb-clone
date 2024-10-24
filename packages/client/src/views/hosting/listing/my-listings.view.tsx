@@ -1,13 +1,15 @@
-import { useLoaderData } from 'react-router-dom';
-import { Listing } from '../../../types/listing/listing.type.ts';
 import { ListingCard } from '../../../components/hosting/listing/listing-card.component.tsx';
+import { useFetchMyListings } from '../../../hooks/api/hosting/listing.api.ts';
+import { Listing } from '../../../types/listing/listing.type.ts';
 
-export default function AllListingsView() {
+export default function MyListingsView() {
 
-  const fetchedListings = useLoaderData() as Listing[];
+  const { isFetched, data } = useFetchMyListings();
 
-  return (
-    <div className={"mt-4"}>
+  const fetchedListings = data?.data as Listing[];
+
+  return isFetched && (
+    <div className={'mt-4'}>
       <h3 className={'text-3xl font-bold mb-10'}>Your listings</h3>
 
       <div className={'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'}>

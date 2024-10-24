@@ -1,5 +1,5 @@
 import { SearchListingsDto } from './dto/listing.dto.ts';
-import useAxiosPrivate from '../../hooks/useAxiosPrivate.ts';
+import useAxiosPrivate from '../../useAxiosPrivate.ts';
 import { useQuery } from '@tanstack/react-query';
 
 const URLS = {
@@ -19,13 +19,23 @@ export const useFetchSearchListings = (searchListingDto: SearchListingsDto) => {
   });
 };
 
-// const fetchListings = () => {
-//   return api.get(URLS.fetchListings);
-// };
-//
-// const fetchListingByID = (listingId: string) => {
-//   return api.get(URLS.fetchListingByID(listingId));
-// };
+export const useFetchMyListings = () => {
+  const axiosPrivateInstance = useAxiosPrivate();
+
+  return useQuery({
+    queryKey: ['my-listings'],
+    queryFn: () => (axiosPrivateInstance.get(URLS.fetchListings)),
+  });
+};
+
+export const useFetchListingByID = (listingId: string) => {
+  const axiosPrivateInstance = useAxiosPrivate();
+
+  return useQuery({
+    queryKey: ['listing'],
+    queryFn: () => axiosPrivateInstance.get(URLS.fetchListingByID(listingId)),
+  });
+};
 //
 // const createListing = (createListingMetadataDto: CreateListingMetadataDto) => {
 //   return api.post(URLS.newListings, createListingMetadataDto);

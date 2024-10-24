@@ -1,7 +1,7 @@
 import { RouteObject } from 'react-router-dom';
 import CreateListingView from '../views/hosting/listing/create-listing.view.tsx';
-import AllListingsView from '../views/hosting/listing/all-listings.view.tsx';
-import HostingListingView from '../views/hosting/listing/hostingListingView.tsx';
+import MyListingsView from '../views/hosting/listing/my-listings.view.tsx';
+import HostingListingView from '../views/hosting/listing/hosting-listing.view.tsx';
 
 const hostingRoutes: RouteObject[] = [
   {
@@ -10,7 +10,7 @@ const hostingRoutes: RouteObject[] = [
   },
   {
     path: 'listings',
-    element: <AllListingsView />,
+    element: <MyListingsView />,
   },
   {
     path: 'listing/:listingId',

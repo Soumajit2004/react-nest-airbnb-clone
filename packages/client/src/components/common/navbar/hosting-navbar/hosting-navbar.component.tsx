@@ -6,9 +6,9 @@ export default function HostingNavbar() {
 
   return (
     <>
-      <nav className="navbar xl:container mx-auto my-2">
+      <nav className="navbar container mx-auto my-2">
         <div className="navbar-start">
-          <NavbarLogo/>
+          <NavbarLogo />
         </div>
 
         <div className="navbar-center">

@@ -1,4 +1,4 @@
-import { ListingDto } from '../api/hosting/dto/listing.dto.ts';
+import { ListingDto } from '../hooks/api/hosting/dto/listing.dto.ts';
 import { Listing } from '../types/listing/listing.type.ts';
 import { toast } from 'react-toastify';
 

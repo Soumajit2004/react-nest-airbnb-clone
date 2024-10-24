@@ -7,7 +7,7 @@ export default function RootLayout() {
     <main>
       <RootNavbar />
 
-      <div className="lg:container mx-auto">
+      <div className="container mx-auto">
         <Outlet />
       </div>
     </main>

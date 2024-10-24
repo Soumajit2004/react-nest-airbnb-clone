@@ -5,7 +5,7 @@ import NavbarLogo from '../navbar-logo.component.tsx';
 export default function RootNavbar() {
   return (
     <>
-      <nav className="navbar xl:container mx-auto my-2">
+      <nav className="navbar container mx-auto my-2">
         <div className="navbar-start">
           <NavbarLogo />
         </div>
