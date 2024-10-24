@@ -15,25 +15,35 @@ export default function LocationSelectorInput({ location, setLocation }: Locatio
       <ReactGoogleAutocomplete
         apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}
         className={'input input-bordered'}
+        options={{ types: ['localities', 'sublocalites'] }}
         onPlaceSelected={(place) => {
-          if (place) {
-            setLocation({
-              lat: place.geometry?.location?.lat() || 0,
-              lng: place.geometry?.location?.lng() || 0,
-            });
-          }
+          setLocation({
+            lat: place.geometry?.location?.lat() || 0,
+            lng: place.geometry?.location?.lng() || 0,
+          });
         }}
       />
 
       {
         location && (
           <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
-            <Map mapId={import.meta.env.VITE_GOOGLE_MAP_MAP_ID} className={'h-48'} defaultCenter={location}
-                 defaultZoom={15} minZoom={14} maxZoom={18}
+            <p className={'text-sm text-gray-500'}>Quick Tip : Drag the marker to exact location</p>
+
+            <Map mapId={import.meta.env.VITE_GOOGLE_MAPS_MAP_ID}
+                 className={'h-48'}
+                 defaultCenter={location}
+                 defaultZoom={15}
             >
-              <AdvancedMarker position={location} onDragStart={(event) => {
-                console.log(event);
-              }} />
+              <AdvancedMarker
+                draggable={true}
+                onDragEnd={(event) => {
+                  setLocation({
+                    lat: event.latLng?.lat() || 0,
+                    lng: event.latLng?.lng() || 0,
+                  });
+                }}
+                position={location}
+              />
             </Map>
           </APIProvider>
         )

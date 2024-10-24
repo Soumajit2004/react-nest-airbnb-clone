@@ -1,4 +1,5 @@
-function ListingView(){
+function ListingView() {
+
   return (
     <div>
       <h1>Listing</h1>

@@ -5,13 +5,13 @@ function ListingSearchResultsComponent({ filteredListings }: { filteredListings:
   return (
     <div className={''}>
       <div className="mb-4">
-        <p className={'font-semibold text-lg'}>{filteredListings.length} found</p>
+        <p className={'font-semibold text-lg'}>{filteredListings.length} places found</p>
       </div>
 
       <div className="grid grid-cols-2 gap-4 overflow-y-scroll max-h-[76vh] no-scrollbar rounded-xl">
         <>
           {filteredListings.map((listing) => (
-            <ListingCard listing={listing} openLinkInNewTab to={`/listing/${listing.id}`} />
+            <ListingCard key={listing.id} listing={listing} openLinkInNewTab to={`/listing/${listing.id}`} />
           ))}
         </>
       </div>

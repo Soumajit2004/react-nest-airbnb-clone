@@ -9,7 +9,7 @@ export function ListingCard({ listing, to, openLinkInNewTab = false }: ListingCa
 
   return (
     <Link to={to} target={openLinkInNewTab ? '_blank' : undefined}>
-      <div className={'flex flex-col gap-2 animate-zoom-in rounded-xl'}>
+      <div className={'flex flex-col gap-2 animate-fade-in rounded-xl'}>
 
         {/*image carousel*/}
         <ListingImageCarousel listingImages={images} />

@@ -1,26 +1,22 @@
 import React, { createContext, PropsWithChildren, useState } from 'react';
-import { AuthWatcher } from '../components/common/auth/AuthWacher.component.tsx';
 
-type UserCredentials = {
+export type UserCredentials = {
   accessToken: string;
 }
 
 type AuthContextType = {
-  auth: UserCredentials | null;
-  setAuth: React.Dispatch<React.SetStateAction<UserCredentials | null>>;
+  auth: UserCredentials;
+  setAuth: React.Dispatch<React.SetStateAction<UserCredentials>>;
 }
 
-const AuthContext = createContext<AuthContextType | null>(null);
+const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
-  const [auth, setAuth] = useState<UserCredentials | null>(null);
-
+  const [auth, setAuth] = useState<UserCredentials>({} as UserCredentials);
 
   return (
     <AuthContext.Provider value={{ auth, setAuth }}>
-      <AuthWatcher>
-        {children}
-      </AuthWatcher>
+      {children}
     </AuthContext.Provider>
   );
 };

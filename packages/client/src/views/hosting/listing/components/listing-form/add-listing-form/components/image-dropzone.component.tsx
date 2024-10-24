@@ -64,8 +64,8 @@ export default function ImageDropzoneListingForm({ files, setFiles }: ImageDropz
                 {
                   files.map(
                     (file, index) => (
-                      <div className={'relative'}>
-                        <img key={index} src={file.preview} alt={file.name}
+                      <div key={index} className={'relative'}>
+                        <img src={file.preview} alt={file.name}
                              onLoad={() => {
                                URL.revokeObjectURL(file.preview);
                              }}
