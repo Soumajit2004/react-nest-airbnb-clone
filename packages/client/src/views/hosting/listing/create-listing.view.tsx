@@ -2,12 +2,12 @@ import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { ImageFile } from '../../../types/files/image-file.type.ts';
 import { LatLngLiteral } from '../../../types/location.type.ts';
-import { useMutateCreateListing } from '../../../hooks/api/hosting/listing.api.ts';
 import { toast } from 'react-toastify';
-import { CreateListingDto } from '../../../hooks/api/hosting/dto/listing.dto.ts';
+import { CreateListingDto } from '../../../hooks/apiHooks/hosting/listing/dto/listing.dto.ts';
 import CreateListingSuccessComponent from './components/create-listing-success.component.tsx';
 import ImageDropzoneListingForm from './components/listing-form/add-listing-form/image-dropzone.component.tsx';
 import LocationSelectorInput from './components/listing-form/add-listing-form/location-selector.component.tsx';
+import { useMutateCreateListing } from '../../../hooks/apiHooks/hosting/listing/useCreateListing.ts';
 
 type MetaDataInputs = {
   title: string
@@ -106,7 +106,6 @@ export default function CreateListingView() {
             <LocationSelectorInput location={location} setLocation={setLocation} />
           </div>
         </form>
-        )
       </>
     </>);
 }
