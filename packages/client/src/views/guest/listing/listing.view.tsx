@@ -1,44 +1,9 @@
 import { useParams } from 'react-router-dom';
-import { useFetchListingByID } from '../../../hooks/apiHooks/hosting/listing/fetchListingHooks.ts';
+import { useFetchListingByID } from '../../../hooks/api-hooks/hosting/listing/fetchListingHooks.ts';
 import { Listing } from '../../../types/listing/listing.type.ts';
-import { ListingImage } from '../../../types/listing/listing-image.type.ts';
-import placeHolderImage from '../../../assets/images/placeholder.svg';
-import classNames from 'classnames';
+import ListingBentoGrid from './components/listing-images-grid.component.tsx';
+import ListingLocationDetails from './components/listing-location-details.component.tsx';
 
-const ListingBentoGrid = ({ listingImages }: { listingImages: ListingImage[] }) => {
-
-  const FallBackSafeImage = ({ listingImage, className }: {
-    listingImage: ListingImage | null;
-    className: string;
-  }) => {
-    if (listingImage) {
-      return (
-        <img src={listingImage.publicUrl} className={classNames(className, 'w-full h-full animate-fade-in')}
-             alt={listingImage.label} />
-      );
-    }
-
-    return (
-      <img src={placeHolderImage} className={classNames(className, ' w-full h-full animate-fade-in')}
-           alt={'placeholder-image'} />
-    );
-  };
-
-  return (
-    <div className="grid h-96 grid-cols-4 gap-2 grid-rows-2">
-      <FallBackSafeImage listingImage={listingImages[0]}
-                         className={'col-span-2 row-span-2 object-cover rounded-l-xl'} />
-      <FallBackSafeImage listingImage={listingImages[1]}
-                         className={'col-span-1 row-span-1 object-cover'} />
-      <FallBackSafeImage listingImage={listingImages[2]}
-                         className={'col-span-1 row-span-1 object-cover rounded-tr-xl'} />
-      <FallBackSafeImage listingImage={listingImages[3]}
-                         className={'col-span-1 row-span-1 object-cover'} />
-      <FallBackSafeImage listingImage={listingImages[4]}
-                         className={'col-span-1 row-span-1 object-cover rounded-br-xl'} />
-    </div>);
-
-};
 
 function ListingView() {
 
@@ -60,12 +25,13 @@ function ListingView() {
       <div className={'col-span-3'}>
 
         <div className={'flex flex-col gap-4'}>
+          <ListingLocationDetails listingLocation={fetchedListing.location} />
 
           <div className="divider my-0" />
 
           <div id="description">
             <h3 className={'text-xl font-bold mb-2'}>About this place</h3>
-            <p className={"text-gray-500"}>{fetchedListing.description}</p>
+            <p className={'text-gray-500'}>{fetchedListing.description}</p>
           </div>
         </div>
 

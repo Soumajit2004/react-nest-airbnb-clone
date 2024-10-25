@@ -3,7 +3,7 @@ import { Listing } from '../../../types/listing/listing.type.ts';
 import MapSearch from './components/map-search.component.tsx';
 import { APIProvider } from '@vis.gl/react-google-maps';
 import ListingSearchResultsComponent from './components/listing-search-results.component.tsx';
-import { useFetchSearchListings } from '../../../hooks/apiHooks/hosting/listing/fetchListingHooks.ts';
+import { useFetchSearchListings } from '../../../hooks/api-hooks/hosting/listing/fetchListingHooks.ts';
 
 export default function SearchView() {
 
