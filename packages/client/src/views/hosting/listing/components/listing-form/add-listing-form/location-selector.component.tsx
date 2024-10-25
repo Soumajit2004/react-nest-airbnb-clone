@@ -1,5 +1,5 @@
 import React from 'react';
-import { LatLngLiteral } from '../../../../../../../types/location.type.ts';
+import { LatLngLiteral } from '../../../../../../types/location.type.ts';
 import ReactGoogleAutocomplete from 'react-google-autocomplete';
 import { AdvancedMarker, APIProvider, Map } from '@vis.gl/react-google-maps';
 
@@ -15,7 +15,6 @@ export default function LocationSelectorInput({ location, setLocation }: Locatio
       <ReactGoogleAutocomplete
         apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}
         className={'input input-bordered'}
-        options={{ types: ['localities', 'sublocalites'] }}
         onPlaceSelected={(place) => {
           setLocation({
             lat: place.geometry?.location?.lat() || 0,

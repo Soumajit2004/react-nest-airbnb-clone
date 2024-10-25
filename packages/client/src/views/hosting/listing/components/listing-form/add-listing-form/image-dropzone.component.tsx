@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { FileRejection, useDropzone } from 'react-dropzone';
-import { ImageFile } from '../../../../../../../types/files/image-file.type.ts';
+import { ImageFile } from '../../../../../../types/files/image-file.type.ts';
 import { toast } from 'react-toastify';
 
 type ImageDropzoneProps = {
@@ -11,7 +11,6 @@ type ImageDropzoneProps = {
 export default function ImageDropzoneListingForm({ files, setFiles }: ImageDropzoneProps) {
 
   const onDrop = useCallback((acceptedFiles: File[], fileRejections: FileRejection[]) => {
-
     if (fileRejections.length > 0) {
       fileRejections.forEach((rejectedFiles) => {
         rejectedFiles.errors.map((err) => {

@@ -1,6 +1,6 @@
-import { SearchListingsDto } from './dto/listing.dto.ts';
+import { CreateListingDto, SearchListingsDto } from './dto/listing.dto.ts';
 import useAxiosPrivate from '../../useAxiosPrivate.ts';
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 
 const URLS = {
   fetchListings: 'listing',
@@ -36,21 +36,31 @@ export const useFetchListingByID = (listingId: string) => {
     queryFn: () => axiosPrivateInstance.get(URLS.fetchListingByID(listingId)),
   });
 };
-//
-// const createListing = (createListingMetadataDto: CreateListingMetadataDto) => {
-//   return api.post(URLS.newListings, createListingMetadataDto);
-// };
-//
-// const uploadListingImage = (
-//   { listingId, uploadListingImageDto }: {
-//     listingId: string,
-//     uploadListingImageDto: UploadListingImageDto
-//   }) => {
-//   const { imageFile, category } = uploadListingImageDto;
-//
-//   const formData = new FormData();
-//   formData.append('image', imageFile);
-//   formData.append('category', category);
-//
-//   return api.post(URLS.uploadListingImage(listingId), formData);
-// };
+
+export const useMutateCreateListing = ({
+                                         onSuccess = () => {
+
+                                         },
+                                       }: { onSuccess?: () => void }) => {
+  const axiosPrivateInstance = useAxiosPrivate();
+
+  const mutateFunction = async (createListingDto: CreateListingDto) => {
+    const response = await axiosPrivateInstance.post(URLS.newListings, createListingDto.metadata);
+    const listingId: string = response.data.id;
+
+    for (const image of createListingDto.images) {
+      const formData = new FormData();
+      formData.append('image', image.imageFile);
+      formData.append('category', image.category);
+
+      await axiosPrivateInstance.post(URLS.uploadListingImage(listingId), formData);
+    }
+
+    return response;
+  };
+
+  return useMutation({
+    mutationFn: mutateFunction,
+    onSuccess,
+  });
+};
