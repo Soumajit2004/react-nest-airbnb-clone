@@ -1,13 +1,16 @@
-import { Link, useLoaderData } from 'react-router-dom';
-import { Listing } from '../../../types/listing/listing.type.ts';
+import { Link, useParams } from 'react-router-dom';
 import ListingImageCarousel from '../../../components/hosting/listing/listing-image-carousel.component.tsx';
 import ReservationCardComponent from './components/reservation-card.component.tsx';
+import { useFetchListingByID } from '../../../hooks/api/hosting/listing.api.ts';
 
-export default function ListingView() {
+function HostingListingView() {
 
-  const fetchedListing = useLoaderData() as Listing;
+  const { listingId } = useParams();
+  const { isFetched, data } = useFetchListingByID(listingId as string);
 
-  return (
+  const fetchedListing = data?.data;
+
+  return isFetched && (
     <div className="grid w-full grid-cols-3 gap-4">
 
       <div className={'flex flex-col gap-6'}>
@@ -45,3 +48,5 @@ export default function ListingView() {
       </div>
     </div>);
 }
+
+export default HostingListingView;

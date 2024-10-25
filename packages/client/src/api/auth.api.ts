@@ -1,4 +1,4 @@
-import api from './api.ts';
+import { axiosPrivateInstance } from './api.ts';
 
 const URLS = {
   signUpUsersUrl: 'auth/signUp',
@@ -7,13 +7,13 @@ const URLS = {
 };
 
 export const signUpUser = (data: { email: string, password: string }) => {
-  return api.post(URLS.signUpUsersUrl, data);
+  return axiosPrivateInstance.post(URLS.signUpUsersUrl, data);
 };
 
 export const signInUser = (data: { email: string, password: string }) => {
-  return api.post(URLS.signInUsersUrl, data, { withCredentials: true });
+  return axiosPrivateInstance.post(URLS.signInUsersUrl, data, { withCredentials: true });
 };
 
 export const refreshAccessToken = () => {
-  return api.post(URLS.refreshAccessTokenUrl, { withCredentials: true });
+  return axiosPrivateInstance.post(URLS.refreshAccessTokenUrl, { withCredentials: true });
 };

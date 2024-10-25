@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { FileRejection, useDropzone } from 'react-dropzone';
-import { ImageFile } from '../../../../../../../types/files/image-file.type.ts';
+import { ImageFile } from '../../../../../../types/files/image-file.type.ts';
 import { toast } from 'react-toastify';
 
 type ImageDropzoneProps = {
@@ -11,7 +11,6 @@ type ImageDropzoneProps = {
 export default function ImageDropzoneListingForm({ files, setFiles }: ImageDropzoneProps) {
 
   const onDrop = useCallback((acceptedFiles: File[], fileRejections: FileRejection[]) => {
-
     if (fileRejections.length > 0) {
       fileRejections.forEach((rejectedFiles) => {
         rejectedFiles.errors.map((err) => {
@@ -45,12 +44,13 @@ export default function ImageDropzoneListingForm({ files, setFiles }: ImageDropz
   return (
     <>
       <div
-        className={'bg-base-200 h-48 rounded-xl flex justify-center items-center text-base-content mb-4'} {...getRootProps()}>
+        className={'bg-base-200 h-28 rounded-xl flex justify-center items-center text-base-content mb-4'} {...getRootProps()}>
         <input {...getInputProps()} />
         {
           isDragActive ?
             <p>Drop the images here ...</p> :
-            <p>Drag 'n' drop images here, or click to select images</p>
+            <p className={'text-center text-gray-500'}>Drop images here or click to select images</p>
+
         }
       </div>
 
@@ -63,8 +63,8 @@ export default function ImageDropzoneListingForm({ files, setFiles }: ImageDropz
                 {
                   files.map(
                     (file, index) => (
-                      <div className={'relative'}>
-                        <img key={index} src={file.preview} alt={file.name}
+                      <div key={index} className={'relative'}>
+                        <img src={file.preview} alt={file.name}
                              onLoad={() => {
                                URL.revokeObjectURL(file.preview);
                              }}

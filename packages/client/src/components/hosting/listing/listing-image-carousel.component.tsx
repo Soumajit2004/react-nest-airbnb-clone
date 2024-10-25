@@ -8,7 +8,7 @@ export default function ListingImageCarousel({ listingImages }: { listingImages:
         listingImages.length > 0 ?
           (
             listingImages.map((image, index) => (
-              <div className="carousel-item w-full">
+              <div key={image.id} className="carousel-item w-full">
                 <img
                   key={index}
                   src={image.publicUrl}

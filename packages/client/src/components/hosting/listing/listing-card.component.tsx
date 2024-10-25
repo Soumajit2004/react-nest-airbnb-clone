@@ -2,20 +2,21 @@ import { Listing } from '../../../types/listing/listing.type.ts';
 import { Link } from 'react-router-dom';
 import ListingImageCarousel from './listing-image-carousel.component.tsx';
 
-export function ListingCard({ listing }: { listing: Listing }) {
-  const { id, title, costing, images } = listing;
+type ListingCardProps = { listing: Listing, to: string, openLinkInNewTab?: boolean }
+
+export function ListingCard({ listing, to, openLinkInNewTab = false }: ListingCardProps) {
+  const { title, costing, images } = listing;
 
   return (
-    <Link to={`/hosting/listing/${id}`}>
-      <div className={' flex flex-col gap-4 py-4 rounded-xl'}>
+    <Link to={to} target={openLinkInNewTab ? '_blank' : undefined}>
+      <div className={'flex flex-col gap-2 animate-fade-in rounded-xl'}>
 
         {/*image carousel*/}
         <ListingImageCarousel listingImages={images} />
 
-        <div className="flex flex-col gap-1">
-          <h6 className={'font-bold text-lg'}>{title}</h6>
-
-          <p>${costing} / day</p>
+        <div className="flex flex-col gap-0.5">
+          <h6 className={'font-semibold text-lg'}>{title}</h6>
+          <p className={'text-sm text-gray-500'}>${costing} per night</p>
         </div>
 
       </div>

@@ -8,6 +8,7 @@ const useRefreshToken = () => {
     const response = await refreshAccessToken();
 
     authState?.setAuth((prev): { accessToken: string } => {
+
       return { ...prev, accessToken: response.data.accessToken };
     });
 

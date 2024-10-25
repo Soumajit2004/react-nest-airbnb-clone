@@ -1,15 +1,10 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import DatePicker from 'react-datepicker';
-import { Autocomplete } from '@react-google-maps/api';
-import { useRef } from 'react';
-import { AutoCompleteType, PlacesResult } from '../../../../../types/location.type.ts';
 import { useNavigate } from 'react-router-dom';
-import useMapsAPILoader from '../../../../../hooks/useMapsAPILoader.ts';
-
-const includedLibs = ['places'];
+import ReactGoogleAutocomplete from 'react-google-autocomplete';
 
 type SearchInputs = {
-  location: PlacesResult,
+  location: google.maps.places.PlaceResult,
   checkIn: Date,
   checkOut: Date,
 };
@@ -18,10 +13,7 @@ export default function RootNavbarSearch() {
 
   const navigate = useNavigate();
 
-  const { isLoaded } = useMapsAPILoader({ includedLibs });
   const { control, handleSubmit } = useForm<SearchInputs>();
-
-  const locationSearchRef = useRef<AutoCompleteType>();
 
   /**
    * Handles form submission.
@@ -35,38 +27,30 @@ export default function RootNavbarSearch() {
     navigate(`/search?lat=${coordinates?.lat()}&lng=${coordinates?.lng()}&checkIn=${checkIn.toISOString()}&checkOut=${checkOut.toISOString()}`);
   };
 
-  if (!isLoaded) {
-    return (
-      <div className="skeleton h-32 w-full" />
-    );
-  }
-
   return (
-    <form className={'flex'} onSubmit={handleSubmit(onSubmit)}>
+    <form className={'flex drop-shadow hover:drop-shadow-xl'} onSubmit={handleSubmit(onSubmit)}>
 
       <Controller
         control={control}
         name="location"
         render={({ field }) => (
-          <Autocomplete
-            onLoad={(autocomplete) => {
-              locationSearchRef.current = autocomplete;
+          <ReactGoogleAutocomplete
+            apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}
+            className="input  input-bordered w-56 rounded-l-full input-md bg-white rounded-r-none"
+            placeholder={'Search Destinations'}
+            options={{ types: ['locality', 'sublocality', 'landmark', 'street_address'] }}
+            onPlaceSelected={(place) => {
+              field.onChange(place);
             }}
-            onPlaceChanged={() => {
-              field.onChange(locationSearchRef.current?.getPlace());
-            }}
-          >
-            <input className="input  input-bordered w-56 rounded-l-full input-md bg-white rounded-r-none"
-                   placeholder={'Search Destinations'}
-                   type="text" />
-          </Autocomplete>)} />
+          />
+        )} />
 
       <Controller
         control={control}
         name="checkIn"
         render={({ field }) => (
           <DatePicker
-            className="input input-bordered w-28 input-md bg-white rounded-none border-x-0"
+            className="input input-bordered w-28 input-md bg-white rounded-none border-x-0 z"
             placeholderText={'Check In'}
             selected={field.value}
             onChange={(date) => field.onChange(date)}
@@ -79,6 +63,7 @@ export default function RootNavbarSearch() {
         render={({ field }) => (
           <DatePicker
             className="input input-bordered w-28 input-md bg-white rounded-none"
+            calendarClassName={'z-50'}
             placeholderText={'Check Out'}
             selected={field.value}
             onChange={(date) => field.onChange(date)}

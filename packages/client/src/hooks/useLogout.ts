@@ -1,13 +1,14 @@
 import useAuth from './useAuth.ts';
-import api from '../api/api.ts';
+import { axiosPrivateInstance } from '../api/api.ts';
+import { UserCredentials } from '../context/AuthProvider.tsx';
 
 const useLogout = () => {
-  const authState = useAuth();
+  const { setAuth } = useAuth();
 
   return async () => {
-    authState?.setAuth(null);
+    setAuth({} as UserCredentials);
     try {
-      await api.post('/auth/signout', {}, { withCredentials: true });
+      await axiosPrivateInstance.post('/auth/signout', {}, { withCredentials: true });
     } catch (err) {
       console.error(err);
     }

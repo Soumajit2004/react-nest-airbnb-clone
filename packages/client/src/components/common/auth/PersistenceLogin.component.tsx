@@ -6,28 +6,22 @@ import { Outlet } from 'react-router-dom';
 export default function PersistenceLogin() {
   const [isLoading, setLoading] = useState(true);
   const refresh = useRefreshToken();
-  const authState = useAuth();
+  const { auth } = useAuth();
 
   useEffect(() => {
     const verifyRefreshToken = async () => {
       try {
         await refresh();
       } catch (err) {
-        setLoading(false);
+        console.error(err);
       } finally {
         setLoading(false);
       }
     };
 
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    !authState?.auth?.accessToken ? verifyRefreshToken() : setLoading(false);
+    !auth.accessToken ? verifyRefreshToken() : setLoading(false);
   }, []);
-
-  // useEffect(() => {
-  //   console.log(`is Loading: ${isLoading}`);
-  //   console.log(`Access Token: ${authState?.auth?.accessToken}`);
-  //
-  // }, [isLoading]);
 
   return (
     <>
