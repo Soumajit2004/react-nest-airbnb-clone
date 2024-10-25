@@ -42,9 +42,9 @@ export default function ImageDropzoneListingForm({ files, setFiles }: ImageDropz
   });
 
   return (
-    <>
+    <div className={'grid grid-cols-2 gap-4 w-full'}>
       <div
-        className={'bg-base-200 h-28 rounded-xl flex justify-center items-center text-base-content mb-4'} {...getRootProps()}>
+        className={'flex items-center justify-center bg-base-200 aspect-video rounded-xl'} {...getRootProps()}>
         <input {...getInputProps()} />
         {
           isDragActive ?
@@ -86,6 +86,6 @@ export default function ImageDropzoneListingForm({ files, setFiles }: ImageDropz
         )
       }
 
-    </>
+    </div>
   );
 }

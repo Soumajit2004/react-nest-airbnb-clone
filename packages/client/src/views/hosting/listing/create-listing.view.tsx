@@ -2,12 +2,12 @@ import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { ImageFile } from '../../../types/files/image-file.type.ts';
 import { LatLngLiteral } from '../../../types/location.type.ts';
-import { useMutateCreateListing } from '../../../hooks/api/hosting/listing.api.ts';
 import { toast } from 'react-toastify';
-import { CreateListingDto } from '../../../hooks/api/hosting/dto/listing.dto.ts';
+import { CreateListingDto } from '../../../hooks/apiHooks/hosting/listing/dto/listing.dto.ts';
 import CreateListingSuccessComponent from './components/create-listing-success.component.tsx';
 import ImageDropzoneListingForm from './components/listing-form/add-listing-form/image-dropzone.component.tsx';
 import LocationSelectorInput from './components/listing-form/add-listing-form/location-selector.component.tsx';
+import { useMutateCreateListing } from '../../../hooks/apiHooks/hosting/listing/useCreateListing.ts';
 
 type MetaDataInputs = {
   title: string
@@ -23,20 +23,23 @@ export default function CreateListingView() {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<MetaDataInputs>();
 
   const [files, setFiles] = useState<ImageFile[]>([]);
   const [location, setLocation] = useState<LatLngLiteral | null>(null);
 
-  const { mutateAsync: createListing } = useMutateCreateListing({
+  const { mutate: createListing, isPending } = useMutateCreateListing({
     onSuccess: () => {
       toast.success('Listing created successfully');
+
+      setIsFormSubmitted(true);
+
+      handleReset();
     },
   });
 
   const onSubmit: SubmitHandler<MetaDataInputs> = async (hookFormData) => {
-
     if (!location) {
       toast.error('Please enter a valid location');
       return;
@@ -47,11 +50,7 @@ export default function CreateListingView() {
       images: files.map((file) => ({ category: 'exterior', imageFile: file })),
     };
 
-    await createListing(createListingDto);
-
-    setIsFormSubmitted(true);
-
-    handleReset();
+    createListing(createListingDto);
   };
 
   const handleReset = () => {
@@ -61,7 +60,7 @@ export default function CreateListingView() {
   };
 
   const FormFields = () => (
-    <>
+    <div className={'grid grid-cols-2 gap-4'}>
       <input type="text" className="input input-bordered"
              placeholder="Title" {...register('title', { required: true })} />
 
@@ -74,9 +73,9 @@ export default function CreateListingView() {
       </label>
       {errors.costing && <span>This field is required</span>}
 
-      <textarea className="textarea textarea-bordered"
+      <textarea className="textarea textarea-bordered col-span-2 h-72"
                 placeholder="Description" {...register('description')}></textarea>
-    </>
+    </div>
   );
 
   return isFormSubmitted ?
@@ -85,28 +84,44 @@ export default function CreateListingView() {
       <div className={'w-full mt-2 mb-8 flex items-center justify-between'}>
         <h3 className={'text-3xl font-bold'}>Become a host !</h3>
 
-        <button value={'submit'} type={'submit'} form={'createListingForm'} className={'btn btn-primary'}>Create
-          Listing
+        <button disabled={!(location && isValid)} value={'submit'} type={'submit'} form={'createListingForm'}
+                className={'btn btn-primary'}>
+          {
+            isPending ? 'Creating...' : 'Create Listing'
+          }
         </button>
       </div>
 
 
       <>
-        <form id={'createListingForm'} className={'grid grid-cols-2 gap-4 pb-4'}
+        <form role={'tablist'} id={'createListingForm'} className={'tabs tabs-lifted'}
               onSubmit={handleSubmit(onSubmit)}>
+          {/*metadata section*/}
+          <input
+            type="radio"
+            name="my_tabs_2"
+            role="tab"
+            className="tab"
+            aria-label="Metadata"
+            defaultChecked
+          />
+          <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6">
+            <FormFields />
+          </div>
+
           {/*image dropzone section*/}
-          <div id={'image-dropzone'}>
+          <input type="radio" name="my_tabs_2" role="tab" className="tab" aria-label="Images" />
+          <div id={'image-dropzone'} role="tabpanel"
+               className="tab-content bg-base-100 border-base-300 rounded-box p-6">
             <ImageDropzoneListingForm files={files} setFiles={setFiles} />
           </div>
 
-          <div className={'flex flex-col gap-4 bg-base-200 rounded-xl p-4'}>
-            <FormFields />
-
-            {/*location selection input*/}
+          {/*location selector section*/}
+          <input type="radio" name="my_tabs_2" role="tab" className="tab" aria-label="Location" />
+          <div role="tabpanel" className="tab-content bg-base-100 border-base-300 rounded-box p-6">
             <LocationSelectorInput location={location} setLocation={setLocation} />
           </div>
         </form>
-        )
       </>
     </>);
 }
