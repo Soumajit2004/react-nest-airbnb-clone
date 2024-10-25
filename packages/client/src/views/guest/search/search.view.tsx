@@ -19,8 +19,8 @@ export default function SearchView() {
 
   if (isFetched && listings.length <= 0) {
     return (
-      <div className={'bg-base-200 h-56 flex rounded-xl justify-center items-center'}>
-        <h1 className={'text-gray-500 font-bold text-xl'}>No listings found</h1> const listingResults = useLoaderData();
+      <div className={'bg-base-200 h-80 flex rounded-xl justify-center items-center'}>
+        <h3 className={'text-gray-500 font-bold text-lg'}>No listings found</h3>
       </div>
     );
   }

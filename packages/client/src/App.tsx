@@ -8,10 +8,13 @@ const queryClient = new QueryClient();
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-      <ToastContainer position={'bottom-center'} />
-    </QueryClientProvider>
+    <div className={'font-sans'}>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+        <ToastContainer position={'bottom-center'} />
+      </QueryClientProvider>
+    </div>
+
   );
 }
 

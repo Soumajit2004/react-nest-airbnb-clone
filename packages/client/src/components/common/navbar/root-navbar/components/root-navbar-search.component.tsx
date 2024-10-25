@@ -13,7 +13,7 @@ export default function RootNavbarSearch() {
 
   const navigate = useNavigate();
 
-  const { control, handleSubmit } = useForm<SearchInputs>();
+  const { control, handleSubmit, watch } = useForm<SearchInputs>();
 
   /**
    * Handles form submission.
@@ -50,10 +50,14 @@ export default function RootNavbarSearch() {
         name="checkIn"
         render={({ field }) => (
           <DatePicker
+            dateFormat={'dd/MM/yyyy'}
             className="input input-bordered w-28 input-md bg-white rounded-none border-x-0 z"
             placeholderText={'Check In'}
             selected={field.value}
             onChange={(date) => field.onChange(date)}
+            selectsStart
+            startDate={watch('checkIn')}
+            endDate={watch('checkOut')}
           />)}
       />
 
@@ -62,11 +66,16 @@ export default function RootNavbarSearch() {
         name="checkOut"
         render={({ field }) => (
           <DatePicker
+            dateFormat={'dd/MM/yyyy'}
             className="input input-bordered w-28 input-md bg-white rounded-none"
             calendarClassName={'z-50'}
             placeholderText={'Check Out'}
             selected={field.value}
             onChange={(date) => field.onChange(date)}
+            selectsEnd
+            startDate={watch('checkIn')}
+            endDate={watch('checkOut')}
+            minDate={watch('checkIn')}
           />)}
       />
 
