@@ -1,6 +1,6 @@
-import { LatLngLiteral } from '../location.type.ts';
 import { ListingImage } from './listing-image.type.ts';
 import { User } from '../user/user.type.ts';
+import { ListingLocation } from './listing-location.type.ts';
 
 export type Listing = {
   id: string;
@@ -11,7 +11,7 @@ export type Listing = {
 
   costing: number;
 
-  location: { id: string } & LatLngLiteral;
+  location: ListingLocation;
 
   host: User;
 
