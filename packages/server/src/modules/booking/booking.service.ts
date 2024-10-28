@@ -27,6 +27,7 @@ export class BookingService {
   getBookingsByUser(user: User): Promise<Booking[]> {
     return this.bookingRepository.find({
       where: { user },
+      relations: ['listing'],
     });
   }
 
@@ -44,7 +45,7 @@ export class BookingService {
     createBookingDto: CreateBookingDto,
     user: User,
   ): Promise<Booking> {
-    const { startDate, endDate } = createBookingDto;
+    const { checkInDate, checkOutDate } = createBookingDto;
 
     // Find the listing by ID
     const listing = await this.listingRepository.findOne({
@@ -59,8 +60,10 @@ export class BookingService {
     const previousBooking = listing.bookings;
     previousBooking.forEach((booking) => {
       if (
-        (startDate >= booking.startDate && startDate <= booking.endDate) ||
-        (endDate >= booking.startDate && endDate <= booking.endDate)
+        (checkInDate >= booking.checkInDate &&
+          checkOutDate <= booking.checkOutDate) ||
+        (checkInDate >= booking.checkInDate &&
+          checkOutDate <= booking.checkOutDate)
       ) {
         throw new BadRequestException(
           `Listing with id ${listingId} is already booked for the selected dates`,

@@ -1,9 +1,13 @@
 import placeHolderSVG from '../../../assets/images/placeholder.svg';
 import { ListingImage } from '../../../types/listing/listing-image.type.ts';
+import classNames from 'classnames';
 
-export default function ListingImageCarousel({ listingImages }: { listingImages: ListingImage[] }) {
+export default function ListingImageCarousel({ listingImages, className }: {
+  listingImages: ListingImage[],
+  className?: string
+}) {
   return (
-    <div className="carousel rounded-box w-full aspect-square">
+    <div className={classNames('carousel rounded-box w-full aspect-square', className)}>
       {
         listingImages.length > 0 ?
           (

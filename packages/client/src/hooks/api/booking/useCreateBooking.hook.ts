@@ -18,8 +18,8 @@ const useCreateBooking = () => {
     const { listingId, checkInDate, checkOutDate } = createBookingDto;
 
     return axiosPrivateInstance.post(URLS.newBookings(listingId), {
-      startDate: checkInDate.toISOString(),
-      endDate: checkOutDate.toISOString(),
+      checkInDate: checkInDate.toISOString(),
+      checkOutDate: checkOutDate.toISOString(),
     });
   };
 

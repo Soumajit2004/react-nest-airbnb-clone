@@ -1,7 +1,6 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
 import { Listing } from '../listing/entities/listing.entity';
 import { User } from '../auth/user.entity';
-import { Exclude } from 'class-transformer';
 
 @Entity()
 export class Booking {
@@ -9,15 +8,14 @@ export class Booking {
   id: string;
 
   @Column()
-  startDate: string;
+  checkInDate: string;
 
   @Column()
-  endDate: string;
+  checkOutDate: string;
 
   @ManyToOne(() => Listing, (listing) => listing.bookings)
   listing: Listing;
 
   @ManyToOne(() => User, (user) => user, { eager: true })
-  @Exclude({ toPlainOnly: true })
   user: User;
 }

@@ -38,6 +38,8 @@ export default function ListingBookingCard({ listing, checkInDate, checkOutDate 
   const totalPrice = totalPriceBeforeTax ? totalPriceBeforeTax + Math.round(totalPriceBeforeTax * 0.12) : null;
 
   const onSubmit = async (data: BookingInputs) => {
+    console.log(data.checkIn.toISOString());
+
     await createBooking({
       listingId: listing.id,
       checkInDate: data.checkIn,

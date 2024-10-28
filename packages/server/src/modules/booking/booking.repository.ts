@@ -16,11 +16,11 @@ export class BookingRepository extends Repository<Booking> {
     createBookingDto: CreateBookingDto,
     user: User,
   ): Promise<Booking> {
-    const { startDate, endDate } = createBookingDto;
+    const { checkInDate, checkOutDate } = createBookingDto;
 
     const booking = this.create({
-      startDate,
-      endDate,
+      checkInDate,
+      checkOutDate,
       listing,
       user,
     });
