@@ -1,10 +1,11 @@
 import { Listing } from '../../../../types/listing/listing.type.ts';
 import DatePicker from 'react-datepicker';
 import { Controller, useForm } from 'react-hook-form';
-import { useSearchParams } from 'react-router-dom';
 
 type ListingBookingCardProps = {
   listing: Listing;
+  checkInDate: Date | undefined;
+  checkOutDate: Date | undefined;
 }
 
 type BookingInputs = {
@@ -13,23 +14,19 @@ type BookingInputs = {
 };
 
 
-export default function ListingBookingCard({ listing }: ListingBookingCardProps) {
-
-  const [searchParams] = useSearchParams();
-
-  const checkInDate = searchParams.get('checkIn');
-  const checkOutDate = searchParams.get('checkOut');
+export default function ListingBookingCard({ listing, checkInDate, checkOutDate }: ListingBookingCardProps) {
 
   const { control, watch } = useForm<BookingInputs>({
     defaultValues: {
-      checkIn: checkInDate ? new Date(checkInDate) : undefined,
-      checkOut: checkOutDate ? new Date(checkOutDate) : undefined,
+      checkIn: checkInDate,
+      checkOut: checkOutDate,
     },
   });
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error
   const differenceInDays = (watch('checkIn') && watch('checkOut')) ? Math.floor(Math.abs(watch('checkOut') - watch('checkIn')) / (1000 * 60 * 60 * 24)) : null;
+
   const totalPriceBeforeTax = differenceInDays ? differenceInDays * listing.costing : null;
   const totalPrice = totalPriceBeforeTax ? totalPriceBeforeTax + Math.round(totalPriceBeforeTax * 0.12) : null;
 

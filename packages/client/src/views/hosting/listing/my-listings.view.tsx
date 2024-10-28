@@ -1,6 +1,6 @@
 import { ListingCard } from '../../../components/hosting/listing/listing-card.component.tsx';
 import { Listing } from '../../../types/listing/listing.type.ts';
-import { useFetchMyListings } from '../../../hooks/api-hooks/hosting/listing/fetchListingHooks.ts';
+import { useFetchMyListings } from '../../../hooks/api/hosting/listing/fetchListingHooks.ts';
 import { Link } from 'react-router-dom';
 
 export default function MyListingsView() {

@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import useAxiosPrivate from '../../../useAxiosPrivate.ts';
+import useAxiosPrivate from '../../../auth/useAxiosPrivate.ts';
 
 const useDeleteListing = () => {
   const axiosPrivateInstance = useAxiosPrivate();

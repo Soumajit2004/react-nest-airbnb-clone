@@ -1,4 +1,4 @@
-import useLogout from '../../../hooks/useLogout.ts';
+import useLogout from '../../../hooks/auth/useLogout.ts';
 import { useNavigate } from 'react-router-dom';
 
 export default function LogoutButton() {
