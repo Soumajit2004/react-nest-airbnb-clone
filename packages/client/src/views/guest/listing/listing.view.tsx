@@ -1,10 +1,10 @@
 import { useParams } from 'react-router-dom';
-import { useFetchListingByID } from '../../../hooks/api/hosting/listing/fetchListingHooks.ts';
 import { Listing } from '../../../types/listing/listing.type.ts';
 import ListingBentoGrid from './components/listing-images-grid.component.tsx';
 import ListingLocationDetails from './components/listing-location-details.component.tsx';
 import ListingBookingCard from './components/listing-booking-card.component.tsx';
 import useBookingSearchParams from '../../../hooks/search-params/useBookingSearchParams.hook.ts';
+import { useFetchListingByID } from '../../../hooks/api/listing/fetchListing.hook.ts';
 
 
 function ListingView() {

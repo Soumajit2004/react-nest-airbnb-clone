@@ -1,7 +1,8 @@
 import { ListingCard } from '../../../components/hosting/listing/listing-card.component.tsx';
 import { Listing } from '../../../types/listing/listing.type.ts';
-import { useFetchMyListings } from '../../../hooks/api/hosting/listing/fetchListingHooks.ts';
 import { Link } from 'react-router-dom';
+import { useFetchMyListings } from '../../../hooks/api/listing/fetchListing.hook.ts';
+import EmptyCard from '../../../components/common/cards/empty-card.component.tsx';
 
 export default function MyListingsView() {
 
@@ -14,16 +15,17 @@ export default function MyListingsView() {
       <h3 className={'text-3xl font-bold mb-10'}>Your listings</h3>
 
       {fetchedListings.length === 0 && (
-        <div
-          className={'bg-base-200 text-gray-500 font-bold h-96 rounded-xl flex flex-col gap-10 items-center justify-center'}>
-          You have not created any listings yet. Click the button below to create your first listing.
+        <EmptyCard className={"h-96"}>
+          <p>
+            You have not created any listings yet. Click the button below to create your first listing.
+          </p>
           <Link className={'btn btn-outline btn-ghost'} to={'/hosting/become-a-host'}>Create New Listing</Link>
-        </div>
+        </EmptyCard>
       )}
 
       <div className={'grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4'}>
         {fetchedListings.map((listing) => (
-          <ListingCard listing={listing} to={`/hosting/listing/${listing.id}`} />
+          <ListingCard key={listing.id} listing={listing} to={`/hosting/listing/${listing.id}`} />
         ))}
       </div>
     </div>

@@ -1,7 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
-import useAxiosPrivate from '../../../auth/useAxiosPrivate.ts';
+import useAxiosPrivate from '../../auth/useAxiosPrivate.ts';
 
-const useDeleteListing = () => {
+const useDeleteListingHook = () => {
   const axiosPrivateInstance = useAxiosPrivate();
 
   const deleteListingFunction = async (listingId: string) => {
@@ -11,4 +11,4 @@ const useDeleteListing = () => {
   return useMutation({ mutationFn: deleteListingFunction });
 };
 
-export default useDeleteListing;
+export default useDeleteListingHook;

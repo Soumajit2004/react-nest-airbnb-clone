@@ -1,5 +1,5 @@
 import { CreateListingDto } from './dto/listing.dto.ts';
-import useAxiosPrivate from '../../../auth/useAxiosPrivate.ts';
+import useAxiosPrivate from '../../auth/useAxiosPrivate.ts';
 import { useMutation } from '@tanstack/react-query';
 
 const URLS = {

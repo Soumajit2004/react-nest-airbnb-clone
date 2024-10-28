@@ -1,6 +1,9 @@
 import { Listing } from '../../../../types/listing/listing.type.ts';
 import DatePicker from 'react-datepicker';
 import { Controller, useForm } from 'react-hook-form';
+import useCreateBooking from '../../../../hooks/api/booking/useCreateBooking.hook.ts';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 type ListingBookingCardProps = {
   listing: Listing;
@@ -16,12 +19,16 @@ type BookingInputs = {
 
 export default function ListingBookingCard({ listing, checkInDate, checkOutDate }: ListingBookingCardProps) {
 
-  const { control, watch } = useForm<BookingInputs>({
+  const navigate = useNavigate();
+
+  const { control, watch, handleSubmit } = useForm<BookingInputs>({
     defaultValues: {
       checkIn: checkInDate,
       checkOut: checkOutDate,
     },
   });
+
+  const { mutateAsync: createBooking, isError } = useCreateBooking();
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-expect-error
@@ -30,13 +37,26 @@ export default function ListingBookingCard({ listing, checkInDate, checkOutDate 
   const totalPriceBeforeTax = differenceInDays ? differenceInDays * listing.costing : null;
   const totalPrice = totalPriceBeforeTax ? totalPriceBeforeTax + Math.round(totalPriceBeforeTax * 0.12) : null;
 
+  const onSubmit = async (data: BookingInputs) => {
+    await createBooking({
+      listingId: listing.id,
+      checkInDate: data.checkIn,
+      checkOutDate: data.checkOut,
+    });
+
+    if (!isError) {
+      toast.success('Booking created successfully');
+      navigate('/my-bookings');
+    }
+  };
+
   return (
     <div className={'w-full flex  flex-col gap-4 border-2 border-base-300 rounded-xl shadow-xl p-8'}>
       <h3 className={'text-2xl font-bold'}>
         ${listing.costing} <span className={'text-xl font-normal text-gray-500'}>night</span>
       </h3>
 
-      <form className={'flex flex-col'} id="bookingForm">
+      <form className={'flex flex-col'} id="bookingForm" onSubmit={handleSubmit(onSubmit)}>
         <Controller
           control={control}
           name="checkIn"

@@ -2,10 +2,11 @@ import { Listing } from '../../../types/listing/listing.type.ts';
 import MapSearch from './components/map-search.component.tsx';
 import { APIProvider } from '@vis.gl/react-google-maps';
 import ListingSearchResultsComponent from './components/listing-search-results.component.tsx';
-import { useFetchSearchListings } from '../../../hooks/api/hosting/listing/fetchListingHooks.ts';
 import useSearchLocationParam from '../../../hooks/search-params/useSearchLocationParams.hook.ts';
 import { useEffect } from 'react';
 import useBookingSearchParams from '../../../hooks/search-params/useBookingSearchParams.hook.ts';
+import { useFetchSearchListings } from '../../../hooks/api/listing/fetchListing.hook.ts';
+import EmptyCard from '../../../components/common/cards/empty-card.component.tsx';
 
 export default function SearchView() {
 
@@ -35,9 +36,9 @@ export default function SearchView() {
 
   if (isFetched && listings.length <= 0) {
     return (
-      <div className={'bg-base-200 h-80 flex rounded-xl justify-center items-center'}>
-        <h3 className={'text-gray-500 font-bold text-lg'}>No listings found</h3>
-      </div>
+      <EmptyCard className={'h-96'}>
+        <p>No Listings found. Try searching for other locations</p>
+      </EmptyCard>
     );
   }
 
@@ -45,7 +46,9 @@ export default function SearchView() {
     isFetched && (
       <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
         <div className={'grid grid-cols-2 gap-4 mt-2'}>
-          <ListingSearchResultsComponent filteredListings={listings} />
+          <ListingSearchResultsComponent listings={listings}
+                                         checkOutDate={checkInDate}
+                                         checkInDate={checkOutDate} />
 
           <MapSearch centerCoordinates={{ lat: lat!, lng: lng! }} filteredListing={listings} />
         </div>
