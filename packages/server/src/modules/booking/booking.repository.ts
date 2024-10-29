@@ -14,6 +14,7 @@ export class BookingRepository extends Repository<Booking> {
   createBooking(
     listing: Listing,
     createBookingDto: CreateBookingDto,
+    totalCharge: number,
     user: User,
   ): Promise<Booking> {
     const { checkInDate, checkOutDate } = createBookingDto;
@@ -21,6 +22,7 @@ export class BookingRepository extends Repository<Booking> {
     const booking = this.create({
       checkInDate,
       checkOutDate,
+      totalCharge,
       listing,
       user,
     });

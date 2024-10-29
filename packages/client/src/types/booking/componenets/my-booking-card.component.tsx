@@ -7,9 +7,6 @@ import { Link } from 'react-router-dom';
 dayjs.extend(calendar);
 
 function MyBookingCard({ booking }: { booking: Booking }) {
-
-  console.log(new Date(booking.checkOutDate).toDateString());
-
   return (
     <Link to={`/booking/${booking.id}`}
           className={'p-4 grid grid-cols-5 gap-4 w-full shadow-black rounded-xl border-2 hover:shadow-xl'}>

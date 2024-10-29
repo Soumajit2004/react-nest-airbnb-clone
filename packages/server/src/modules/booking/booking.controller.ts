@@ -24,6 +24,14 @@ export class BookingController {
     return this.bookingService.getBookingsByUser(user);
   }
 
+  @Get('/my-bookings/:bookingId')
+  getMyBooking(
+    @GetUser() user: User,
+    @Param('bookingId') bookingId: string,
+  ): Promise<Booking> {
+    return this.bookingService.getBookingByUser(bookingId, user);
+  }
+
   @Post('/:listingId')
   createBooking(
     @Param('listingId') listingId: string,

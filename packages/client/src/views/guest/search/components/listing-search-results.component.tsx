@@ -6,6 +6,7 @@ function ListingSearchResultsComponent({ listings, checkInDate, checkOutDate }: 
   checkInDate: Date | undefined,
   checkOutDate: Date | undefined
 }) {
+
   return (
     <div className={''}>
       <div className="mb-4">

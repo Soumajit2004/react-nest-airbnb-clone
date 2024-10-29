@@ -35,15 +35,13 @@ export class ListingService {
   /**
    * Retrieves a listing by its ID for a given user.
    * @param listingId - The ID of the listing to retrieve.
-   * @param user - The user who owns the listing.
    * @returns A promise that resolves to the listing.
    * @throws NotFoundException if the listing is not found.
    */
-  async getListingById(listingId: string, user: User): Promise<Listing> {
+  async getListingById(listingId: string): Promise<Listing> {
     try {
       return await this.listingRepository.findOneByOrFail({
         id: listingId,
-        host: user,
       });
     } catch (err) {
       throw new NotFoundException(`Listing with id:${listingId} not found.`);
@@ -86,7 +84,10 @@ export class ListingService {
     updateListingDto: UpdateListingDto,
     user: User,
   ): Promise<Listing> {
-    const listing = await this.getListingById(listingId, user);
+    const listing = await this.listingRepository.findOneByOrFail({
+      id: listingId,
+      host: user,
+    });
 
     return this.listingRepository.updateListing(listing.id, updateListingDto);
   }
@@ -98,7 +99,7 @@ export class ListingService {
    * @returns A promise that resolves when the listing is deleted.
    */
   async deleteListing(listingId: string, user: User) {
-    const listing = await this.getListingById(listingId, user);
+    const listing = await this.getListingById(listingId);
 
     for (const image of listing.images) {
       await this.listingImageService.deleteListingImage(

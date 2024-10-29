@@ -47,8 +47,8 @@ export default function SearchView() {
       <APIProvider apiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
         <div className={'grid grid-cols-2 gap-4 mt-2'}>
           <ListingSearchResultsComponent listings={listings}
-                                         checkOutDate={checkInDate}
-                                         checkInDate={checkOutDate} />
+                                         checkOutDate={checkOutDate}
+                                         checkInDate={checkInDate} />
 
           <MapSearch centerCoordinates={{ lat: lat!, lng: lng! }} filteredListing={listings} />
         </div>

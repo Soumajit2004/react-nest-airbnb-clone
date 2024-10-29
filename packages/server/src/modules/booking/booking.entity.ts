@@ -13,6 +13,9 @@ export class Booking {
   @Column()
   checkOutDate: string;
 
+  @Column()
+  totalCharge: number;
+
   @ManyToOne(() => Listing, (listing) => listing.bookings)
   listing: Listing;
 

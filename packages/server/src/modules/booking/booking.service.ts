@@ -31,6 +31,13 @@ export class BookingService {
     });
   }
 
+  getBookingByUser(bookingId: string, user: User): Promise<Booking> {
+    return this.bookingRepository.findOne({
+      where: { id: bookingId, user },
+      relations: ['listing'],
+    });
+  }
+
   /**
    * Creates a new booking for a listing.
    * @param listingId - The ID of the listing to book.
@@ -47,6 +54,9 @@ export class BookingService {
   ): Promise<Booking> {
     const { checkInDate, checkOutDate } = createBookingDto;
 
+    const checkInDateFormated = new Date(checkInDate);
+    const checkOutDateFormated = new Date(checkInDate);
+
     // Find the listing by ID
     const listing = await this.listingRepository.findOne({
       where: { id: listingId },
@@ -58,6 +68,7 @@ export class BookingService {
 
     // Check for overlapping bookings
     const previousBooking = listing.bookings;
+
     previousBooking.forEach((booking) => {
       if (
         (checkInDate >= booking.checkInDate &&
@@ -71,10 +82,22 @@ export class BookingService {
       }
     });
 
+    const differenceInDays = Math.floor(
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      Math.abs(checkOutDateFormated - checkInDateFormated) /
+        (1000 * 60 * 60 * 24),
+    );
+
+    const totalBaseCharge = listing.costing * differenceInDays;
+    const totalTax = Math.round(totalBaseCharge * 0.12);
+    const totalCharge = totalBaseCharge + totalTax;
+
     // Create the new booking
     const booking = await this.bookingRepository.createBooking(
       listing,
       createBookingDto,
+      totalCharge,
       user,
     );
 
