@@ -82,14 +82,12 @@ export class BookingService {
       }
     });
 
-    const differenceInDays = Math.floor(
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      Math.abs(checkOutDateFormated - checkInDateFormated) /
-        (1000 * 60 * 60 * 24),
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const differenceInMilliSec = checkOutDateFormated - checkInDateFormated;
+    const differenceInDays = Math.round(
+      differenceInMilliSec / (1000 * 60 * 60 * 24),
     );
-
-    console.log('diff', differenceInDays);
 
     const totalBaseCharge = listing.costing * differenceInDays;
     const totalTax = Math.round(totalBaseCharge * 0.12);

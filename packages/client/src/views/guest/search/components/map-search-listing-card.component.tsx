@@ -2,12 +2,16 @@ import { Listing } from '../../../../types/listing/listing.type.ts';
 import placeHolderSVG from '../../../../assets/images/placeholder.svg';
 import { Link } from 'react-router-dom';
 import useBookingSearchParams from '../../../../hooks/search-params/useBookingSearchParams.hook.ts';
+import { isBookingReserved } from '../../../../utils/booking.util.ts';
+import classNames from 'classnames';
 
 function MapSearchListingCard({ listing }: {
   listing: Listing,
 }) {
 
   const { checkInDate, checkOutDate } = useBookingSearchParams();
+
+  const isBooked = isBookingReserved(checkInDate!, checkOutDate!, listing.bookings);
 
   return (
     <div className={'w-64 no-scrollbar flex flex-col gap-2'}>
@@ -28,8 +32,8 @@ function MapSearchListingCard({ listing }: {
 
       <Link to={`/listing/${listing.id}?checkIn=${checkInDate?.toISOString()}&checkOut=${checkOutDate?.toISOString()}`}
             target="_blank"
-            className={'btn btn-primary text-primary-content btn-outline btn-sm rounded-full w-full'}>
-        View
+            className={classNames('btn text-primary-content btn-outline btn-sm rounded-full w-full', isBooked ? 'btn-ghost' : 'btn-primary')}>
+        {isBooked ? 'Already Booked' : 'View Listing'}
       </Link>
     </div>
   )

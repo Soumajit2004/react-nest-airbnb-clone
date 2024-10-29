@@ -26,7 +26,7 @@ export default function SearchView() {
   const { isFetched, isError, data } = useFetchSearchListings({
     lat: lat!,
     lng: lng!,
-    searchRadius: 10,
+    searchRadius: 20,
   });
   const listings = data?.data as Listing[];
 
