@@ -8,6 +8,8 @@ export type Booking = {
 
   checkOutDate: string;
 
+  totalCharge: number;
+
   listing: Listing;
 
   user: User;

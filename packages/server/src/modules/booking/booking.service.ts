@@ -55,7 +55,7 @@ export class BookingService {
     const { checkInDate, checkOutDate } = createBookingDto;
 
     const checkInDateFormated = new Date(checkInDate);
-    const checkOutDateFormated = new Date(checkInDate);
+    const checkOutDateFormated = new Date(checkOutDate);
 
     // Find the listing by ID
     const listing = await this.listingRepository.findOne({
@@ -88,6 +88,8 @@ export class BookingService {
       Math.abs(checkOutDateFormated - checkInDateFormated) /
         (1000 * 60 * 60 * 24),
     );
+
+    console.log('diff', differenceInDays);
 
     const totalBaseCharge = listing.costing * differenceInDays;
     const totalTax = Math.round(totalBaseCharge * 0.12);
