@@ -13,6 +13,7 @@ export default function HamburgerUserAvatarBtn() {
 
       <ul className="menu dropdown-content bg-base-100 border-2  rounded-box z-[1] w-52 p-2 shadow">
         <li><Link to={'/hosting'}>Manage listings</Link></li>
+        <li><Link to={'/my-bookings'}>My bookings</Link></li>
         <li>
           <LogoutButton />
         </li>

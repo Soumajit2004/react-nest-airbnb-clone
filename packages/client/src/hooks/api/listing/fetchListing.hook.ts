@@ -1,5 +1,5 @@
 import { SearchListingsDto } from './dto/listing.dto.ts';
-import useAxiosPrivate from '../../../useAxiosPrivate.ts';
+import useAxiosPrivate from '../../auth/useAxiosPrivate.ts';
 import { useQuery } from '@tanstack/react-query';
 
 const URLS = {

@@ -14,13 +14,15 @@ export class BookingRepository extends Repository<Booking> {
   createBooking(
     listing: Listing,
     createBookingDto: CreateBookingDto,
+    totalCharge: number,
     user: User,
   ): Promise<Booking> {
-    const { startDate, endDate } = createBookingDto;
+    const { checkInDate, checkOutDate } = createBookingDto;
 
     const booking = this.create({
-      startDate,
-      endDate,
+      checkInDate,
+      checkOutDate,
+      totalCharge,
       listing,
       user,
     });

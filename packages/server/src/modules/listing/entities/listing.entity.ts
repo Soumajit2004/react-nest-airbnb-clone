@@ -30,7 +30,7 @@ export class Listing {
   @JoinColumn()
   location: ListingLocation;
 
-  @ManyToOne(() => User, (user) => user.listings)
+  @ManyToOne(() => User, (user) => user.listings, { eager: true })
   host: User;
 
   @OneToMany(() => ListingImage, (image) => image.listing, { eager: true })

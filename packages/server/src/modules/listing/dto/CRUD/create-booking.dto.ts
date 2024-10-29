@@ -3,9 +3,9 @@ import { IsDateString, IsString } from 'class-validator';
 export class CreateBookingDto {
   @IsString()
   @IsDateString()
-  startDate: string;
+  checkInDate: string;
 
   @IsString()
   @IsDateString()
-  endDate: string;
+  checkOutDate: string;
 }

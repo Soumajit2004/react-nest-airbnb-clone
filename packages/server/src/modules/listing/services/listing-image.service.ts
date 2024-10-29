@@ -1,24 +1,22 @@
-import { forwardRef, Inject, Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import * as uuid from 'uuid';
-
-import { ListingService } from './listing.service';
 import { User } from '../../auth/user.entity';
 import { ListingImage } from '../entities/listing-image.entity';
 import { Repository } from 'typeorm';
 import { AddListingImageDto } from '../dto/CRUD/add-listing-image.dto';
 import { ListingUploadService } from '../../../shared/upload/listing-upload.service';
+import { ListingRepository } from '../listing.repository';
 
 @Injectable()
 export class ListingImageService {
   logger = new Logger(ListingImageService.name);
 
   constructor(
-    @Inject(forwardRef(() => ListingService))
-    private readonly listingService: ListingService,
     private readonly listingUploadService: ListingUploadService,
     @InjectRepository(ListingImage)
     private listingImageRepository: Repository<ListingImage>,
+    private readonly listingRepository: ListingRepository,
   ) {}
 
   /**
@@ -38,7 +36,10 @@ export class ListingImageService {
     const { label, category } = addListingImageDto;
 
     // Find the listing by ID
-    const listing = await this.listingService.getListingById(listingId, user);
+    const listing = await this.listingRepository.findOneByOrFail({
+      id: listingId,
+      host: user,
+    });
 
     const listingImageId = uuid.v4();
     // Uploading image to bucket
@@ -70,7 +71,10 @@ export class ListingImageService {
     user: User,
   ): Promise<void> {
     // Find the listing by ID
-    const listing = await this.listingService.getListingById(listingId, user);
+    const listing = await this.listingRepository.findOneByOrFail({
+      id: listingId,
+      host: user,
+    });
 
     for (const image of listing.images) {
       if (image.id == listingImageId) {

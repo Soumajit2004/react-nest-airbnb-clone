@@ -1,6 +1,6 @@
 import useRefreshToken from './useRefreshToken.ts';
 import useAuth from './useAuth.ts';
-import { axiosPrivateInstance } from '../api/api.ts';
+import { axiosPrivateInstance } from '../../api/api.ts';
 import { useEffect } from 'react';
 
 const useAxiosPrivate = () => {

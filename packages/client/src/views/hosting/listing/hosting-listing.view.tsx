@@ -1,14 +1,14 @@
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import ListingImageCarousel from '../../../components/hosting/listing/listing-image-carousel.component.tsx';
 import ReservationCardComponent from './components/reservation-card.component.tsx';
-import { useFetchListingByID } from '../../../hooks/api-hooks/hosting/listing/fetchListingHooks.ts';
 import { Listing } from '../../../types/listing/listing.type.ts';
-import useDeleteListing from '../../../hooks/api-hooks/hosting/listing/useDeleteListing.ts';
 import { toast } from 'react-toastify';
+import { useFetchListingByID } from '../../../hooks/api/listing/fetchListing.hook.ts';
+import useDeleteListingHook from '../../../hooks/api/listing/useDeleteListing.hook.ts';
 
 const ListingDetails = ({ listing }: { listing: Listing }) => {
 
-  const { mutate: deleteListing } = useDeleteListing();
+  const { mutate: deleteListing } = useDeleteListingHook();
   const navigate = useNavigate();
 
   return <div className={'flex flex-col gap-6'}>

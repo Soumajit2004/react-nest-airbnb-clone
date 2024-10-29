@@ -3,11 +3,11 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { ImageFile } from '../../../types/files/image-file.type.ts';
 import { LatLngLiteral } from '../../../types/location.type.ts';
 import { toast } from 'react-toastify';
-import { CreateListingDto } from '../../../hooks/api-hooks/hosting/listing/dto/listing.dto.ts';
+import { CreateListingDto } from '../../../hooks/api/listing/dto/listing.dto.ts';
 import CreateListingSuccessComponent from './components/create-listing-success.component.tsx';
 import ImageDropzoneListingForm from './components/listing-form/add-listing-form/image-dropzone.component.tsx';
 import LocationSelectorInput from './components/listing-form/add-listing-form/location-selector.component.tsx';
-import { useMutateCreateListing } from '../../../hooks/api-hooks/hosting/listing/useCreateListing.ts';
+import { useMutateCreateListing } from '../../../hooks/api/listing/useCreateListing.hook.ts';
 
 type MetaDataInputs = {
   title: string

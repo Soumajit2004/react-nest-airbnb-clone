@@ -1,6 +1,6 @@
 import useAuth from './useAuth.ts';
-import { axiosPrivateInstance } from '../api/api.ts';
-import { UserCredentials } from '../context/AuthProvider.tsx';
+import { axiosPrivateInstance } from '../../api/api.ts';
+import { UserCredentials } from '../../context/AuthProvider.tsx';
 
 const useLogout = () => {
   const { setAuth } = useAuth();

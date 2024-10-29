@@ -50,8 +50,10 @@ export default function RootNavbarSearch() {
         name="checkIn"
         render={({ field }) => (
           <DatePicker
+            portalId={'checkInDatePicker'}
             dateFormat={'dd/MM/yyyy'}
-            className="input input-bordered w-28 input-md bg-white rounded-none border-x-0 z"
+            className="input input-bordered w-28 input-md bg-white rounded-none border-x-0"
+            popperClassName={'z-50'}
             placeholderText={'Check In'}
             selected={field.value}
             onChange={(date) => field.onChange(date)}
@@ -66,9 +68,11 @@ export default function RootNavbarSearch() {
         name="checkOut"
         render={({ field }) => (
           <DatePicker
+            portalId={'checkOutDatePicker'}
             dateFormat={'dd/MM/yyyy'}
             className="input input-bordered w-28 input-md bg-white rounded-none"
             calendarClassName={'z-50'}
+            popperClassName={'calender-popout'}
             placeholderText={'Check Out'}
             selected={field.value}
             onChange={(date) => field.onChange(date)}

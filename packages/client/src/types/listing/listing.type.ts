@@ -1,6 +1,7 @@
 import { ListingImage } from './listing-image.type.ts';
 import { User } from '../user/user.type.ts';
 import { ListingLocation } from './listing-location.type.ts';
+import { Booking } from '../booking/booking.type.ts';
 
 export type Listing = {
   id: string;
@@ -16,4 +17,6 @@ export type Listing = {
   host: User;
 
   images: ListingImage[];
+
+  bookings: Booking[];
 }

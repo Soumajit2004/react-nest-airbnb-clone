@@ -1,20 +1,19 @@
 import { useParams } from 'react-router-dom';
-import { useFetchListingByID } from '../../../hooks/api-hooks/hosting/listing/fetchListingHooks.ts';
 import { Listing } from '../../../types/listing/listing.type.ts';
 import ListingBentoGrid from './components/listing-images-grid.component.tsx';
 import ListingLocationDetails from './components/listing-location-details.component.tsx';
 import ListingBookingCard from './components/listing-booking-card.component.tsx';
+import useBookingSearchParams from '../../../hooks/search-params/useBookingSearchParams.hook.ts';
+import { useFetchListingByID } from '../../../hooks/api/listing/fetchListing.hook.ts';
 
 
 function ListingView() {
 
   const { listingId } = useParams();
-  // const [searchParams] = useSearchParams();
 
   const { data, isFetched } = useFetchListingByID(listingId as string);
-  //
-  // const checkInDate = searchParams.get('checkIn') ? new Date(String(searchParams.get('checkIn'))) : new Date();
-  // const checkOutDate = searchParams.get('checkOut') ? new Date(String(searchParams.get('checkOut'))) : null;
+
+  const { checkInDate, checkOutDate } = useBookingSearchParams();
 
   const fetchedListing = data?.data as Listing;
 
@@ -45,7 +44,7 @@ function ListingView() {
       </div>
 
       <div className="col-span-2">
-        <ListingBookingCard listing={fetchedListing} />
+        <ListingBookingCard listing={fetchedListing} checkInDate={checkInDate} checkOutDate={checkOutDate} />
       </div>
 
     </div>

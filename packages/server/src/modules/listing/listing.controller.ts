@@ -47,11 +47,8 @@ export class ListingController {
   }
 
   @Get('/:id')
-  getListingById(
-    @Param('id') listingId: string,
-    @GetUser() user: User,
-  ): Promise<Listing> {
-    return this.listingService.getListingById(listingId, user);
+  getListingById(@Param('id') listingId: string): Promise<Listing> {
+    return this.listingService.getListingById(listingId);
   }
 
   @Post('/new')

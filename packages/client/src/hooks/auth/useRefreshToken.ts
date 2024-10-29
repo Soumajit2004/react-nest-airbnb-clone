@@ -1,5 +1,5 @@
 import useAuth from './useAuth.ts';
-import { refreshAccessToken } from '../api/auth.api.ts';
+import { refreshAccessToken } from '../../api/auth.api.ts';
 
 const useRefreshToken = () => {
   const authState = useAuth();

@@ -5,7 +5,7 @@ import { signInUser } from '../../../../api/auth.api.ts';
 import { toast } from 'react-toastify';
 import { extractApiError } from '../../../../utils/error/extractApiError.ts';
 import { AxiosError } from 'axios';
-import useAuth from '../../../../hooks/useAuth.ts';
+import useAuth from '../../../../hooks/auth/useAuth.ts';
 
 type SignInInputs = {
   email: string;

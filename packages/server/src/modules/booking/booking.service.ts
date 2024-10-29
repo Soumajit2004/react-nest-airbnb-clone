@@ -27,6 +27,14 @@ export class BookingService {
   getBookingsByUser(user: User): Promise<Booking[]> {
     return this.bookingRepository.find({
       where: { user },
+      relations: ['listing'],
+    });
+  }
+
+  getBookingByUser(bookingId: string, user: User): Promise<Booking> {
+    return this.bookingRepository.findOne({
+      where: { id: bookingId, user },
+      relations: ['listing'],
     });
   }
 
@@ -44,7 +52,10 @@ export class BookingService {
     createBookingDto: CreateBookingDto,
     user: User,
   ): Promise<Booking> {
-    const { startDate, endDate } = createBookingDto;
+    const { checkInDate, checkOutDate } = createBookingDto;
+
+    const checkInDateFormated = new Date(checkInDate);
+    const checkOutDateFormated = new Date(checkInDate);
 
     // Find the listing by ID
     const listing = await this.listingRepository.findOne({
@@ -57,10 +68,13 @@ export class BookingService {
 
     // Check for overlapping bookings
     const previousBooking = listing.bookings;
+
     previousBooking.forEach((booking) => {
       if (
-        (startDate >= booking.startDate && startDate <= booking.endDate) ||
-        (endDate >= booking.startDate && endDate <= booking.endDate)
+        (checkInDate >= booking.checkInDate &&
+          checkOutDate <= booking.checkOutDate) ||
+        (checkInDate >= booking.checkInDate &&
+          checkOutDate <= booking.checkOutDate)
       ) {
         throw new BadRequestException(
           `Listing with id ${listingId} is already booked for the selected dates`,
@@ -68,10 +82,22 @@ export class BookingService {
       }
     });
 
+    const differenceInDays = Math.floor(
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      Math.abs(checkOutDateFormated - checkInDateFormated) /
+        (1000 * 60 * 60 * 24),
+    );
+
+    const totalBaseCharge = listing.costing * differenceInDays;
+    const totalTax = Math.round(totalBaseCharge * 0.12);
+    const totalCharge = totalBaseCharge + totalTax;
+
     // Create the new booking
     const booking = await this.bookingRepository.createBooking(
       listing,
       createBookingDto,
+      totalCharge,
       user,
     );
 

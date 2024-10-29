@@ -1,4 +1,4 @@
-@import 'react-datepicker/dist/react-datepicker';
+@import 'react-datepicker/dist/react-datepicker.min.css';
 
 @tailwind base;
 @tailwind components;
@@ -28,4 +28,8 @@
 @font-face {
     font-family: "Monserat";
     src: local("Monserat"), url("../fonts/Monserat-Regular.ttf") format("truetype");
+}
+
+#checkInDatePicker #checkOutDatePicker {
+    z-index: 999 !important;
 }
