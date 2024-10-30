@@ -9,6 +9,7 @@ import { User } from '../auth/user.entity';
 import { CreateBookingDto } from '../listing/dto/CRUD/create-booking.dto';
 import { ListingRepository } from '../listing/listing.repository';
 import { Booking } from './booking.entity';
+import { LessThanOrEqual } from 'typeorm';
 
 @Injectable()
 export class BookingService {
@@ -34,6 +35,16 @@ export class BookingService {
   getBookingByUser(bookingId: string, user: User): Promise<Booking> {
     return this.bookingRepository.findOne({
       where: { id: bookingId, user },
+      relations: ['listing'],
+    });
+  }
+
+  async getHostUpcomingReservations(user: User): Promise<Booking[]> {
+    return this.bookingRepository.find({
+      where: {
+        listing: { host: user },
+        checkOutDate: LessThanOrEqual(new Date().toISOString()),
+      },
       relations: ['listing'],
     });
   }

@@ -22,7 +22,6 @@ export const isBookingReserved = (checkIn: Date, checkOut: Date, bookings: Booki
     const isCheckOutReserved = checkOut >= new Date(booking.checkInDate) && checkOut <= new Date(booking.checkOutDate);
 
     if (isCheckInReserved || isCheckOutReserved) {
-      console.log('I Ran');
       return true;
     }
   }
