@@ -5,6 +5,7 @@ import ListingLocationDetails from './components/listing-location-details.compon
 import ListingBookingCard from './components/listing-booking-card.component.tsx';
 import useBookingSearchParams from '../../../hooks/search-params/useBookingSearchParams.hook.ts';
 import { useFetchListingByID } from '../../../hooks/api/listing/fetchListing.hook.ts';
+import ListingHostCard from './components/listing-host-card.component.tsx';
 
 
 function ListingView() {
@@ -28,9 +29,12 @@ function ListingView() {
       </div>
 
       <div className={'col-span-3'}>
-
         <div className={'flex flex-col gap-4'}>
           <ListingLocationDetails listingLocation={fetchedListing.location} />
+
+          <div className="divider my-0" />
+
+          <ListingHostCard host={fetchedListing.host} />
 
           <div className="divider my-0" />
 
@@ -39,8 +43,6 @@ function ListingView() {
             <p className={'text-gray-500'}>{fetchedListing.description}</p>
           </div>
         </div>
-
-
       </div>
 
       <div className="col-span-2">

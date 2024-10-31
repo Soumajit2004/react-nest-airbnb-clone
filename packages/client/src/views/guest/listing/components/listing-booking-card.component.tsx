@@ -4,6 +4,8 @@ import { Controller, useForm } from 'react-hook-form';
 import useCreateBooking from '../../../../hooks/api/booking/useCreateBooking.hook.ts';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { differenceInDays } from '../../../../utils/date.util.ts';
+import { calculateBookingCostings, isBookingReserved } from '../../../../utils/booking.util.ts';
 
 type ListingBookingCardProps = {
   listing: Listing;
@@ -16,10 +18,10 @@ type BookingInputs = {
   checkOut: Date,
 };
 
-
 export default function ListingBookingCard({ listing, checkInDate, checkOutDate }: ListingBookingCardProps) {
 
   const navigate = useNavigate();
+  const { mutateAsync: createBooking, isError } = useCreateBooking();
 
   const { control, watch, handleSubmit } = useForm<BookingInputs>({
     defaultValues: {
@@ -28,14 +30,9 @@ export default function ListingBookingCard({ listing, checkInDate, checkOutDate 
     },
   });
 
-  const { mutateAsync: createBooking, isError } = useCreateBooking();
-
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-expect-error
-  const differenceInDays = (watch('checkIn') && watch('checkOut')) ? Math.floor(Math.abs(watch('checkOut') - watch('checkIn')) / (1000 * 60 * 60 * 24)) : null;
-
-  const totalPriceBeforeTax = differenceInDays ? differenceInDays * listing.costing : null;
-  const totalPrice = totalPriceBeforeTax ? totalPriceBeforeTax + Math.round(totalPriceBeforeTax * 0.12) : null;
+  const totalNights = differenceInDays(watch('checkIn'), watch('checkOut'));
+  const pricingDetails = calculateBookingCostings(totalNights, listing.costing);
+  const isListingBooked = isBookingReserved(watch('checkIn'), watch('checkOut'), listing.bookings);
 
   const onSubmit = async (data: BookingInputs) => {
     await createBooking({
@@ -90,29 +87,31 @@ export default function ListingBookingCard({ listing, checkInDate, checkOutDate 
               minDate={watch('checkIn')}
             />)}
         />
-        <button className="btn btn-primary rounded-t-none">Reserve</button>
+
+        <button className="btn btn-primary rounded-t-none"
+                disabled={isListingBooked}>{isListingBooked ? "Already Reserved" : 'Reserve'}</button>
       </form>
 
       {
-        (differenceInDays && totalPrice && totalPriceBeforeTax) && (
+        (watch('checkIn') && watch('checkOut')) && (
           <div className={'flex flex-col w-full items-center gap-4 text-lg'}>
             <p className={'text-gray-500 text-sm'}>You won't be charged yet</p>
 
             <div className={'flex w-full justify-between'}>
-              <p>${listing.costing} x {differenceInDays} nights</p>
-              <p>${totalPriceBeforeTax}</p>
+              <p>${listing.costing} x {totalNights} nights</p>
+              <p>${pricingDetails.totalPriceBeforeTax}</p>
             </div>
 
             <div className={'flex w-full justify-between'}>
               <p>12% Tax</p>
-              <p>${Math.round(totalPriceBeforeTax * 0.12)}</p>
+              <p>${pricingDetails.tax}</p>
             </div>
 
             <div className="divider my-0" />
 
             <div className={'flex w-full justify-between font-bold'}>
               <p>Total</p>
-              <p>${totalPrice}</p>
+              <p>${pricingDetails.totalPrice}</p>
             </div>
           </div>
         )

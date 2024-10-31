@@ -1,10 +1,10 @@
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import ListingImageCarousel from '../../../components/hosting/listing/listing-image-carousel.component.tsx';
-import ReservationCardComponent from './components/reservation-card.component.tsx';
 import { Listing } from '../../../types/listing/listing.type.ts';
 import { toast } from 'react-toastify';
 import { useFetchListingByID } from '../../../hooks/api/listing/fetchListing.hook.ts';
 import useDeleteListingHook from '../../../hooks/api/listing/useDeleteListing.hook.ts';
+import ReservationList from './components/reservation-list.component.tsx';
 
 const ListingDetails = ({ listing }: { listing: Listing }) => {
 
@@ -54,15 +54,15 @@ function HostingListingView() {
   const { listingId } = useParams();
 
   const { isFetched, data } = useFetchListingByID(listingId as string);
-  const fetchedListing = data?.data;
+  const fetchedListing: Listing = data?.data;
 
   return isFetched && (
-    <div className="grid w-full grid-cols-3 gap-4">
+    <div className="grid w-full grid-cols-3 gap-4 mt-4">
 
       <ListingDetails listing={fetchedListing} />
 
       <div className={'flex flex-col gap-4 col-span-2'}>
-        <ReservationCardComponent />
+        <ReservationList reservations={fetchedListing.bookings} />
       </div>
     </div>)
     ;

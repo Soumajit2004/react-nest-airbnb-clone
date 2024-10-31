@@ -9,6 +9,7 @@ import { User } from '../auth/user.entity';
 import { CreateBookingDto } from '../listing/dto/CRUD/create-booking.dto';
 import { ListingRepository } from '../listing/listing.repository';
 import { Booking } from './booking.entity';
+import { LessThanOrEqual } from 'typeorm';
 
 @Injectable()
 export class BookingService {
@@ -38,6 +39,16 @@ export class BookingService {
     });
   }
 
+  async getHostUpcomingReservations(user: User): Promise<Booking[]> {
+    return this.bookingRepository.find({
+      where: {
+        listing: { host: user },
+        checkOutDate: LessThanOrEqual(new Date().toISOString()),
+      },
+      relations: ['listing'],
+    });
+  }
+
   /**
    * Creates a new booking for a listing.
    * @param listingId - The ID of the listing to book.
@@ -55,7 +66,7 @@ export class BookingService {
     const { checkInDate, checkOutDate } = createBookingDto;
 
     const checkInDateFormated = new Date(checkInDate);
-    const checkOutDateFormated = new Date(checkInDate);
+    const checkOutDateFormated = new Date(checkOutDate);
 
     // Find the listing by ID
     const listing = await this.listingRepository.findOne({
@@ -82,11 +93,11 @@ export class BookingService {
       }
     });
 
-    const differenceInDays = Math.floor(
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      Math.abs(checkOutDateFormated - checkInDateFormated) /
-        (1000 * 60 * 60 * 24),
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const differenceInMilliSec = checkOutDateFormated - checkInDateFormated;
+    const differenceInDays = Math.round(
+      differenceInMilliSec / (1000 * 60 * 60 * 24),
     );
 
     const totalBaseCharge = listing.costing * differenceInDays;

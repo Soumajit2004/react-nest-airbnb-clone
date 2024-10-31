@@ -7,6 +7,7 @@ import HostingRootLayout from '../layout/hosting.layout.tsx';
 import hostingRoutes from './hosting.route.tsx';
 import RootLayout from '../layout/root.layout.tsx';
 import { guestRoutes } from './guest.route.tsx';
+import ErrorView from '../views/error/error.view.tsx';
 
 
 const router = createBrowserRouter([
@@ -17,6 +18,7 @@ const router = createBrowserRouter([
   },
   {
     element: <PersistenceLogin />,
+    errorElement: <ErrorView />,
     children: [
       {
         element: <RequireAuthComponent />,
@@ -34,7 +36,6 @@ const router = createBrowserRouter([
       },
     ],
   },
-
 ]);
 
 export default router;

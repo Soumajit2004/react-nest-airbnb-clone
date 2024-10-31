@@ -32,6 +32,11 @@ export class BookingController {
     return this.bookingService.getBookingByUser(bookingId, user);
   }
 
+  @Get('/host-reservations/upcoming')
+  getHostUpcomingReservations(@GetUser() user: User): Promise<Booking[]> {
+    return this.bookingService.getHostUpcomingReservations(user);
+  }
+
   @Post('/:listingId')
   createBooking(
     @Param('listingId') listingId: string,

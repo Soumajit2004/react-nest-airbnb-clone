@@ -1,48 +1,45 @@
-# Airbnb Clone
+## Fullstack Airbnb Clone ✈️🏨
 
-Welcome to the Airbnb Clone project! This project is a full-stack web application that replicates core features of the Airbnb platform, allowing users to browse, book, and manage properties.
+**A comprehensive full-stack application inspired by Airbnb, demonstrating proficiency in frontend development with React and backend development with NestJS.**
 
-## Table of Contents
-- [Overview](#overview)
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Database Schema](#database-schema)
-- [Acknowledgements](#acknowledgements)
+**Disclaimer:** This README was generated with the assistance of AI, but it has been thoroughly reviewed and verified for accuracy.
 
-## Overview
+### Project Overview
+This project aims to replicate core Airbnb functionalities, including user authentication, property listing, and booking management. It leverages React for the frontend and NestJS for the backend, demonstrating a strong understanding of full-stack development principles.
 
-This project is an Airbnb clone built using a modern web development stack. The application allows users to explore properties, book stays, manage bookings, and host properties, similar to the functionalities provided by Airbnb.
+### Requirements
+* **Google Cloud Platform (GCP):** ☁️ Bucket for storing images and other media.
+* **Docker:** 🐳 Used for running a PostgreSQL database container.
+* **Node.js:** 🟢 Version 20.5.0
 
-## Features
+### Environment Variables
+Create environment variable files by referring to the `.env.example` files located in the project's file structure.
+Ensure to add a file named `gcpServiceAccountKey.json`, following the structure provided in `gcpServiceAccountKey.example.json`.
 
-- **User Authentication:** Secure sign-up, log-in, and log-out functionalities.
-- **Property Listings:** Users can view detailed information about various properties.
-- **Booking System:** Users can book available properties for specific dates.
-- **Hosting:** Users can list their properties for others to book.
-- **Search Functionality:** Search for properties based on location, date, and other filters.
-- **Reviews and Ratings:** Users can leave reviews and ratings for properties.
+### Features
+1. **Authentication and Authorization:** 🔐 Secure, token-based authentication using JWTs for access tokens and refresh tokens.
+2. **Listing Management:** 🏠 Comprehensive CRUD system for property listings with role-based access control.
+3. **Booking System:** 📅 Integrated booking feature with validation checks, availability status, and database synchronization.
+4. **Advanced Search Functionality:** 🔍 Optimized, filterable search with indexed database queries.
+5. **Map-Based Search and Location Selection:** 🗺️ Interactive map integration for geographical search and property location selection.
 
-## Tech Stack
+### Limitations
+1. **Payment System:** 💳 Not implemented due to complexities and third-party integrations.
+2. **Recommendation System:** 🧠 Not implemented due to required machine learning capabilities.
 
-- **Frontend:** React.js, TypeScript, Tailwind CSS
-- **Backend:** Nest.js, TypeScript
-- **Database:** PostgreSQL
-- **ORM:** TypeORM
-- **Authentication:** Passport.js, JWT
-- **Deployment:** Docker
+### Demonstrated Skills and Knowledge
+* **Frontend Development with React:** ⚛️ Component-based architecture, state management, API integration, and UI design.
+* **Backend Development with NestJS:** nestjs.io Modular architecture, RESTful API design, database interactions, authentication, authorization, error handling, and logging.
+* **Full-Stack Integration:** 🔗 Client-server communication, data synchronization, and deployment.
+* **Version Control and Collaboration:** 🤝 Git and GitHub for version control and collaborative development.
 
-## Database Schema
+**By undertaking this project, I have honed my skills in:**
+* **Full-stack development:** Designing, implementing, and deploying complex web applications.
+* **Frontend development:** Building user-friendly and responsive user interfaces.
+* **Backend development:** Creating scalable and robust backend services.
+* **Database management:** Interacting with databases to store and retrieve data efficiently.
+* **API design and integration:** Designing and consuming RESTful APIs.
+* **Version control:** Managing code changes effectively using Git.
+* **Collaboration:** Working effectively with other developers to achieve project goals.
 
-The database schema is designed to support the main functionalities of the application, including user management, property listings, and bookings.
-
-- **Users Table:** Stores user information such as name, email, and password.
-- **Properties Table:** Contains details about each property, including title, description, location, price, and host information.
-- **Bookings Table:** Manages booking information, including the property booked, user who booked, and booking dates.
-- **Reviews Table:** Stores reviews and ratings for properties.
-
-## Acknowledgements
-
-- [React](https://reactjs.org/)
-- [Nest.js](https://nestjs.com/)
-- [PostgreSQL](https://www.postgresql.org/)
-- [Airbnb](https://www.airbnb.com/) for the original inspiration.
+I am confident that this project demonstrates my ability to tackle challenging full-stack development tasks and deliver high-quality solutions. 

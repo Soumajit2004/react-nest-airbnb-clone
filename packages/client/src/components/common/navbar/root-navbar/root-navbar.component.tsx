@@ -19,7 +19,7 @@ export default function RootNavbar() {
         </div>
       </nav>
 
-      <div className="divider my-0" />
+      <div className="divider" />
     </>
   );
 }
