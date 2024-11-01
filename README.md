@@ -4,6 +4,8 @@
 
 **Disclaimer:** This README was generated with the assistance of AI, but it has been thoroughly reviewed and verified for accuracy.
 
+![collage_image](https://storage.cloud.google.com/airbnb_clone_dev/demo_images/collage.png)
+
 ### Project Overview
 This project aims to replicate core Airbnb functionalities, including user authentication, property listing, and booking management. It leverages React for the frontend and NestJS for the backend, demonstrating a strong understanding of full-stack development principles.
 
