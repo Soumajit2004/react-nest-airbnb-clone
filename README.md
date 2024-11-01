@@ -8,6 +8,8 @@
 
 [View all images](https://photos.app.goo.gl/dh3bev79G3tnSRt6A)
 
+[Video demo](https://youtu.be/tLOEW9Jbt4o)
+
 ### Project Overview
 This project aims to replicate core Airbnb functionalities, including user authentication, property listing, and booking management. It leverages React for the frontend and NestJS for the backend, demonstrating a strong understanding of full-stack development principles.
 
