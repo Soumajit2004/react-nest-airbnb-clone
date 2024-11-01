@@ -27,6 +27,6 @@ export class ListingImage {
   @Column({ enum: ListingImageCategory })
   category: ListingImageCategory;
 
-  @ManyToOne(() => Listing, (listing) => listing.images)
+  @ManyToOne(() => Listing, (listing) => listing.images, { onDelete: 'CASCADE' })
   listing: Listing;
 }

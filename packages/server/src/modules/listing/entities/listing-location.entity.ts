@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Listing } from './listing.entity';
 
 @Entity()
 export class ListingLocation {
@@ -10,4 +11,7 @@ export class ListingLocation {
 
   @Column('decimal')
   lng: number;
+
+  @OneToOne(() => Listing, (listing) => listing.location, { onDelete: 'CASCADE' })
+  listing: Listing;
 }

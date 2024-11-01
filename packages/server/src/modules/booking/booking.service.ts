@@ -9,7 +9,7 @@ import { User } from '../auth/user.entity';
 import { CreateBookingDto } from '../listing/dto/CRUD/create-booking.dto';
 import { ListingRepository } from '../listing/listing.repository';
 import { Booking } from './booking.entity';
-import { LessThanOrEqual } from 'typeorm';
+import { LessThanOrEqual, MoreThanOrEqual } from 'typeorm';
 
 @Injectable()
 export class BookingService {
@@ -18,12 +18,13 @@ export class BookingService {
   constructor(
     private readonly bookingRepository: BookingRepository,
     private readonly listingRepository: ListingRepository,
-  ) {}
+  ) {
+  }
 
   /**
    * Retrieves all bookings made by a user.
-   * @param user - The user whose bookings are to be retrieved.
-   * @returns A promise that resolves to an array of bookings.
+   * @param {User} user - The user whose bookings are to be retrieved.
+   * @returns {Promise<Booking[]>} A promise that resolves to an array of bookings.
    */
   getBookingsByUser(user: User): Promise<Booking[]> {
     return this.bookingRepository.find({
@@ -32,6 +33,12 @@ export class BookingService {
     });
   }
 
+  /**
+   * Retrieves a booking by its ID for a given user.
+   * @param {string} bookingId - The ID of the booking to retrieve.
+   * @param {User} user - The user whose booking is to be retrieved.
+   * @returns {Promise<Booking>} A promise that resolves to the booking.
+   */
   getBookingByUser(bookingId: string, user: User): Promise<Booking> {
     return this.bookingRepository.findOne({
       where: { id: bookingId, user },
@@ -39,11 +46,16 @@ export class BookingService {
     });
   }
 
+  /**
+   * Retrieves upcoming reservations for a host.
+   * @param {User} user - The host whose upcoming reservations are to be retrieved.
+   * @returns {Promise<Booking[]>} A promise that resolves to an array of bookings.
+   */
   async getHostUpcomingReservations(user: User): Promise<Booking[]> {
     return this.bookingRepository.find({
       where: {
         listing: { host: user },
-        checkOutDate: LessThanOrEqual(new Date().toISOString()),
+        checkOutDate: MoreThanOrEqual(new Date().toISOString()),
       },
       relations: ['listing'],
     });
@@ -51,12 +63,12 @@ export class BookingService {
 
   /**
    * Creates a new booking for a listing.
-   * @param listingId - The ID of the listing to book.
-   * @param createBookingDto - The booking details.
-   * @param user - The user creating the booking.
-   * @returns The created booking.
-   * @throws NotFoundException if the listing is not found.
-   * @throws BadRequestException if the listing is already booked for the selected dates.
+   * @param {string} listingId - The ID of the listing to book.
+   * @param {CreateBookingDto} createBookingDto - The booking details.
+   * @param {User} user - The user creating the booking.
+   * @returns {Promise<Booking>} The created booking.
+   * @throws {NotFoundException} If the listing is not found.
+   * @throws {BadRequestException} If the listing is already booked for the selected dates.
    */
   async createBooking(
     listingId: string,
@@ -120,15 +132,16 @@ export class BookingService {
 
   /**
    * Deletes a booking.
-   * @param bookingId - The ID of the booking to delete.
-   * @param user - The user attempting to delete the booking.
-   * @throws NotFoundException if the booking is not found.
-   * @throws BadRequestException if the user is not authorized to delete the booking.
+   * @param {string} bookingId - The ID of the booking to delete.
+   * @param {User} user - The user attempting to delete the booking.
+   * @returns {Promise<void>} A promise that resolves when the booking is deleted.
+   * @throws {NotFoundException} If the booking is not found.
+   * @throws {BadRequestException} If the user is not authorized to delete the booking.
    */
   async deleteBooking(bookingId: string, user: User): Promise<void> {
     // Find the booking by ID
     const booking = await this.bookingRepository.findOne({
-      where: { id: bookingId },
+      where: { id: bookingId, user: user },
     });
 
     if (!booking) {
