@@ -15,6 +15,13 @@ export class UserRepository extends Repository<User> {
     super(User, dataSource.createEntityManager());
   }
 
+  /**
+   * Creates a new user with the provided authentication credentials.
+   * @param {AuthCredentialsDto} authCredentialsDto - The authentication credentials.
+   * @returns {Promise<void>} A promise that resolves when the user is created.
+   * @throws {ConflictException} If the username already exists.
+   * @throws {InternalServerErrorException} If an internal server error occurs.
+   */
   async createUser(authCredentialsDto: AuthCredentialsDto): Promise<void> {
     const { email, password } = authCredentialsDto;
 

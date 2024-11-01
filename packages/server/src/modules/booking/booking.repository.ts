@@ -11,6 +11,14 @@ export class BookingRepository extends Repository<Booking> {
     super(Booking, dataSource.createEntityManager());
   }
 
+  /**
+   * Creates a new booking.
+   * @param {Listing} listing - The listing being booked.
+   * @param {CreateBookingDto} createBookingDto - The data transfer object containing the booking details.
+   * @param {number} totalCharge - The total charge for the booking.
+   * @param {User} user - The user making the booking.
+   * @returns {Promise<Booking>} A promise that resolves to the created booking.
+   */
   createBooking(
     listing: Listing,
     createBookingDto: CreateBookingDto,

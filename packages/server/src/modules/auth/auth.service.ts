@@ -21,10 +21,22 @@ export class AuthService {
     private configService: ConfigService,
   ) {}
 
+  /**
+   * Registers a new user.
+   * @param {AuthCredentialsDto} authCredentialsDto - The authentication credentials.
+   * @returns {Promise<void>} A promise that resolves when the user is registered.
+   */
   async signUp(authCredentialsDto: AuthCredentialsDto): Promise<void> {
     return this.userRepository.createUser(authCredentialsDto);
   }
 
+  /**
+   * Authenticates a user and returns an access token.
+   * @param {AuthCredentialsDto} authCredentialsDto - The authentication credentials.
+   * @param {Response} response - The response object.
+   * @returns {Promise<{ accessToken: string }>} A promise that resolves to an object containing the access token.
+   * @throws {UnauthorizedException} If the login credentials are incorrect.
+   */
   async signIn(
     authCredentialsDto: AuthCredentialsDto,
     response: Response,
@@ -58,6 +70,13 @@ export class AuthService {
     }
   }
 
+  /**
+   * Signs out the authenticated user.
+   * @param {Request} request - The request object.
+   * @param {Response} response - The response object.
+   * @returns {Promise<void>} A promise that resolves when the user is signed out.
+   * @throws {NotAcceptableException} If the request does not contain a valid refresh token.
+   */
   async signOut(request: Request, response: Response): Promise<void> {
     // parsing access token
     const cookies = request.cookies;
@@ -71,6 +90,11 @@ export class AuthService {
     });
   }
 
+  /**
+   * Refreshes the access token for an authenticated user.
+   * @param {User} user - The authenticated user.
+   * @returns {Promise<{ accessToken: string }>} A promise that resolves to an object containing the new access token.
+   */
   async refresh(user: User): Promise<{ accessToken: string }> {
     const { email } = user;
 

@@ -16,7 +16,7 @@ export class Booking {
   @Column()
   totalCharge: number;
 
-  @ManyToOne(() => Listing, (listing) => listing.bookings)
+  @ManyToOne(() => Listing, (listing) => listing.bookings, {onDelete: 'CASCADE'})
   listing: Listing;
 
   @ManyToOne(() => User, (user) => user, { eager: true })

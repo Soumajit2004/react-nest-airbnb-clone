@@ -8,6 +8,11 @@ import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
+  /**
+   * Constructs a new instance of the JwtStrategy class.
+   * @param {UserRepository} userRepository - The user repository.
+   * @param {ConfigService} configService - The configuration service.
+   */
   constructor(
     private userRepository: UserRepository,
     private configService: ConfigService,
@@ -18,7 +23,13 @@ export class JwtStrategy extends PassportStrategy(Strategy, 'jwt') {
     });
   }
 
-  async validate(payload: JwtPayload) {
+  /**
+   * Validates the JWT payload and retrieves the corresponding user.
+   * @param {JwtPayload} payload - The JWT payload.
+   * @returns {Promise<User>} A promise that resolves to the user.
+   * @throws {UnauthorizedException} If the user is not found.
+   */
+  async validate(payload: JwtPayload): Promise<User> {
     const { email } = payload;
 
     const user: User = await this.userRepository.findOneBy({ email });
