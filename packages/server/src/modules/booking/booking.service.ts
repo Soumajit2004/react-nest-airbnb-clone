@@ -18,7 +18,8 @@ export class BookingService {
   constructor(
     private readonly bookingRepository: BookingRepository,
     private readonly listingRepository: ListingRepository,
-  ) {}
+  ) {
+  }
 
   /**
    * Retrieves all bookings made by a user.
@@ -140,7 +141,7 @@ export class BookingService {
   async deleteBooking(bookingId: string, user: User): Promise<void> {
     // Find the booking by ID
     const booking = await this.bookingRepository.findOne({
-      where: { id: bookingId },
+      where: { id: bookingId, user: user },
     });
 
     if (!booking) {

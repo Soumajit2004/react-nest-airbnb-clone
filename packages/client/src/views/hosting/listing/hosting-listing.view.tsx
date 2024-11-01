@@ -1,4 +1,4 @@
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import ListingImageCarousel from '../../../components/hosting/listing/listing-image-carousel.component.tsx';
 import { Listing } from '../../../types/listing/listing.type.ts';
 import { toast } from 'react-toastify';
@@ -27,9 +27,6 @@ const ListingDetails = ({ listing }: { listing: Listing }) => {
           <span className="material-symbols-rounded">more_vert</span>
         </summary>
         <ul className="menu dropdown-content bg-base-200 rounded-box z-[1] w-52 p-2 shadow mt-2">
-          <li>
-            <Link to={'edit'}>Edit Listing</Link>
-          </li>
           <li>
             <button className="btn-danger" onClick={() => {
               deleteListing(listing.id, {
