@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
 const axiosParams: AxiosRequestConfig = {
-  baseURL: 'http://localhost:3000',
+  baseURL: import.meta.env.VITE_SERVER_BASE_URL,
 };
 
 export const axiosInstance: AxiosInstance = axios.create(axiosParams);

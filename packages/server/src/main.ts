@@ -9,14 +9,14 @@ async function bootstrap() {
 
   app.use(cookieParser());
   app.enableCors({
-    origin: ['http://localhost:5173'],
+    origin: ['http://localhost:5173', 'https://airbnb-clone.up.railway.app'],
     credentials: true,
   });
 
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   app.useGlobalInterceptors(new TransformInterceptor());
 
-  await app.listen(3000);
+  await app.listen(8080);
 }
 
 bootstrap();
