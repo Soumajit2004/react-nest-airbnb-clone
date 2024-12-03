@@ -18,7 +18,6 @@ export default function PersistenceLogin() {
         setLoading(false);
       }
     };
-
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     !auth.accessToken ? verifyRefreshToken() : setLoading(false);
   }, []);

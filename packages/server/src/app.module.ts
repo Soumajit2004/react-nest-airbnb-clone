@@ -8,12 +8,15 @@ import { BookingModule } from './modules/booking/booking.module';
 
 import { configValidationSchema } from './config.schema';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { GoogleCloudModule } from './shared/google-cloud/google-cloud.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: [`.env.stage.${process.env.STAGE}`],
+      ignoreEnvFile: process.env.STAGE === 'prod',
+      envFilePath: [`.env.stage.${process.env.STAGE}`, '.env'],
       validationSchema: configValidationSchema,
+      expandVariables: true,
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
@@ -27,7 +30,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
           password: configService.get('DB_PASSWORD'),
           database: configService.get('DB_DATABASE'),
           autoLoadEntities: true,
-          synchronize: true,
+          synchronize: configService.get('STAGE') !== 'prod',
         };
       },
     }),
@@ -35,6 +38,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     AuthModule,
     UploadModule,
     BookingModule,
+    GoogleCloudModule,
   ],
 })
-export class AppModule {}
+export class AppModule {
+}
