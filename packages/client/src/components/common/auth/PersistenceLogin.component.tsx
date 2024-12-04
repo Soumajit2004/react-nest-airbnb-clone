@@ -3,6 +3,14 @@ import useRefreshToken from '../../../hooks/auth/useRefreshToken.ts';
 import useAuth from '../../../hooks/auth/useAuth.ts';
 import { Outlet } from 'react-router-dom';
 
+const LoadingView = () => {
+  return (
+    <div className={'flex justify-center items-center h-screen'}>
+      <span className="loading text-primary loading-ball loading-md"></span> <p className={'ml-4'}>Loading...</p>
+    </div>
+  );
+};
+
 export default function PersistenceLogin() {
   const [isLoading, setLoading] = useState(true);
   const refresh = useRefreshToken();
@@ -25,7 +33,7 @@ export default function PersistenceLogin() {
   return (
     <>
       {isLoading
-        ? <h1>Loading...</h1>
+        ? <LoadingView />
         : <Outlet />
       }
     </>

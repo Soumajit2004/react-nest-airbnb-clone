@@ -5,6 +5,10 @@ const ListingLocationDetails = ({ listingLocation }: { listingLocation: ListingL
 
   const { data, isFetched } = useReverseGeoEncoding(listingLocation);
 
+  if (!data && isFetched) {
+    return <h3 className={'text-xl font-semibold mb-2'}>Fetching listing location...</h3>;
+  }
+
   return isFetched && (
     <h3 className={'text-xl font-semibold mb-2'}>Stay in {data['results'][0]['formatted_address']}</h3>
   );
