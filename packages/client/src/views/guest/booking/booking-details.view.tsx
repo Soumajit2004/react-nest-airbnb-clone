@@ -65,6 +65,9 @@ function BookingDetailsView() {
         toast.success('Booking cancelled successfully');
         navigate('/my-bookings');
       },
+      onError: () => {
+        toast.error('Failed to cancel booking');
+      }
     });
   };
 

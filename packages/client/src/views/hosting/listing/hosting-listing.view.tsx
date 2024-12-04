@@ -34,6 +34,9 @@ const ListingDetails = ({ listing }: { listing: Listing }) => {
                   toast.success('Listing deleted successfully');
                   navigate('/hosting/listings');
                 },
+                onError: () => {
+                  toast.error('Failed to delete listing');
+                },
               });
             }}>
               Delete Listing

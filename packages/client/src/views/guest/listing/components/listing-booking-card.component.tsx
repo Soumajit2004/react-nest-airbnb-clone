@@ -21,7 +21,7 @@ type BookingInputs = {
 export default function ListingBookingCard({ listing, checkInDate, checkOutDate }: ListingBookingCardProps) {
 
   const navigate = useNavigate();
-  const { mutateAsync: createBooking, isError } = useCreateBooking();
+  const { mutateAsync: createBooking } = useCreateBooking();
 
   const { control, watch, handleSubmit } = useForm<BookingInputs>({
     defaultValues: {
@@ -36,15 +36,19 @@ export default function ListingBookingCard({ listing, checkInDate, checkOutDate 
 
   const onSubmit = async (data: BookingInputs) => {
     await createBooking({
-      listingId: listing.id,
-      checkInDate: data.checkIn,
-      checkOutDate: data.checkOut,
-    });
-
-    if (!isError) {
-      toast.success('Booking created successfully');
-      navigate('/my-bookings');
-    }
+        listingId: listing.id,
+        checkInDate: data.checkIn,
+        checkOutDate: data.checkOut,
+      },
+      {
+        onSuccess: () => {
+          toast.success('Booking created successfully');
+          navigate('/my-bookings');
+        },
+        onError: () => {
+          toast.error('Failed to create booking');
+        },
+      });
   };
 
   return (
@@ -89,7 +93,7 @@ export default function ListingBookingCard({ listing, checkInDate, checkOutDate 
         />
 
         <button className="btn btn-primary rounded-t-none"
-                disabled={isListingBooked}>{isListingBooked ? "Already Reserved" : 'Reserve'}</button>
+                disabled={isListingBooked}>{isListingBooked ? 'Already Reserved' : 'Reserve'}</button>
       </form>
 
       {

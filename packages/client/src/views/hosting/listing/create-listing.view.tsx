@@ -29,15 +29,7 @@ export default function CreateListingView() {
   const [files, setFiles] = useState<ImageFile[]>([]);
   const [location, setLocation] = useState<LatLngLiteral | null>(null);
 
-  const { mutate: createListing, isPending } = useMutateCreateListing({
-    onSuccess: () => {
-      toast.success('Listing created successfully');
-
-      setIsFormSubmitted(true);
-
-      handleReset();
-    },
-  });
+  const { mutate: createListing, isPending } = useMutateCreateListing({});
 
   const onSubmit: SubmitHandler<MetaDataInputs> = async (hookFormData) => {
     if (!location) {
@@ -50,7 +42,16 @@ export default function CreateListingView() {
       images: files.map((file) => ({ category: 'exterior', imageFile: file })),
     };
 
-    createListing(createListingDto);
+    createListing(createListingDto, {
+      onSuccess: () => {
+        toast.success('Listing created successfully');
+        setIsFormSubmitted(true);
+        handleReset();
+      },
+      onError: () => {
+        toast.error('Failed to create listing');
+      },
+    });
   };
 
   const handleReset = () => {
