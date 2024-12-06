@@ -9,13 +9,12 @@ import { useFetchSearchListings } from '../../../hooks/api/listing/fetchListing.
 import EmptyCard from '../../../components/common/cards/empty-card.component.tsx';
 
 export default function SearchView() {
-
   const { lat, lng } = useSearchLocationParam();
   const { checkInDate, checkOutDate } = useBookingSearchParams();
 
   useEffect(() => {
     if (!lat || !lng) {
-      throw Error('Missing lat or lng');
+      throw Error('Missing location. Please search for a location');
     }
 
     if (!checkInDate || !checkOutDate) {

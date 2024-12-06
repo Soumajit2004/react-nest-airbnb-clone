@@ -1,7 +1,8 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import DatePicker from 'react-datepicker';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import ReactGoogleAutocomplete from 'react-google-autocomplete';
+import useBookingSearchParams from '../../../../../hooks/search-params/useBookingSearchParams.hook.ts';
 
 type SearchInputs = {
   location: google.maps.places.PlaceResult,
@@ -11,9 +12,18 @@ type SearchInputs = {
 
 export default function RootNavbarSearch() {
 
-  const navigate = useNavigate();
+  const { checkInDate, checkOutDate } = useBookingSearchParams();
 
-  const { control, handleSubmit, watch } = useForm<SearchInputs>();
+  const navigate = useNavigate();
+  const routeLocation = useLocation();
+
+  const { control, handleSubmit, watch } = useForm<SearchInputs>({
+    defaultValues: {
+      location: undefined,
+      checkIn: checkInDate ? new Date(checkInDate) : undefined,
+      checkOut: checkOutDate ? new Date(checkOutDate) : undefined,
+    },
+  });
 
   /**
    * Handles form submission.
@@ -25,6 +35,10 @@ export default function RootNavbarSearch() {
     const coordinates = location.geometry?.location;
 
     navigate(`/search?lat=${coordinates?.lat()}&lng=${coordinates?.lng()}&checkIn=${checkIn.toISOString()}&checkOut=${checkOut.toISOString()}`);
+
+    if (routeLocation.pathname == '/search') {
+      window.location.reload();
+    }
   };
 
   return (
